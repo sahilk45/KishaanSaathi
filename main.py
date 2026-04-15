@@ -20,13 +20,18 @@ import datetime
 import numpy as np
 import pandas as pd
 import joblib
+from dotenv import load_dotenv
+
+load_dotenv()  # Load .env file into os.environ
 
 from contextlib import asynccontextmanager
 from typing import Optional
+from uuid import UUID
 
 import asyncpg
 from fastapi import FastAPI, HTTPException, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from database import create_pool, create_all_tables
@@ -178,6 +183,31 @@ app.add_middleware(
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Global exception handlers
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+@app.exception_handler(asyncpg.exceptions.DataError)
+async def asyncpg_data_error_handler(request: Request, exc: asyncpg.exceptions.DataError):
+    """Catches asyncpg DataError (e.g. invalid UUID format) and returns 422."""
+    logger.warning("DB DataError on %s: %s", request.url.path, exc)
+    return JSONResponse(
+        status_code=422,
+        content={"detail": f"Invalid input data: {exc}. Check that all IDs are valid UUIDs."},
+    )
+
+@app.exception_handler(asyncpg.exceptions.ForeignKeyViolationError)
+async def asyncpg_fk_error_handler(request: Request, exc: asyncpg.exceptions.ForeignKeyViolationError):
+    """Catches FK violations and returns 404."""
+    logger.warning("DB FK violation on %s: %s", request.url.path, exc)
+    return JSONResponse(
+        status_code=404,
+        content={"detail": f"Referenced record not found: {exc}"},
+    )
+
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Dependency: DB pool from request state
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -205,7 +235,8 @@ class FarmerRegisterResponse(BaseModel):
 
 
 class FarmRegisterRequest(BaseModel):
-    farmer_id:    str  = Field(..., description="UUID returned by /farmers/register")
+    farmer_id:    UUID = Field(..., description="UUID returned by /farmers/register",
+                              example="a1b2c3d4-e5f6-7890-abcd-ef1234567890")
     field_name:   str  = Field(..., example="North Field")
     coordinates:  list[list[float]] = Field(
         ...,
@@ -223,7 +254,8 @@ class FarmRegisterResponse(BaseModel):
 
 
 class PredictRequest(BaseModel):
-    field_id:     str  = Field(..., description="UUID from /farm/register")
+    field_id:     UUID  = Field(..., description="UUID from /farm/register",
+                               example="a1b2c3d4-e5f6-7890-abcd-ef1234567890")
     crop_type:    str  = Field(..., example="WHEAT.YIELD.Kg.per.ha.")
     npk_input:    float = Field(..., ge=0, le=500, description="NPK intensity kg/ha")
     year:         int  = Field(..., ge=1990, le=2030, example=2025)
@@ -502,7 +534,7 @@ async def predict(
          g. Insert result into field_predictions
          h. Return full result
     """
-    field_id  = body.field_id
+    field_id  = str(body.field_id)
     crop_type = body.crop_type
     year      = body.year
 
@@ -630,8 +662,17 @@ async def predict(
     # STEP 6 — XGBoost predict
     # Model was trained on log1p(yield), so inverse is np.expm1()
     # ══════════════════════════════════════════════════════════════════════════
-    log_pred      = _model.predict(input_df)[0]
-    predicted_yield = float(max(np.expm1(log_pred), 0.0))   # clip negatives
+    log_pred        = float(_model.predict(input_df)[0])
+    
+    # ML safeguard: prevent Infinity / NaN
+    import math
+    if math.isnan(log_pred) or math.isinf(log_pred):
+        logger.warning(f"XGBoost gave non-finite log_pred: {log_pred}. Using fallback.")
+        predicted_yield = CROP_BENCHMARKS.get(crop_type, 1000.0)
+    else:
+        # Cap log_pred roughly at 11 (~60k kg/ha) so expm1 doesn't overflow to INF
+        log_pred_safe   = min(max(log_pred, 0.0), 11.0)
+        predicted_yield = float(np.expm1(log_pred_safe))
 
     benchmark_yield = CROP_BENCHMARKS.get(crop_type, 1000.0)
 

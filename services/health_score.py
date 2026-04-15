@@ -70,7 +70,7 @@ def calculate_health_score(
     # irr: 1.0 = optimal. Deviation in either direction is penalised.
     # rain: 600 mm considered adequate for kharif season
     wdi_score   = (1.0 - wdi)  * 100.0
-    irr_score   = (1.0 - abs(1.0 - irr)) * 100.0
+    irr_score = max((1.0 - abs(1.0 - irr)) * 100.0, 0.0)   # add max(..., 0.0)
     rain_score  = min((rain / 600.0) * 100.0, 100.0)
     water_score = (0.5 * wdi_score) + (0.3 * irr_score) + (0.2 * rain_score)
 
