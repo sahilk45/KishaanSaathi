@@ -1,0 +1,215 @@
+{
+  "meta": {
+    "title": "KishanSaathi – Your farm, understood by science"
+  },
+  "navbar": {
+    "brandName": "KishanSaathi",
+    "logoAlt": "KishanSaathi",
+    "nav": {
+      "features": "Features",
+      "howItWorks": "How it works",
+      "forBanks": "For Banks",
+      "pricing": "Pricing"
+    },
+    "languageSwitch": "EN · हिं · ਪੰ",
+    "getStarted": "Get started"
+  },
+  "hero": {
+    "titleLine1": "Your farm,",
+    "titleLine2": "understood by science",
+    "lead": "Easy farm guidance",
+    "description": "We check your field and weather, then tell you what to do next.",
+    "availability": "Read in English · हिंदी · ਪੰਜਾਬੀ",
+    "stats": "No complex terms — just clear advice for your crop.",
+    "inputPlaceholder": "Start for free",
+    "demoCta": "See a live demo"
+  },
+  "dashboard": {
+    "imageAlt": "KishanSaathi Dashboard"
+  },
+  "logos": {
+    "companies": [
+      "Uttar Pradesh",
+      "Bihar",
+      "Maharashtra",
+      "Punjab",
+      "West Bengal",
+      "Rajasthan",
+      "Gujarat",
+      "Haryana"
+    ]
+  },
+  "intelligence": {
+    "heading": "Everything your farm needs, in one place",
+    "subheading": "No agronomist required. No expensive consultants. Just your phone and your field.",
+    "cards": [
+      {
+        "icon": "🛰️",
+        "title": "Live NDVI Crop Health Map",
+        "description": "Draw your farm boundary once. Get a color-coded satellite overlay every week — green means thriving, red means act now. Powered by ESA Sentinel-2 at 10m resolution. Satellite · Agromonitoring API.",
+        "imageAlt": "LLMs and MCP illustration"
+      },
+      {
+        "icon": "🌦️",
+        "title": "7-Day Weather Forecast",
+        "description": "Hyper-local rainfall, soil moisture, temperature, and evapotranspiration for your exact GPS coordinates. Not a city forecast — your field forecast. Open-Meteo API · Free.",
+        "imageAlt": "Agent illustration"
+      }
+    ]
+  },
+  "assistant": {
+    "eyebrow": "📈 MARKET + CREDIT",
+    "heading": "Market Price Trends + Loan Eligibility — No CIBIL needed",
+    "paragraphs": [
+      "Live mandi prices from Agmarknet for your crop and nearest market. See price history as a line chart, and best/worst/expected yield as a bar chart before you decide what to grow. Agmarknet · data.gov.in.",
+      "Indian farmers don't have credit scores. KishanSaathi generates a crop-health-based eligibility report using your NDVI score, land size, and predicted yield — something your local bank can actually use. For local banks & cooperatives."
+    ],
+    "imageAlt": "Market and loan insights mockup"
+  },
+  "enterprise": {
+    "eyebrow": "HOW IT WORKS · SIMULATOR · AI",
+    "headingLine1": "\"What If\" Simulator +",
+    "headingLine2": "AI Assistant",
+    "descriptionLines": [
+      "Change your crop. Adjust irrigation. See how profit, yield, and risk scores shift in real time. Backed by SimPy, Prophet, and XGBoost.",
+      "Ask: \"which crop should I grow this rabi season?\", \"why is my NDVI score low this week?\", \"when is the best time to irrigate?\", \"मेरी फसल की स्थिति कैसी है?\", \"ਮੈਨੂੰ ਕਿਹੜੀ ਖਾਦ ਪਾਉਣੀ ਚਾਹੀਦੀ ਹੈ?\", and \"What's the best price I can expect for wheat?\"",
+      "Responds in English · हिंदी · ਪੰਜਾਬੀ."
+    ],
+    "aiCta": "Try the AI assistant",
+    "featureCards": [
+      {
+        "title": "01 Draw your farm · 02 We pull satellite data",
+        "description": "Open the map, draw your field boundary with your finger. We save the polygon and link it to your account. Then our backend fetches the latest Sentinel-2 image for your polygon and computes NDVI — a precise vegetation health score."
+      },
+      {
+        "title": "03 AI builds dashboard · 04 Alerts run automatically",
+        "description": "Crop health score, weather forecast, price trends, risk level, and loan eligibility are calculated and displayed instantly. Every 6 hours, KishanSaathi checks NDVI and weather thresholds, then sends push notifications if drought or heavy rain is detected."
+      }
+    ],
+    "storyImageAlt": "KishanSaathi workflow story"
+  },
+  "marquee": {
+    "companies": [
+      "Uttar Pradesh",
+      "Bihar",
+      "Maharashtra",
+      "Punjab",
+      "West Bengal",
+      "Rajasthan"
+    ]
+  },
+  "stories": {
+    "heading": "A loan report your bank will understand",
+    "subheadingLines": [
+      "Most Indian farmers are denied credit because they have no formal financial history. KishanSaathi turns your satellite data into a structured crop-health report — the new credit score for agriculture.",
+      "NDVI-based scoring, predicted yield, risk levels, and bank-ready PDF."
+    ],
+    "cards": [
+      {
+        "imageAlt": "Loan report metric block",
+        "description": "NDVI-based vegetation health index for your exact land parcel. Predicted yield and revenue range for next harvest, powered by Prophet forecasting.",
+        "highlight": "Crop Health Score: 78/100"
+      },
+      {
+        "imageAlt": "Bank risk and report block",
+        "description": "Risk level: drought probability, pest likelihood, flood exposure. Downloadable PDF report formatted for cooperative banks and Kisan Credit Card applications.",
+        "highlight": "Loan Eligible: ₹1.2L"
+      },
+      {
+        "imageAlt": "Farmer summary block",
+        "description": "Farmer: Gurpreet Singh · Land size: 3.2 acres · Ludhiana · Current crop: Wheat (Rabi) · NDVI: 0.61 — Good · Predicted yield: 18–22 quintals · Risk level: Moderate.",
+        "highlight": "For local banks & cooperatives"
+      }
+    ],
+    "navButtons": {
+      "prev": "‹",
+      "next": "›"
+    }
+  },
+  "cta": {
+    "headingLine1": "Alerts that work",
+    "headingLine2": "while you sleep",
+    "subLines": [
+      "A background scheduler checks your farm's NDVI and weather every 6 hours — 24/7, no action needed from you.",
+      "Drought Alert: NDVI below 0.3 with rainfall deficit for 14+ days.",
+      "Heavy Rain Warning: Open-Meteo forecasts above 50mm in the next 24h."
+    ],
+    "primaryButton": "Drought Alert",
+    "secondaryButton": "Heavy Rain Warning",
+    "featureCards": [
+      {
+        "title": "Pest Risk Alert",
+        "description": "High humidity above 80% with warm nights above 22°C can trigger fungal disease and pest outbreak.",
+        "linkText": "Price Opportunity Alert: sell when mandi prices cross the 90-day average ›"
+      },
+      {
+        "title": "Notifications delivered via FCM",
+        "description": "Mobile push + in-app toast notifications, no SMS charges, fully automatic every 6 hours.",
+        "linkText": "Alert System ›"
+      }
+    ]
+  },
+  "footer": {
+    "brandName": "KishanSaathi",
+    "logoAlt": "KishanSaathi",
+    "socialAlts": {
+      "linkedin": "LinkedIn",
+      "x": "X",
+      "github": "GitHub"
+    },
+    "columns": {
+      "brand": {
+        "title": "KishanSaathi",
+        "description": "Satellite intelligence and AI, built for the Indian farmer.",
+        "languages": [
+          "English",
+          "हिंदी",
+          "ਪੰਜਾਬੀ"
+        ]
+      },
+      "product": {
+        "title": "PRODUCT",
+        "items": [
+          "Crop Health Map",
+          "Market Insights",
+          "Loan Report",
+          "What-If Simulator",
+          "AI Assistant",
+          "Alert System"
+        ]
+      },
+      "resources": {
+        "title": "RESOURCES",
+        "items": [
+          "How NDVI works",
+          "Crop calendar",
+          "MSP prices 2024",
+          "API documentation",
+          "For banks"
+        ]
+      },
+      "company": {
+        "title": "COMPANY",
+        "items": [
+          "About us",
+          "Built at hackathon",
+          "Contact"
+        ]
+      },
+      "legal": {
+        "title": "LEGAL",
+        "items": [
+          "Privacy policy",
+          "Terms of use"
+        ]
+      }
+    },
+    "statusLine": "Satellite data: ESA Sentinel-2 · Weather: Open-Meteo · Prices: Agmarknet",
+    "copyright": "© 2024 KishanSaathi. Built with purpose for Indian agriculture.",
+    "footerLanguages": [
+      "English",
+      "हिंदी",
+      "ਪੰਜਾਬੀ"
+    ]
+  }
+}
