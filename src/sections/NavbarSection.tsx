@@ -23,7 +23,7 @@ const NavbarSection = () => {
           <button type="button" className="btn-ghost" onClick={cycleLanguage}>
             {languageLabel}
           </button>
-          <Link to="/panel" className="btn-primary">
+          <Link to="/panel/overview" className="btn-primary">
             {content.navbar.getStarted}
           </Link>
         </div>
