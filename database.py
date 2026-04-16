@@ -72,12 +72,18 @@ CREATE TABLE IF NOT EXISTS farm_fields (
     farmer_id       UUID REFERENCES farmers(id) ON DELETE CASCADE,
     field_name      VARCHAR(200),
     polygon_id      VARCHAR(100),           -- Agromonitoring polygon_id
+    city_name       VARCHAR(120),           -- Reverse-geocoded city/town/village
+    state_name      VARCHAR(120),           -- Reverse-geocoded state
     polygon_geojson JSONB,                  -- Raw GeoJSON from Leaflet draw
     center_lat      FLOAT,
     center_lon      FLOAT,
     area_hectares   FLOAT,
     created_at      TIMESTAMP DEFAULT NOW()
 );
+
+-- Backward-compatible column upgrades for existing deployments
+ALTER TABLE farm_fields ADD COLUMN IF NOT EXISTS city_name  VARCHAR(120);
+ALTER TABLE farm_fields ADD COLUMN IF NOT EXISTS state_name VARCHAR(120);
 
 CREATE INDEX IF NOT EXISTS idx_ff_farmer ON farm_fields(farmer_id);
 

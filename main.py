@@ -25,11 +25,11 @@ from dotenv import load_dotenv
 load_dotenv()  # Load .env file into os.environ
 
 from contextlib import asynccontextmanager
-from typing import Optional
+from typing import Optional, Any
 from uuid import UUID
 
 import asyncpg
-from fastapi import FastAPI, HTTPException, Depends, Request
+from fastapi import FastAPI, HTTPException, Depends, Request, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
@@ -37,7 +37,8 @@ from pydantic import BaseModel, Field
 from database import create_pool, create_all_tables
 from services.imputation   import impute_weather_from_db
 from services.health_score import calculate_health_score
-from services.agro_service import create_agro_polygon, get_satellite_data
+from services.agro_service import create_agro_polygon, get_satellite_data, fetch_agro_snapshot
+from services.geocoding_service import reverse_geocode_city_state
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Logging
@@ -247,10 +248,14 @@ class FarmRegisterRequest(BaseModel):
 
 
 class FarmRegisterResponse(BaseModel):
-    field_id:   str
-    polygon_id: str
-    area:       Optional[float]
-    source:     str
+    field_id:    str
+    polygon_id:  str
+    area:        Optional[float]
+    source:      str
+    city_name:   Optional[str]
+    state_name:  Optional[str]
+    center_lat:  float
+    center_lon:  float
 
 
 class PredictRequest(BaseModel):
@@ -312,6 +317,23 @@ class PredictResponse(BaseModel):
 class DistrictItem(BaseModel):
     dist_name:  str
     state_name: str
+
+
+class AgroSnapshotResponse(BaseModel):
+    field_id:          str
+    polygon_id:        str
+    city_name:         Optional[str]
+    state_name:        Optional[str]
+    start:             int
+    end:               int
+    source:            str
+    latest_image_date: Optional[str]
+    images_count:      int
+    ndvi_tile_url:     Optional[str]
+    ndvi_stats_url:    Optional[str]
+    ndvi_stats:        dict[str, Any]
+    weather:           dict[str, Any]
+    soil:              dict[str, Any]
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -470,6 +492,11 @@ async def register_farm(
 
     area_ha = body.area_hectares or agro_area or 1.0
 
+    # Reverse geocode centroid → city/state (fallback to farmer profile)
+    geo = await reverse_geocode_city_state(center_lat, center_lon)
+    city_name = (geo.get("city_name") or farmer["dist_name"] or "").strip()
+    state_name = (geo.get("state_name") or farmer["state_name"] or "").strip()
+
     # GeoJSON polygon object (store raw for future use)
     geojson = {
         "type": "Feature",
@@ -484,14 +511,16 @@ async def register_farm(
         row = await conn.fetchrow(
             """
             INSERT INTO farm_fields
-                (farmer_id, field_name, polygon_id, polygon_geojson,
-                 center_lat, center_lon, area_hectares)
-            VALUES ($1, $2, $3, $4, $5, $6, $7)
+                (farmer_id, field_name, polygon_id, city_name, state_name,
+                 polygon_geojson, center_lat, center_lon, area_hectares)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             RETURNING id
             """,
             body.farmer_id,
             body.field_name,
             polygon_id,
+            city_name,
+            state_name,
             geojson,
             center_lat,
             center_lon,
@@ -502,10 +531,66 @@ async def register_farm(
     logger.info("Registered field %s  polygon=%s  farmer=%s", field_id, polygon_id, body.farmer_id)
 
     return {
-        "field_id":   field_id,
-        "polygon_id": polygon_id,
-        "area":       area_ha,
-        "source":     agro_result.get("source", "unknown"),
+        "field_id":    field_id,
+        "polygon_id":  polygon_id,
+        "area":        area_ha,
+        "source":      agro_result.get("source", "unknown"),
+        "city_name":   city_name or None,
+        "state_name":  state_name or None,
+        "center_lat":  center_lat,
+        "center_lon":  center_lon,
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ENDPOINT 6: POST /predict  ★ THE MAIN ENGINE ★
+# ─────────────────────────────────────────────────────────────────────────────
+
+@app.get("/field/{field_id}/agro-snapshot", response_model=AgroSnapshotResponse, tags=["Farms"])
+async def get_field_agro_snapshot(
+    field_id: str,
+    start: Optional[int] = Query(default=None, ge=0),
+    end: Optional[int] = Query(default=None, ge=0),
+    pool: asyncpg.Pool = Depends(get_pool),
+):
+    """
+    Returns weather + soil + NDVI image metadata for a saved farm field.
+    This endpoint is designed for frontend map overlays and field workspace UI.
+    """
+    async with pool.acquire() as conn:
+        field = await conn.fetchrow(
+            """
+            SELECT id, polygon_id, city_name, state_name
+            FROM   farm_fields
+            WHERE  id = $1
+            """,
+            field_id,
+        )
+
+    if not field:
+        raise HTTPException(status_code=404, detail=f"field_id '{field_id}' not found.")
+
+    snapshot = await fetch_agro_snapshot(
+        polygon_id=field["polygon_id"],
+        start_ts=start,
+        end_ts=end,
+    )
+
+    return {
+        "field_id": field_id,
+        "polygon_id": field["polygon_id"],
+        "city_name": field["city_name"],
+        "state_name": field["state_name"],
+        "start": snapshot.get("start", 0),
+        "end": snapshot.get("end", 0),
+        "source": snapshot.get("source", "mock"),
+        "latest_image_date": snapshot.get("latest_image_date"),
+        "images_count": snapshot.get("images_count", 0),
+        "ndvi_tile_url": snapshot.get("ndvi_tile_url"),
+        "ndvi_stats_url": snapshot.get("ndvi_stats_url"),
+        "ndvi_stats": snapshot.get("ndvi_stats", {}),
+        "weather": snapshot.get("weather", {}),
+        "soil": snapshot.get("soil", {}),
     }
 
 
@@ -822,7 +907,8 @@ async def get_farmer_fields(
         rows = await conn.fetch(
             """
             SELECT id, field_name, polygon_id, center_lat,
-                   center_lon, area_hectares, created_at
+                     center_lon, city_name, state_name,
+                     area_hectares, created_at
             FROM   farm_fields
             WHERE  farmer_id = $1
             ORDER  BY created_at DESC
@@ -838,6 +924,8 @@ async def get_farmer_fields(
                 "polygon_id":   r["polygon_id"],
                 "center_lat":   r["center_lat"],
                 "center_lon":   r["center_lon"],
+                "city_name":    r["city_name"],
+                "state_name":   r["state_name"],
                 "area_hectares": r["area_hectares"],
                 "created_at":   r["created_at"].isoformat(),
             }
