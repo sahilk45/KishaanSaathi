@@ -1,28 +1,38 @@
 # KishanSaathi Backend — Python dependencies
 # Install with: pip install -r requirements.txt
 
-# ── Web framework ──────────────────────────────────────────────────────────
+# ── Web framework ──────────────────────────────────────────────────────────────
 fastapi==0.111.0
 uvicorn[standard]==0.30.1
 
-# ── Database (async PostgreSQL) ─────────────────────────────────────────────
+# ── Database (async PostgreSQL) ────────────────────────────────────────────────
 asyncpg==0.29.0
 
-# ── ML / Data ────────────────────────────────────────────────────────────────
+# ── ML / Data ─────────────────────────────────────────────────────────────────
 xgboost==2.0.3
 scikit-learn>=1.5.2
 pandas>=2.2.3
 numpy==1.26.4
 joblib==1.4.2
 
-# ── HTTP client (Agromonitoring API calls) ───────────────────────────────────
+# ── HTTP clients ───────────────────────────────────────────────────────────────
 httpx==0.27.0
+requests>=2.31.0
 
-# ── Validation ───────────────────────────────────────────────────────────────
+# ── Validation ────────────────────────────────────────────────────────────────
 pydantic==2.7.1
 python-dotenv==1.0.1
 
-# ── Dev / testing ─────────────────────────────────────────────────────────────
+# ── LangGraph / LangChain chatbot stack ───────────────────────────────────────
+langgraph>=0.2.0
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-groq>=0.2.0
+langsmith>=0.1.0
+
+# ── Helpers for sync-inside-async (get_market_price tool) ─────────────────────
+nest-asyncio>=1.6.0
+
+# ── Dev / testing ──────────────────────────────────────────────────────────────
 pytest==8.2.2
 pytest-asyncio==0.23.7
-httpx==0.27.0    # also used as test client for FastAPI

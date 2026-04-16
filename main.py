@@ -14,8 +14,15 @@ Run with:
 """
 
 import os
-import logging
+import sys
+
+# ── Windows: force SelectorEventLoop so asyncpg + httpx work properly ──────
+# ProactorEventLoop (Windows default) breaks some SSL + async DB connections.
 import asyncio
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
+import logging
 import datetime
 import numpy as np
 import pandas as pd
@@ -23,6 +30,22 @@ import joblib
 from dotenv import load_dotenv
 
 load_dotenv()  # Load .env file into os.environ
+
+# ── Fix GROQ_API_KEY alias: .env uses the typo 'GROK_API_KEY' ───────────────
+# The Groq SDK itself looks for GROQ_API_KEY; keep both for compatibility.
+if os.getenv("GROK_API_KEY") and not os.getenv("GROQ_API_KEY"):
+    os.environ["GROQ_API_KEY"] = os.environ["GROK_API_KEY"]
+
+# ── Logging with UTF-8 so emoji don't crash on Windows CP1252 terminals ────
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s  %(levelname)-8s  %(name)s — %(message)s",
+    handlers=[
+        logging.StreamHandler(
+            stream=open(sys.stdout.fileno(), mode="w", encoding="utf-8", closefd=False)
+        )
+    ],
+)
 
 from contextlib import asynccontextmanager
 from typing import Optional, Any
@@ -39,14 +62,8 @@ from services.imputation   import impute_weather_from_db
 from services.health_score import calculate_health_score
 from services.agro_service import create_agro_polygon, get_satellite_data, fetch_agro_snapshot
 from services.geocoding_service import reverse_geocode_city_state
+from chatbot.agent import run_agent, run_agent_streaming
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Logging
-# ─────────────────────────────────────────────────────────────────────────────
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s  %(levelname)-8s  %(name)s — %(message)s",
-)
 logger = logging.getLogger("kishanSaathi")
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -221,10 +238,10 @@ async def get_pool(request: Request) -> asyncpg.Pool:
 # ─────────────────────────────────────────────────────────────────────────────
 
 class FarmerRegisterRequest(BaseModel):
-    name:       str  = Field(..., example="Ramesh Kumar")
-    phone:      str  = Field(..., example="9876543210")
-    state_name: str  = Field(..., example="Punjab")
-    dist_name:  str  = Field(..., example="ludhiana")
+    name:       str  = Field(..., json_schema_extra={"example": "Ramesh Kumar"})
+    phone:      str  = Field(..., json_schema_extra={"example": "9876543210"})
+    state_name: str  = Field(..., json_schema_extra={"example": "Punjab"})
+    dist_name:  str  = Field(..., json_schema_extra={"example": "ludhiana"})
 
 
 class FarmerRegisterResponse(BaseModel):
@@ -237,14 +254,14 @@ class FarmerRegisterResponse(BaseModel):
 
 class FarmRegisterRequest(BaseModel):
     farmer_id:    UUID = Field(..., description="UUID returned by /farmers/register",
-                              example="a1b2c3d4-e5f6-7890-abcd-ef1234567890")
-    field_name:   str  = Field(..., example="North Field")
+                              json_schema_extra={"example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"})
+    field_name:   str  = Field(..., json_schema_extra={"example": "North Field"})
     coordinates:  list[list[float]] = Field(
         ...,
         description="GeoJSON polygon ring as [[lon, lat], ...]. Must be ≥ 4 points.",
-        example=[[76.78, 30.73], [76.79, 30.73], [76.79, 30.74], [76.78, 30.74]]
+        json_schema_extra={"example": [[76.78, 30.73], [76.79, 30.73], [76.79, 30.74], [76.78, 30.74]]}
     )
-    area_hectares: Optional[float] = Field(None, example=1.4)
+    area_hectares: Optional[float] = Field(None, json_schema_extra={"example": 1.4})
 
 
 class FarmRegisterResponse(BaseModel):
@@ -260,10 +277,10 @@ class FarmRegisterResponse(BaseModel):
 
 class PredictRequest(BaseModel):
     field_id:     UUID  = Field(..., description="UUID from /farm/register",
-                               example="a1b2c3d4-e5f6-7890-abcd-ef1234567890")
-    crop_type:    str  = Field(..., example="WHEAT.YIELD.Kg.per.ha.")
+                               json_schema_extra={"example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"})
+    crop_type:    str  = Field(..., json_schema_extra={"example": "WHEAT.YIELD.Kg.per.ha."})
     npk_input:    float = Field(..., ge=0, le=500, description="NPK intensity kg/ha")
-    year:         int  = Field(..., ge=1990, le=2030, example=2025)
+    year:         int  = Field(..., ge=1990, le=2030, json_schema_extra={"example": 2025})
     irrigation_ratio: Optional[float] = Field(
         None, ge=0.0, le=1.0,
         description="0.0–1.0. Leave null to auto-impute from district history."
@@ -977,3 +994,91 @@ def _row_to_predict_response(row, cached: bool) -> dict:
         "cached":            cached,
         "calculated_at":     row["calculated_at"].isoformat(),
     }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ENDPOINT 9: POST /chat  — LangGraph KisanSaathi Chatbot
+# ─────────────────────────────────────────────────────────────────────────────
+
+class ChatRequest(BaseModel):
+    farmer_id: str = Field(
+        ...,
+        description="UUID of the farmer (from /farmers/register)",
+        json_schema_extra={"example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"},
+    )
+    message: str = Field(
+        ...,
+        description="The farmer's chat message",
+        json_schema_extra={"example": "Mera health score kya hai?"},
+    )
+    history: list[dict] = Field(
+        default=[],
+        description="Prior conversation turns: [{'role': 'user'|'assistant', 'content': '...'}]",
+    )
+
+
+class ChatResponse(BaseModel):
+    reply: str
+    farmer_id: str
+
+
+@app.post("/chat", response_model=ChatResponse, tags=["Chatbot"])
+async def chat(req: ChatRequest):
+    """
+    KisanSaathi conversational AI agent.
+
+    Powered by LangGraph (ReAct agent) + ChatGroq (llama-3.3-70b-versatile).
+    The agent has 4 tools:
+      • get_farmer_data   — farm status, NDVI, health score, yield
+      • get_weather       — current weather + 7-day forecast
+      • get_market_price  — live mandi prices (Agmarknet API)
+      • get_crop_advice   — What-If engine for score improvement advice
+
+    Supports Hinglish (Hindi + English mixed) responses.
+    All data is fetched live from the database — no hallucinated values.
+    """
+    try:
+        reply = await run_agent(
+            farmer_id=req.farmer_id,
+            message=req.message,
+            history=req.history,
+        )
+    except Exception as exc:
+        logger.error("Chat endpoint error: %s", exc, exc_info=True)
+        raise HTTPException(
+            status_code=500,
+            detail=f"Chatbot error: {str(exc)}",
+        )
+    return {"reply": reply, "farmer_id": req.farmer_id}
+
+
+from fastapi.responses import StreamingResponse as _StreamingResponse
+
+
+@app.post("/chat/stream", tags=["Chatbot"])
+async def chat_stream(req: ChatRequest):
+    """
+    Streaming variant of /chat.
+
+    Returns text as a Server-Sent stream — tokens arrive as they are generated.
+    Best for mobile clients on slow networks where the farmer sees the reply being typed.
+    Media type: text/plain
+    """
+    async def token_generator():
+        try:
+            async for chunk in run_agent_streaming(
+                farmer_id=req.farmer_id,
+                message=req.message,
+                history=req.history,
+            ):
+                yield chunk
+        except Exception as exc:
+            logger.error("Streaming chat error: %s", exc, exc_info=True)
+            yield f"[Error: {exc}]"
+
+    return _StreamingResponse(token_generator(), media_type="text/plain")
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

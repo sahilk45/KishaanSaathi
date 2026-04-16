@@ -1,0 +1,1689 @@
+{
+    "Uttar Pradesh": {
+        "Auraiya": [
+            "Achalda APMC",
+            "Auraiya APMC",
+            "Dibiapur APMC"
+        ],
+        "Chitrakut": [
+            "Karvi APMC"
+        ],
+        "Balrampur": [
+            "Balrampur APMC",
+            "Tulsipur APMC",
+            "Utraula APMC"
+        ],
+        "Jalaun (Orai)": [
+            "Jalaun APMC",
+            "Kadaura APMC",
+            "Kalpi APMC",
+            "Konch APMC",
+            "Madhogarh APMC",
+            "Orai APMC"
+        ],
+        "Sitapur": [
+            "Hargaon (Laharpur) APMC",
+            "Maholi APMC",
+            "Mehmoodabad APMC",
+            "Mishrit APMC",
+            "Sidhauli APMC",
+            "Sitapur APMC",
+            "Viswan APMC"
+        ],
+        "Aligarh": [
+            "Aligarh APMC",
+            "Atrauli APMC",
+            "Charra APMC",
+            "Khair APMC"
+        ],
+        "Ayodhya": [
+            "Ayodhya APMC",
+            "Rudauli APMC"
+        ],
+        "Azamgarh": [
+            "Azamgarh APMC"
+        ],
+        "Badaun": [
+            "Babrala APMC",
+            "Badayoun APMC",
+            "Bilsi APMC",
+            "Bisoli APMC",
+            "Dataganj APMC",
+            "Islam Nagar APMC",
+            "Shahaswan APMC",
+            "Ujhani APMC",
+            "Wazirganj APMC"
+        ],
+        "Bahraich": [
+            "Bahraich APMC",
+            "Mihipurwa APMC",
+            "Naanpara APMC",
+            "Risia APMC",
+            "Rupaidiha APMC"
+        ],
+        "Banda": [
+            "Atarra APMC",
+            "Baberu APMC",
+            "Banda APMC"
+        ],
+        "Barabanki": [
+            "Barabanki APMC",
+            "Safdarganj APMC"
+        ],
+        "Bareilly": [
+            "Anwala APMC",
+            "Baheri APMC",
+            "Bareilly APMC"
+        ],
+        "Basti": [
+            "Basti APMC"
+        ],
+        "Etawah": [
+            "Bharthna APMC",
+            "Etawah APMC",
+            "Jasvantnagar APMC"
+        ],
+        "Hamirpur": [
+            "Bharuasumerpur APMC",
+            "Kurara APMC",
+            "Maudaha APMC",
+            "Muskara APMC",
+            "Raath APMC"
+        ],
+        "Fatehpur": [
+            "Bindki APMC",
+            "Fatehpur APMC",
+            "Jahanabad APMC",
+            "Khaga APMC"
+        ],
+        "Pillibhit": [
+            "Bishalpur APMC",
+            "Pilibhit APMC",
+            "Puranpur APMC"
+        ],
+        "Sambhal": [
+            "Bhehjoi APMC",
+            "Chandausi APMC",
+            "Muradabad APMC",
+            "Sambhal APMC"
+        ],
+        "Kanpur": [
+            "Choubepur APMC",
+            "Kanpur(Grain) APMC",
+            "Uttaripura APMC"
+        ],
+        "Gorakhpur": [
+            "Chorichora APMC",
+            "Gorakhpur APMC",
+            "Sehjanwa APMC"
+        ],
+        "Saharanpur": [
+            "Chutmalpur APMC",
+            "Deoband APMC",
+            "Gangoh APMC",
+            "Nanuta APMC",
+            "Saharanpur APMC"
+        ],
+        "Deoria": [
+            "Devariya APMC"
+        ],
+        "Etah": [
+            "Aliganj APMC",
+            "Etah APMC"
+        ],
+        "Mainpuri": [
+            "Bewar APMC",
+            "Ghiraur APMC",
+            "Mainpuri APMC"
+        ],
+        "Lakhimpur": [
+            "Golagokarnath APMC",
+            "Lakhimpur APMC",
+            "Paliakala APMC"
+        ],
+        "Jhansi": [
+            "Baruwasagar APMC",
+            "Chirgaon APMC",
+            "Gurusarai APMC",
+            "Jhansi APMC",
+            "Mauranipur APMC",
+            "Moth APMC"
+        ],
+        "Ghaziabad": [
+            "Ghaziabad APMC",
+            "Hapur APMC",
+            "Muradnagar APMC",
+            "Noida APMC"
+        ],
+        "Amethi": [
+            "Jafarganj APMC",
+            "Sultanpur APMC"
+        ],
+        "Bulandshahar": [
+            "Buland Shahr APMC",
+            "Divai APMC",
+            "Gulavati APMC",
+            "Jahangirabad APMC",
+            "Khurja APMC",
+            "Sikanderabad APMC",
+            "Sikarpur APMC",
+            "Siyana APMC"
+        ],
+        "Raebarelli": [
+            "Bachranwa APMC",
+            "Jayas APMC",
+            "Lalganj APMC",
+            "Raibareilly APMC",
+            "Salon APMC"
+        ],
+        "Ghazipur": [
+            "Jangipura APMC",
+            "Yusufpur APMC"
+        ],
+        "Kanpur Dehat": [
+            "Jhijhank APMC",
+            "Pukharayan APMC",
+            "Rura APMC"
+        ],
+        "Baghpat": [
+            "Baraut APMC",
+            "Khekda APMC"
+        ],
+        "Mathura": [
+            "Kosikalan APMC",
+            "Mathura APMC"
+        ],
+        "Hardoi": [
+            "Hardoi APMC",
+            "Madhoganj APMC",
+            "Sandi APMC",
+            "Sandila APMC",
+            "Shahabad(New Mandi) APMC"
+        ],
+        "Meerut": [
+            "Mawana APMC",
+            "Meerut APMC"
+        ],
+        "Mirzapur": [
+            "Mirzapur APMC"
+        ],
+        "Jaunpur": [
+            "Jaunpur APMC",
+            "Mugrabaadshahpur APMC",
+            "Shahganj APMC"
+        ],
+        "Muzaffarnagar": [
+            "Muzzafarnagar APMC",
+            "Shahpur APMC"
+        ],
+        "Maharajganj": [
+            "Anandnagar APMC",
+            "Gadaura APMC",
+            "Nautnava APMC",
+            "Partaval APMC"
+        ],
+        "Pratapgarh": [
+            "Pratapgarh APMC"
+        ],
+        "Prayagraj": [
+            "Jasra APMC",
+            "Prayagraj APMC",
+            "Sirsa APMC"
+        ],
+        "Rampur": [
+            "Bilaspur APMC",
+            "Milak APMC",
+            "Rampur APMC",
+            "Shahabad APMC",
+            "Tanda(Rampur) APMC"
+        ],
+        "Sonbhadra": [
+            "Dudhi APMC",
+            "Robertsganj APMC"
+        ],
+        "Shamli": [
+            "Shamli APMC",
+            "Thanabhavan APMC"
+        ],
+        "Hathras": [
+            "Haathras APMC",
+            "Shadabad APMC",
+            "Sikandraraau APMC"
+        ],
+        "Khiri (Lakhimpur)": [
+            "Maigalganj APMC",
+            "Mohammdi APMC",
+            "Tikonia APMC"
+        ],
+        "Shahjahanpur": [
+            "Jalalabad APMC",
+            "Meeranpur Katra APMC",
+            "Powayan APMC",
+            "Shahjahanpur APMC",
+            "Tilhar APMC"
+        ],
+        "Firozabad": [
+            "Firozabad APMC",
+            "Shikohabad APMC",
+            "Sirsaganj APMC",
+            "Tundla APMC"
+        ],
+        "Unnao": [
+            "Bangarmau APMC",
+            "Purwa APMC",
+            "Unnao APMC"
+        ],
+        "Agra": [
+            "Achnera APMC",
+            "Agra APMC",
+            "Fatehabad APMC",
+            "Fatehpur Sikri APMC",
+            "Jagnair APMC",
+            "Jarar APMC"
+        ],
+        "Lalitpur": [
+            "Lalitpur APMC",
+            "Mehrauni APMC"
+        ],
+        "Lucknow": [
+            "Banthara APMC",
+            "Lucknow APMC"
+        ],
+        "Varanasi": [
+            "Varanasi APMC"
+        ],
+        "Siddharth Nagar": [
+            "Bansi APMC",
+            "Naugarh APMC",
+            "Sahiyapur APMC",
+            "Shohratgarh APMC"
+        ],
+        "Kushinagar": [
+            "Kushinagar APMC"
+        ],
+        "Kannuj": [
+            "Chhibramau APMC",
+            "Kannauj APMC"
+        ],
+        "Amroha": [
+            "Amroha APMC",
+            "Dhanaura APMC",
+            "Hasanpur APMC"
+        ],
+        "Mahoba": [
+            "Charkhari APMC",
+            "Mahoba APMC"
+        ],
+        "Shravasti": [
+            "Bhinga APMC",
+            "Payagpur APMC"
+        ],
+        "Mau(Maunathbhanjan)": [
+            "Doharighat APMC",
+            "Kopaganj APMC"
+        ],
+        "Ballia": [
+            "Ballia APMC",
+            "Vilthararoad APMC"
+        ],
+        "Gonda": [
+            "Colonelganj APMC",
+            "Gonda APMC",
+            "Nawabganj APMC"
+        ],
+        "Farukhabad": [
+            "Farukhabad APMC",
+            "Kayamganj APMC",
+            "Mohamadabad APMC"
+        ],
+        "Kasganj": [
+            "Ganj Dundwara APMC",
+            "Kasganj APMC"
+        ],
+        "Gautam Budh Nagar": [
+            "Dadri APMC",
+            "Dankaur APMC",
+            "Jewar APMC"
+        ],
+        "Sant Kabir Nagar": [
+            "Khalilabad APMC"
+        ],
+        "Bijnor": [
+            "Bijnaur APMC",
+            "Chaandpur APMC",
+            "Dhampur APMC",
+            "Haldaur APMC",
+            "Kiratpur APMC",
+            "Najibabad APMC"
+        ],
+        "Ambedkarnagar": [
+            "Tanda Akbarpur APMC"
+        ],
+        "Kaushambi": [
+            "Bharwari APMC",
+            "Manjhanpur APMC"
+        ],
+        "Bhadohi(Sant Ravi Nagar)": [
+            "Gopiganj APMC"
+        ]
+    },
+    "Uttarakhand": {
+        "Haridwar": [
+            "Roorkee APMC"
+        ],
+        "Udhamsinghnagar": [
+            "Bazpur APMC",
+            "Gadarpur APMC"
+        ],
+        "Dehradoon": [
+            "Vikasnagar APMC"
+        ],
+        "Nanital": [
+            "Haldwani APMC"
+        ]
+    },
+    "Rajasthan": {
+        "Jodhpur": [
+            "Jodhpur (F&V) APMC"
+        ],
+        "Ganganagar": [
+            "Padampur APMC",
+            "Raisingh Nagar APMC",
+            "Sriganganagar (F&V) APMC"
+        ],
+        "Baran": [
+            "Anta APMC",
+            "Baran APMC",
+            "Samraniyan APMC"
+        ],
+        "Hanumangarh": [
+            "HanumangarhTown APMC",
+            "Rawatsar APMC"
+        ],
+        "Jhalawar": [
+            "Choumahla APMC",
+            "Khanpur APMC"
+        ],
+        "Udaipur": [
+            "Fatehnagar APMC"
+        ],
+        "Beawar": [
+            "Jaitaran APMC"
+        ],
+        "Dungarpur": [
+            "Dungarpur APMC"
+        ],
+        "Bundi": [
+            "Dei APMC"
+        ],
+        "Jalore": [
+            "Bhinmal APMC",
+            "Jalore APMC",
+            "Raniwara APMC",
+            "Sanchore APMC"
+        ],
+        "Tonk": [
+            "Dooni APMC",
+            "Uniyara APMC"
+        ],
+        "Nagaur": [
+            "Nagaur APMC"
+        ],
+        "Pali": [
+            "Rani APMC"
+        ],
+        "Jhunjhunu": [
+            "Surajgarh APMC"
+        ],
+        "Bikaner": [
+            "Sridungargarh APMC"
+        ],
+        "Kota": [
+            "Khatauli APMC",
+            "Manohararthana APMC"
+        ],
+        "Rajsamand": [
+            "Rajsamand APMC"
+        ]
+    },
+    "Madhya Pradesh": {
+        "Badwani": [
+            "Anjad APMC",
+            "Badwani APMC",
+            "Badwani(F&V) APMC",
+            "Sendhwa APMC"
+        ],
+        "Dhar": [
+            "Badnawar APMC",
+            "Dhamnod APMC",
+            "Dhar APMC",
+            "Gandhwani APMC",
+            "Kukshi APMC",
+            "Kukshi(F&V) APMC",
+            "Manawar APMC",
+            "Rajgarh APMC"
+        ],
+        "Vidisha": [
+            "Ganjbasoda APMC",
+            "Kurwai APMC",
+            "Shamshabad APMC",
+            "Sironj APMC",
+            "Vidisha APMC"
+        ],
+        "Jhabua": [
+            "Jhabua APMC",
+            "Petlawad APMC"
+        ],
+        "Alirajpur": [
+            "Alirajpur APMC",
+            "Jobat APMC"
+        ],
+        "Khargone": [
+            "Badwaha APMC",
+            "Bedia APMC",
+            "Bhikangaon APMC",
+            "Karhi APMC",
+            "Kasrawad APMC",
+            "Khargone APMC",
+            "Sanawad APMC",
+            "Segaon APMC"
+        ],
+        "Ratlam": [
+            "A lot APMC",
+            "Jaora APMC",
+            "Ratlam APMC",
+            "Taal APMC"
+        ],
+        "Shajapur": [
+            "Agar APMC",
+            "Badod APMC",
+            "Nalkehda APMC",
+            "Shajapur APMC",
+            "Soyatkalan APMC",
+            "Susner APMC"
+        ],
+        "Datia": [
+            "Datia APMC",
+            "Sevda APMC"
+        ],
+        "Gwalior": [
+            "Bhitarwar APMC",
+            "Dabra APMC",
+            "Lashkar APMC"
+        ],
+        "Guna": [
+            "Binaganj APMC",
+            "Guna APMC",
+            "Raghogarh APMC"
+        ],
+        "Ashoknagar": [
+            "Ashoknagar APMC",
+            "Chanderi APMC",
+            "Mungawali APMC"
+        ],
+        "Shivpuri": [
+            "Barad APMC",
+            "Karera APMC",
+            "Khatora APMC",
+            "Pichhour APMC",
+            "Pohari APMC",
+            "Shivpuri APMC"
+        ],
+        "Bhind": [
+            "Alampur APMC",
+            "Bhind APMC",
+            "Gohad APMC",
+            "Lahar APMC",
+            "Mehgaon APMC",
+            "Mow APMC"
+        ],
+        "Sheopur": [
+            "Sheopurbadod APMC",
+            "Sheopurkalan APMC",
+            "Vijaypur APMC"
+        ],
+        "Sagar": [
+            "Banda APMC",
+            "Bina APMC",
+            "Deori APMC",
+            "Garhakota APMC",
+            "Khurai APMC",
+            "Rahatgarh APMC",
+            "Rehli APMC",
+            "Sagar APMC",
+            "Shahagarh APMC"
+        ],
+        "Chhatarpur": [
+            "Badamalhera APMC",
+            "Bakswaha APMC",
+            "Bijawar APMC",
+            "Chhatarpur APMC",
+            "LavKush Nagar(Laundi) APMC"
+        ],
+        "Tikamgarh": [
+            "Khargapur APMC",
+            "Tikamgarh APMC"
+        ],
+        "Chhindwara": [
+            "Amarwda APMC",
+            "Chaurai APMC",
+            "Chhindwara APMC",
+            "Pandhurna APMC"
+        ],
+        "Mandla": [
+            "Bichhiya APMC",
+            "Mandla APMC",
+            "Nainpur APMC"
+        ],
+        "Narsinghpur": [
+            "Narsinghpur APMC",
+            "Tendukheda APMC"
+        ],
+        "Seoni": [
+            "Chhpara APMC",
+            "Ghansour APMC",
+            "Lakhnadon APMC",
+            "Palari APMC",
+            "Seoni APMC",
+            "Seoni(F&V) APMC"
+        ],
+        "Shehdol": [
+            "Beohari APMC",
+            "Budhar APMC",
+            "Shahdol APMC"
+        ],
+        "Jabalpur": [
+            "Jabalpur APMC",
+            "Paatan APMC",
+            "Sehora APMC",
+            "Shahpura(Jabalpur) APMC"
+        ],
+        "Panna": [
+            "Panna APMC"
+        ],
+        "Indore": [
+            "Gautampura APMC",
+            "Indore APMC",
+            "Sanwer APMC"
+        ],
+        "Katni": [
+            "Katni APMC"
+        ],
+        "Raisen": [
+            "Bareli APMC",
+            "Gairatganj APMC",
+            "Obedullaganj APMC",
+            "Raisen APMC",
+            "Silvani APMC",
+            "Udaipura APMC"
+        ],
+        "Hoshangabad": [
+            "Itarsi APMC"
+        ],
+        "Khandwa": [
+            "Harsood APMC",
+            "Khandwa APMC",
+            "Mundi APMC",
+            "Pandhana APMC"
+        ],
+        "Harda": [
+            "Harda APMC"
+        ],
+        "Dewas": [
+            "Bagli APMC",
+            "Haatpipliya APMC",
+            "Kannod APMC",
+            "Khategaon APMC",
+            "Loharda APMC",
+            "Sonkatch APMC"
+        ],
+        "Rewa": [
+            "Baikunthpur APMC",
+            "Chaakghat APMC"
+        ],
+        "Umariya": [
+            "Umariya APMC"
+        ],
+        "Rajgarh": [
+            "Biaora APMC",
+            "Chhapiheda APMC",
+            "Jeerapur APMC",
+            "Khilchipur APMC",
+            "Khujner APMC",
+            "Narsinghgarh APMC",
+            "Pachaur APMC",
+            "Sarangpur APMC"
+        ],
+        "Mandsaur": [
+            "Bhanpura APMC",
+            "Daloda APMC",
+            "Garoth APMC",
+            "Mandsaur APMC",
+            "Piplya APMC",
+            "Sitmau APMC",
+            "Suvasra APMC"
+        ],
+        "Neemuch": [
+            "Manasa APMC",
+            "Neemuch APMC"
+        ],
+        "Morena": [
+            "Ambaha APMC",
+            "Banmorkalan APMC",
+            "Kailaras APMC",
+            "Morena APMC",
+            "Sabalgarh APMC"
+        ],
+        "Satna": [
+            "Amarpatan APMC",
+            "Mehar APMC",
+            "Satna APMC"
+        ],
+        "Sehore": [
+            "Baktara APMC",
+            "Nasrullaganj APMC",
+            "Shyampur APMC"
+        ],
+        "Ujjain": [
+            "Badnagar APMC",
+            "Ujjain APMC",
+            "Unhel APMC"
+        ],
+        "Anupur": [
+            "Anuppur APMC"
+        ],
+        "Bhopal": [
+            "Bhopal APMC"
+        ],
+        "Betul": [
+            "Betul APMC"
+        ],
+        "Damoh": [
+            "Javera APMC"
+        ],
+        "Singroli": [
+            "Singroli APMC"
+        ],
+        "Burhanpur": [
+            "Burhanpur APMC"
+        ],
+        "Balaghat": [
+            "Balaghat APMC"
+        ],
+        "Dindori": [
+            "Dindori APMC",
+            "Gorakhpur APMC"
+        ]
+    },
+    "Assam": {
+        "Kamrup": [
+            "Fancy Bazaar APMC",
+            "P.O. Uparhali Guwahati APMC",
+            "Pamohi(Garchuk) APMC",
+            "Sontoli APMC"
+        ]
+    },
+    "Gujarat": {
+        "Surat": [
+            "Mandvi APMC",
+            "Songadh APMC",
+            "Songadh(Badarpada) APMC",
+            "Songadh(Umrada) APMC",
+            "Vyra APMC"
+        ],
+        "Gandhinagar": [
+            "Dehgam APMC",
+            "Dehgam(Rekhiyal) APMC",
+            "Mansa(Manas Veg Yard) APMC"
+        ],
+        "Navsari": [
+            "Bilimora APMC"
+        ],
+        "Sabarkantha": [
+            "APMCKHEDBRAHMA"
+        ],
+        "Narmada": [
+            "Garudeshwal APMC",
+            "Rajpipla APMC"
+        ],
+        "Banaskanth": [
+            "Bhabhar APMC",
+            "Deesa APMC",
+            "Diyodar APMC",
+            "Lakhani APMC",
+            "Vav APMC"
+        ],
+        "Mehsana": [
+            "Unava APMC",
+            "Vijapur APMC",
+            "Vijapur(Gojjariya) APMC",
+            "Vijapur(Kukarvada) APMC"
+        ],
+        "Anand": [
+            "Anand(Veg,Yard,Anand) APMC"
+        ],
+        "Rajkot": [
+            "Dhoraji APMC",
+            "Gondal(Veg.market Gondal) APMC",
+            "Jasdan APMC",
+            "Jasdan(Vichhiya) APMC",
+            "Rajkot APMC",
+            "Rajkot(Veg.Sub Yard) APMC"
+        ],
+        "Morbi": [
+            "APMC HALVAD",
+            "Morbi APMC",
+            "Vankaner APMC"
+        ],
+        "Bhavnagar": [
+            "Bhavnagar APMC",
+            "Mahuva(Station Road) APMC"
+        ],
+        "Jamnagar": [
+            "Dhrol APMC",
+            "Jam Jodhpur APMC",
+            "Jamnagar APMC"
+        ],
+        "Junagarh": [
+            "Bhesan APMC",
+            "Junagadh APMC",
+            "Visavadar APMC"
+        ],
+        "Botad": [
+            "Botad APMC",
+            "Botad(Haddad) APMC"
+        ],
+        "Porbandar": [
+            "Porbandar APMC"
+        ],
+        "Amreli": [
+            "Damnagar APMC"
+        ],
+        "Ahmedabad": [
+            "Mandal APMC",
+            "Sanad APMC"
+        ],
+        "Gir Somnath": [
+            "Veraval APMC"
+        ],
+        "Chhota Udaipur": [
+            "Hadad     APMC",
+            "Modasar APMC"
+        ],
+        "Kachchh": [
+            "Rapar APMC"
+        ],
+        "Devbhumi Dwarka": [
+            "Jam Khambalia APMC"
+        ]
+    },
+    "West Bengal": {
+        "Nadia": [
+            "Bethuadahari APMC",
+            "Karimpur APMC"
+        ],
+        "Coochbehar": [
+            "Baxirhat APMC",
+            "Dinhata APMC",
+            "Haldibari APMC",
+            "Mathabhanga APMC",
+            "Mekhliganj APMC",
+            "Toofanganj APMC"
+        ],
+        "Medinipur(W)": [
+            "Ghatal APMC"
+        ],
+        "Medinipur(E)": [
+            "Kolaghat APMC",
+            "Tamluk (Medinipur E) APMC"
+        ],
+        "North 24 Parganas": [
+            "Barasat APMC",
+            "Habra APMC"
+        ],
+        "Bankura": [
+            "Bishnupur(Bankura) APMC",
+            "Khatra APMC"
+        ],
+        "Darjeeling": [
+            "Darjeeling APMC",
+            "Karsiyang(Matigara) APMC",
+            "Siliguri APMC"
+        ],
+        "Uttar Dinajpur": [
+            "Islampur APMC",
+            "Kaliaganj APMC",
+            "Raiganj APMC"
+        ],
+        "Purba Bardhaman": [
+            "Katwa APMC"
+        ],
+        "Sounth 24 Parganas": [
+            "Baruipur(Canning) APMC"
+        ],
+        "Puruliya": [
+            "Balarampur APMC"
+        ],
+        "Hooghly": [
+            "Kalipur APMC"
+        ],
+        "Birbhum": [
+            "Rampurhat APMC"
+        ],
+        "Murshidabad": [
+            "Kasimbazar APMC",
+            "Lalbagh APMC"
+        ],
+        "Jhargram": [
+            "Jhargram APMC"
+        ]
+    },
+    "Maharashtra": {
+        "Amarawati": [
+            "Varud APMC"
+        ],
+        "Chattrapati Sambhajinagar": [
+            "Chattrapati Sambhajinagar APMC"
+        ],
+        "Chandrapur": [
+            "Bhadrawati APMC"
+        ],
+        "Jalgaon": [
+            "Bhusaval APMC"
+        ],
+        "Kolhapur": [
+            "Kolhapur APMC"
+        ],
+        "Mumbai": [
+            "Mumbai APMC",
+            "Mumbai- Fruit Market APMC",
+            "Vashi New Mumbai APMC"
+        ],
+        "Nagpur": [
+            "Hingna APMC",
+            "Ramtek APMC"
+        ],
+        "Nashik": [
+            "Lasalgaon APMC",
+            "Lasalgaon(Vinchur) APMC",
+            "Nasik APMC",
+            "Pimpalgaon APMC"
+        ],
+        "Pune": [
+            "Baramati APMC",
+            "Junnar(Otur) APMC",
+            "Khed APMC",
+            "Khed(Chakan) APMC",
+            "Pune APMC",
+            "Pune(Khadiki) APMC",
+            "Pune(Moshi) APMC",
+            "Pune(Pimpri) APMC"
+        ],
+        "Sangli": [
+            "Palus APMC"
+        ],
+        "Satara": [
+            "Vaduj APMC",
+            "Vai APMC"
+        ],
+        "Hingoli": [
+            "Gajanan Krushi Utpanna Bazar (India) Pvt Ltd  APMC"
+        ],
+        "Ahmednagar": [
+            "Akole APMC",
+            "Om Chaitanya Multistate Agro Purpose CoOp Society  APMC",
+            "Rahata APMC",
+            "Rahuri APMC",
+            "Sangamner APMC"
+        ],
+        "Sholapur": [
+            "Dudhani APMC",
+            "Perfect Krishi Market Yard Pvt Ltd  APMC",
+            "Sangola APMC"
+        ],
+        "Raigad": [
+            "Alibagh APMC",
+            "Karjat(Raigad) APMC",
+            "Murud APMC",
+            "Panvel APMC",
+            "Roha APMC"
+        ],
+        "Yavatmal": [
+            "Jagdamba Agrocare APMC",
+            "Umarked(Danki) APMC",
+            "Umarkhed APMC"
+        ],
+        "Thane": [
+            "Murbad APMC"
+        ]
+    },
+    "Tripura": {
+        "North Tripura": [
+            "Dasda APMC",
+            "Panisagar APMC"
+        ],
+        "Dhalai": [
+            "Chowmanu APMC",
+            "Halahali",
+            "Kulai APMC",
+            "Masli"
+        ],
+        "West District": [
+            "Kamalghat",
+            "Mohanpur APMC"
+        ],
+        "Sepahijala": [
+            "Melaghar APMC"
+        ],
+        "Khowai": [
+            "Kalyanpur APMC"
+        ],
+        "South Tripura": [
+            "Manubazar"
+        ]
+    },
+    "Kerala": {
+        "Wayanad": [
+            "Kalpetta APMC",
+            "Manathavady APMC",
+            "Pulpally APMC"
+        ],
+        "Kannur": [
+            "Irityy APMC",
+            "Kannur APMC",
+            "Kolayad VFPCK APMC",
+            "Kuthuparambu APMC",
+            "Thalasserry APMC"
+        ],
+        "Kottayam": [
+            "Athirampuzha APMC",
+            "Athirampuzha VFPCK APMC",
+            "Avarma  VFPCK APMC",
+            "Ettumanoor APMC",
+            "Kaithepalam VFPCK APMC",
+            "Kottayam APMC",
+            "Pala APMC",
+            "Pampady APMC",
+            "Vayala  VFPCK APMC",
+            "Vempally  VFPCK APMC"
+        ],
+        "Palakad": [
+            "Palakkad APMC",
+            "Pattambi APMC"
+        ],
+        "Thirssur": [
+            "Chavakkad APMC",
+            "Elanad  VFPCK APMC",
+            "Karalam VFPCK APMC",
+            "Marottichal  VFPCK APMC",
+            "Thottippal VFPCK APMC"
+        ],
+        "Thiruvananthapuram": [
+            "Balaramapuram  VFPCK APMC",
+            "Pappanchani VFPCK APMC",
+            "Vellarada  VFPCK APMC"
+        ],
+        "Idukki": [
+            "Kanthaloor VFPCK APMC",
+            "Munnar APMC"
+        ],
+        "Malappuram": [
+            "Elamkulam VFPCK APMC",
+            "Kodakkad  VFPCK APMC",
+            "Kottakkal APMC",
+            "Parappanangadi APMC",
+            "Vazhayur VFPCK APMC"
+        ],
+        "Kollam": [
+            "Anchal APMC",
+            "Channapetta VFPCK APMC",
+            "Elamad  VFPCK APMC",
+            "Kadakkal  VFPCK APMC",
+            "Kulathoopuzha VFPCK APMC",
+            "Neduvathoor  VFPCK APMC",
+            "Plappally VFPCK APMC"
+        ],
+        "Alappuzha": [
+            "Chengannur APMC",
+            "Harippad APMC",
+            "Kayamkulam APMC",
+            "Pandanadu  VFPCK APMC",
+            "Vallikunnam  VFPCK APMC"
+        ],
+        "Ernakulam": [
+            "Kothamangalam APMC",
+            "Kunnukara  VFPCK APMC",
+            "Kurumassery VFPCK APMC",
+            "Mookkannur  VFPCK APMC",
+            "Perumbavoor APMC",
+            "Pothanikkadu VFPCK APMC",
+            "Thuravoor VFPCK APMC",
+            "Vengola  VFPCK APMC"
+        ],
+        "Kasargod": [
+            "Kanjangadu APMC",
+            "Kasargod APMC",
+            "Pullur Periya  VFPCK APMC"
+        ],
+        "Pathanamthitta": [
+            "Ranniangadi APMC"
+        ],
+        "Kozhikode(Calicut)": [
+            "Kallachi APMC",
+            "Mukkom APMC",
+            "Perambra APMC"
+        ]
+    },
+    "Tamil Nadu": {
+        "Coimbatore": [
+            "Kurichi(Uzhavar Sandhai )",
+            "Mettupalayam(Uzhavar Sandhai )",
+            "Pollachi(Uzhavar Sandhai )",
+            "RSPuram(Uzhavar Sandhai )",
+            "Singanallur(Uzhavar Sandhai )",
+            "Sulur(Uzhavar Sandhai )",
+            "Sundarapuram(Uzhavar Sandhai )",
+            "Udumalpet APMC",
+            "Vadavalli(Uzhavar Sandhai )"
+        ],
+        "Villupuram": [
+            "Gingee(Uzhavar Sandhai )",
+            "Tindivanam APMC",
+            "Ulundurpettai APMC",
+            "Villupuram(Uzhavar Sandhai )"
+        ],
+        "Dharmapuri": [
+            "AJattihalli(Uzhavar Sandhai )",
+            "Dharmapuri(Uzhavar Sandhai )",
+            "Harur(Uzhavar Sandhai )",
+            "Karimangalam(Uzhavar Sandhai)",
+            "Palacode(Uzhavar Sandhai )",
+            "Pennagaram(Uzhavar Sandhai )"
+        ],
+        "Salem": [
+            "Ammapet(Uzhavar Sandhai )",
+            "Athur(Uzhavar Sandhai )",
+            "Attayampatti(Uzhavar Sandhai )",
+            "Edapadi (Uzhavar Sandhai )",
+            "Elampillai(Uzhavar Sandhai )",
+            "Hasthampatti(Uzhavar Sandhai )",
+            "Jalagandapuram(Uzhavar Sandhai )",
+            "Mecheri(Uzhavar Sandhai)",
+            "Mettur(Uzhavar Sandhai )",
+            "Sooramangalam(Uzhavar Sandhai )",
+            "Thammampatti (Uzhavar Sandhai )",
+            "Thathakapatti(Uzhavar Sandhai )",
+            "Vazhapadi(Uzhavar Sandhai)"
+        ],
+        "Vellore": [
+            "Gudiyatham(Uzhavar Sandhai )",
+            "Kahithapattarai(Uzhavar Sandhai )",
+            "Katpadi (Uzhavar Sandhai )",
+            "Pallikonda(Uzhavar Sandhai)",
+            "Perampet(Uzhavar Sandhai)",
+            "Thirupathur APMC",
+            "Vellore APMC"
+        ],
+        "Thanjavur": [
+            "Kumbakonam (Uzhavar Sandhai )",
+            "Papanasam(Uzhavar Sandhai )",
+            "Pattukottai(Uzhavar Sandhai )",
+            "Peravurani(Uzhavar Sandhai)",
+            "Thanjavur(Uzhavar Sandhai )",
+            "Tirukattupalli(Uzhavar Sandhai )"
+        ],
+        "Pudukkottai": [
+            "Alangudi(Uzhavar Sandhai )",
+            "Aranthangi(Uzhavar Sandhai )",
+            "Gandarvakottai(Uzhavar Sandhai )",
+            "Karambakkudi(Uzhavar Sandhai )",
+            "Ponnamaravathi(Uzhavar Sandhai)",
+            "Pudukottai(Uzhavar Sandhai )",
+            "Viralimalai(Uzhavar Sandhai )"
+        ],
+        "Karur": [
+            "Gandhigramam(Uzhavar Sandhai)",
+            "Karur(Uzhavar Sandhai )",
+            "Kulithalai(Uzhavar Sandhai )",
+            "Pallapatti (Uzhavar Sandhai )",
+            "Velayuthampalayam(Uzhavar Sandhai )",
+            "Vengamedu(Uzhavar Sandhai )"
+        ],
+        "Nagapattinam": [
+            "Mayiladuthurai(Uzhavar Sandhai )",
+            "Nagapattinam(Uzhavar Sandhai )",
+            "Sirkali(Uzhavar Sandhai )",
+            "Vedaranyam(Uzhavar Sandhai)"
+        ],
+        "Namakkal": [
+            "Kumarapalayam(Uzhavar Sandhai )",
+            "Mohanur(Uzhavar Sandhai )",
+            "Namakkal(Uzhavar Sandhai )",
+            "Paramathivelur(Uzhavar Sandhai )",
+            "Rasipuram(Uzhavar Sandhai )",
+            "Tiruchengode APMC"
+        ],
+        "Thiruvarur": [
+            "Mannargudi I(Uzhavar Sandhai )",
+            "Mannargudi II(Uzhavar Sandhai )",
+            "Muthupettai(Uzhavar Sandhai )",
+            "Needamangalam(Uzhavar Sandhai )",
+            "Tiruthuraipoondi(Uzhavar Sandhai )",
+            "Tiruvarur(Uzhavar Sandhai )",
+            "Valangaiman APMC"
+        ],
+        "Cuddalore": [
+            "Chidambaram(Uzhavar Sandhai )",
+            "Cuddalore(Uzhavar Sandhai )",
+            "Panruti(Uzhavar Sandhai )",
+            "Vadalur(Uzhavar Sandhai )",
+            "Viruthachalam(Uzhavar Sandhai )"
+        ],
+        "Dindigul": [
+            "Chinnalapatti(Uzhavar Sandhai )",
+            "Dindigul(Uzhavar Sandhai )",
+            "Kodaikkanal(Uzhavar Sandhai)",
+            "Palani APMC",
+            "Palani(Uzhavar Sandhai )",
+            "Vedasanthur(Uzhavar Sandhai )"
+        ],
+        "Erode": [
+            "Gobichettipalayam(Uzhavar Sandhai )",
+            "Periyar Nagar(Uzhavar Sandhai )",
+            "Perundurai(Uzhavar Sandhai )",
+            "Sampath Nagar(Uzhavar Sandhai )",
+            "Sathiyamagalam(Uzhavar Sandhai )",
+            "Thalavadi(Uzhavar Sandhai )"
+        ],
+        "Kancheepuram": [
+            "Kancheepuram(Uzhavar Sandhai )",
+            "Kundrathur(Uzhavar Sandhai )",
+            "Padappai(Uzhavar Sandhai )",
+            "Sunguvarchatram(Uzhavar Sandhai )"
+        ],
+        "Krishnagiri": [
+            "Avallapalli(Uzhavar Sandhai )",
+            "Denkanikottai(Uzhavar Sandhai )",
+            "Hosur(Uzhavar Sandhai )",
+            "Kaveripattinam(Uzhavar Sandhai )",
+            "Krishnagiri(Uzhavar Sandhai )"
+        ],
+        "Madurai": [
+            "Anaiyur(Uzhavar Sandhai )",
+            "Anna nagar(Uzhavar Sandhai )",
+            "Chokkikulam(Uzhavar Sandhai )",
+            "Melur(Uzhavar Sandhai )",
+            "Palanganatham(Uzhavar Sandhai )",
+            "Thirumangalam(Uzhavar Sandhai )",
+            "Usilampatti(Uzhavar Sandhai )"
+        ],
+        "The Nilgiris": [
+            "Coonoor(Uzhavar Sandhai )",
+            "Gudalur(Uzhavar Sandhai )",
+            "Udhagamandalam(Uzhavar Sandhai )"
+        ],
+        "Perambalur": [
+            "Perambalur(Uzhavar Sandhai )"
+        ],
+        "Ramanathapuram": [
+            "Kamuthi(Uzhavar Sandhai )",
+            "Paramakudi(Uzhavar Sandhai )",
+            "Ramanathapuram(Uzhavar Sandhai )"
+        ],
+        "Sivaganga": [
+            "Devakottai (Uzhavar Sandhai )",
+            "Karaikudi(Uzhavar Sandhai )",
+            "Singampunari(Uzhavar Sandhai )",
+            "Sivagangai (Uzhavar Sandhai )",
+            "Tirupatthur(Uzhavar Sandhai )"
+        ],
+        "Theni": [
+            "Andipatti(Uzhavar Sandhai )",
+            "Bodinayakanur(Uzhavar Sandhai )",
+            "Chinnamanur(Uzhavar Sandhai )",
+            "Devaram(Uzhavar Sandhai )",
+            "Kambam(Uzhavar Sandhai )",
+            "Periyakulam(Uzhavar Sandhai )",
+            "Theni(Uzhavar Sandhai )"
+        ],
+        "Thirunelveli": [
+            "Ambasamudram(Uzhavar Sandhai )",
+            "Kandiyaperi(Uzhavar Sandhai )",
+            "Melapalayam(Uzhavar Sandhai )",
+            "NGO Colony(Uzhavar Sandhai )",
+            "Palayamkottai(Uzhavar Sandhai )"
+        ],
+        "Thiruvellore": [
+            "Ambattur(Uzhavar Sandhai )",
+            "Naravarikuppam(Uzhavar Sandhai )",
+            "Paruthipattu(Uzhavar Sandhai )",
+            "Tiruthani(Uzhavar Sandhai )"
+        ],
+        "Tuticorin": [
+            "Kovilpatti(Uzhavar Sandhai )",
+            "Tuticorin(Uzhavar Sandhai )"
+        ],
+        "Thiruvannamalai": [
+            "Arani(Uzhavar Sandhai )",
+            "Chengam(Uzhavar Sandhai )",
+            "Cheyyar(Uzhavar Sandhai )",
+            "Keelpennathur(Uzhavar Sandhai )",
+            "Polur(Uzhavar Sandhai )",
+            "Tamarainagar(Uzhavar Sandhai )",
+            "Tiruvannamalai(Uzhavar Sandhai )",
+            "Vandavasi(Uzhavar Sandhai )"
+        ],
+        "Thiruchirappalli": [
+            "KKNagar(Uzhavar Sandhai )",
+            "Lalgudi(Uzhavar Sandhai )",
+            "Manachanallur(Uzhavar Sandhai )",
+            "Manapparai(Uzhavar Sandhai )",
+            "Musiri(Uzhavar Sandhai )",
+            "Thiruverumbur(Uzhavar Sandhai )",
+            "Thuraiyur APMC"
+        ],
+        "Virudhunagar": [
+            "Aruppukottai(Uzhavar Sandhai )",
+            "Kariyapatti(Uzhavar Sandhai )",
+            "Rajapalayam(Uzhavar Sandhai )",
+            "Sathur(Uzhavar Sandhai )",
+            "Sivakasi(Uzhavar Sandhai )",
+            "Srivilliputhur(Uzhavar Sandhai )",
+            "Thalavaipuram(Uzhavar Sandhai )",
+            "Virudhunagar(Uzhavar Sandhai )"
+        ],
+        "Nagercoil (Kannyiakumari)": [
+            "Myladi(Uzhavar Sandhai )",
+            "Vadaseri APMC"
+        ],
+        "Chengalpattu": [
+            "Chengalpet(Uzhavar Sandhai )",
+            "Guduvancheri(Uzhavar Sandhai )",
+            "Jameenrayapettai(Uzhavar Sandhai )",
+            "Madhuranthagam(Uzhavar Sandhai )",
+            "Medavakkam(Uzhavar Sandhai )",
+            "Nanganallur(Uzhavar Sandhai )",
+            "Pallavaram(Uzhavar Sandhai )",
+            "Thirukalukundram(Uzhavar Sandhai )"
+        ],
+        "Thirupathur": [
+            "Natrampalli(Uzhavar Sandhai )",
+            "Vaniyampadi(Uzhavar Sandhai )"
+        ],
+        "Thirupur": [
+            "Dharapuram(Uzhavar Sandhai )",
+            "Kangayam(Uzhavar Sandhai )",
+            "Palladam(Uzhavar Sandhai )",
+            "Tiruppur (North) (Uzhavar Sandhai )",
+            "Tiruppur (South) (Uzhavar Sandhai )"
+        ],
+        "Ariyalur": [
+            "Ariyalur(Uzhavar Sandhai)",
+            "Jeyankondam (Uzhavar Sandhai )"
+        ],
+        "Kallakuruchi": [
+            "Kallakurichi(Uzhavar Sandhai )",
+            "Sankarapuram(Uzhavar Sandhai )"
+        ],
+        "Ranipet": [
+            "Arcot(Uzhavar Sandhai )",
+            "Ranipettai(Uzhavar Sandhai )"
+        ],
+        "Tenkasi": [
+            "Sankarankoil(Uzhavar Sandhai )",
+            "Tenkasi(Uzhavar Sandhai )"
+        ]
+    },
+    "Punjab": {
+        "Jalandhar": [
+            "Bhogpur APMC",
+            "Mehatpur APMC",
+            "Nakodar APMC",
+            "Phillaur(Apra Mandi) APMC"
+        ],
+        "Fazilka": [
+            "Fazilka APMC",
+            "Jalalabad APMC"
+        ],
+        "Gurdaspur": [
+            "Batala APMC",
+            "Dera Baba Nanak APMC",
+            "Dinanagar APMC",
+            "F.G.Churian APMC",
+            "Quadian APMC"
+        ],
+        "Kapurthala": [
+            "Sultanpur APMC"
+        ],
+        "Ludhiana": [
+            "Doraha APMC",
+            "Khanna APMC",
+            "Ludhiana APMC",
+            "Ludhiana(Mandi gill Road) APMC",
+            "Sahnewal APMC"
+        ],
+        "Patiala": [
+            "Nabha APMC",
+            "Patiala APMC",
+            "Patiala(Anaj Mandi Sanaur Road) APMC",
+            "Patiala(New Anaj Mandi) APMC",
+            "Rajpura APMC",
+            "Samana(Gajewas) APMC",
+            "Samana(Kakrala) APMC"
+        ],
+        "Sangrur": [
+            "Ahmedgarh APMC",
+            "Dhuri APMC"
+        ],
+        "Bhatinda": [
+            "Raman APMC",
+            "Rampuraphul(Bhai Rupan) APMC",
+            "Rampuraphul(Dhapali) APMC",
+            "Rampuraphul(Nabha Mandi) APMC"
+        ],
+        "Mansa": [
+            "Bareta APMC",
+            "Bhikhi APMC",
+            "Mansa APMC"
+        ],
+        "Hoshiarpur": [
+            "Garh Shankar APMC",
+            "Garh Shankar(Mahalpur) APMC",
+            "GarhShankar (Kotfatuhi) APMC",
+            "Tanda Urmur APMC"
+        ],
+        "Ropar (Rupnagar)": [
+            "Chamkaur Sahib APMC"
+        ],
+        "Mohali": [
+            "Dera Bassi APMC",
+            "Kharar APMC",
+            "Kurali APMC"
+        ],
+        "Nawanshahr": [
+            "Nawan Shahar(Subzi Mandi) APMC",
+            "Nawanshahar APMC"
+        ],
+        "Tarntaran": [
+            "Harike APMC",
+            "Tarantaran APMC"
+        ],
+        "Fatehgarh": [
+            "Bassi Pathana APMC",
+            "Khamano APMC"
+        ],
+        "Moga": [
+            "Ajitwal APMC",
+            "Moga APMC"
+        ],
+        "Faridkot": [
+            "Jaitu APMC"
+        ],
+        "Barnala": [
+            "Mehal Kalan APMC"
+        ]
+    },
+    "Karnataka": {
+        "Haveri": [
+            "Ranebennur APMC"
+        ],
+        "Chamrajnagar": [
+            "Chamaraj Nagar APMC"
+        ],
+        "Bangalore": [
+            "Ramanagara APMC"
+        ]
+    },
+    "Chattisgarh": {
+        "Dantewada": [
+            "Gidam APMC"
+        ],
+        "Raigarh": [
+            "Baramkela APMC",
+            "Gharghoda APMC",
+            "Kedar APMC",
+            "Raigarh APMC",
+            "Sarangarh APMC"
+        ],
+        "Raipur": [
+            "Neora APMC"
+        ],
+        "Kanker": [
+            "Charama APMC",
+            "Lakhanpuri APMC",
+            "Narharpur APMC"
+        ],
+        "Bijapur": [
+            "Bhopalpattnam APMC"
+        ],
+        "Rajnandgaon": [
+            "Bandhabazar APMC"
+        ],
+        "Narayanpur": [
+            "Narayanpur APMC"
+        ]
+    },
+    "Telangana": {
+        "Mahbubnagar": [
+            "Shadnagar APMC"
+        ],
+        "Nalgonda": [
+            "Suryapeta APMC"
+        ],
+        "Karimnagar": [
+            "Ibrahimpatnam APMC",
+            "Metpally APMC",
+            "V.Saidapur APMC"
+        ],
+        "Hyderabad": [
+            "Bowenpally APMC",
+            "Gaddiannaram APMC",
+            "Gudimalkapur APMC"
+        ],
+        "Medak": [
+            "Vantamamidi APMC"
+        ],
+        "Ranga Reddy": [
+            "Chevella APMC",
+            "Kukatpally,RBZ APMC"
+        ],
+        "Adilabad": [
+            "Mancharial APMC"
+        ]
+    },
+    "Haryana": {
+        "Hissar": [
+            "Barwala(Hisar) APMC",
+            "Hansi APMC",
+            "Hissar APMC",
+            "Uklana APMC"
+        ],
+        "Rewari": [
+            "Rewari APMC"
+        ],
+        "Ambala": [
+            "Ambala Cantt. APMC",
+            "Ambala City APMC",
+            "Ambala City(Subji Mandi) APMC",
+            "Barara APMC",
+            "Mullana(saha) APMC",
+            "Naraingarh APMC",
+            "Shahzadpur APMC"
+        ],
+        "Mahendragarh-Narnaul": [
+            "Khanina APMC",
+            "Mohindergarh APMC",
+            "Narnaul APMC"
+        ],
+        "Sonipat": [
+            "Ganaur APMC",
+            "Gohana APMC",
+            "Sonepat APMC"
+        ],
+        "Mewat": [
+            "FerozpurZirkha(Nagina) APMC",
+            "Punhana APMC"
+        ],
+        "Yamuna Nagar": [
+            "Jagadhri APMC",
+            "Mustafabad APMC",
+            "Sadhaura APMC"
+        ],
+        "Fatehabad": [
+            "Fatehabad APMC",
+            "Ratia APMC"
+        ],
+        "Kurukshetra": [
+            "Babain APMC",
+            "Ladwa APMC",
+            "Pehowa APMC",
+            "Pehowa(Gumthala Gahru) APMC",
+            "Pipli APMC",
+            "Shahabad APMC",
+            "Thanesar APMC"
+        ],
+        "Rohtak": [
+            "Meham APMC"
+        ],
+        "Panipat": [
+            "Bapauli APMC",
+            "Madlauda APMC",
+            "Panipat APMC",
+            "Panipat(Baharpur) APMC",
+            "Samalkha APMC"
+        ],
+        "Jind": [
+            "Jind APMC",
+            "Narwana APMC",
+            "New Grain Market , Jind APMC",
+            "Pillukhera APMC",
+            "Safidon APMC",
+            "Uchana APMC"
+        ],
+        "Panchkula": [
+            "Barwala APMC"
+        ],
+        "Sirsa": [
+            "Ding APMC",
+            "Ellanabad APMC",
+            "Kalawali(Odhan) APMC",
+            "Rania(Jiwan nagar) APMC",
+            "Sirsa APMC"
+        ],
+        "Gurgaon": [
+            "Gurgaon APMC",
+            "Sohna APMC"
+        ],
+        "Karnal": [
+            "Gharaunda APMC"
+        ],
+        "Kaithal": [
+            "Dhand APMC",
+            "Pai APMC"
+        ],
+        "Palwal": [
+            "Hodal APMC"
+        ],
+        "Jhajar": [
+            "Jhajjar APMC"
+        ],
+        "Bhiwani": [
+            "Loharu APMC",
+            "Tosham APMC"
+        ],
+        "Faridabad": [
+            "Faridabad APMC"
+        ]
+    },
+    "Andhra Pradesh": {
+        "Chittor": [
+            "Kalikiri APMC",
+            "Madanapalli APMC",
+            "Punganur APMC"
+        ],
+        "Guntur": [
+            "Tenali APMC"
+        ],
+        "Visakhapatnam": [
+            "Anakapally APMC"
+        ],
+        "East Godavari": [
+            "Jaggampet APMC"
+        ],
+        "Anantapur": [
+            "Anantapur APMC"
+        ]
+    },
+    "Odisha": {
+        "Sundergarh": [
+            "Panposh APMC",
+            "Sargipali APMC"
+        ],
+        "Boudh": [
+            "Boudh APMC"
+        ],
+        "Dhenkanal": [
+            "Hindol APMC"
+        ],
+        "Cuttack": [
+            "Banki APMC"
+        ],
+        "Bargarh": [
+            "Attabira APMC",
+            "Godabhaga APMC"
+        ],
+        "Bolangir": [
+            "Kantabaji APMC"
+        ],
+        "Keonjhar": [
+            "Anandapur APMC"
+        ],
+        "Ganjam": [
+            "Digapahandi APMC"
+        ],
+        "Kalahandi": [
+            "Kesinga APMC"
+        ],
+        "Malkangiri": [
+            "Malkanagiri APMC"
+        ]
+    },
+    "NCT of Delhi": {
+        "Delhi": [
+            "Keshopur APMC"
+        ]
+    },
+    "Himachal Pradesh": {
+        "Kangra": [
+            "SMY Jaisinghpur",
+            "SMY Palampur"
+        ],
+        "Mandi": [
+            "SMY Jogindernagar",
+            "SMY Takoli"
+        ],
+        "Chamba": [
+            "PMY Chamba"
+        ]
+    },
+    "Jammu and Kashmir": {
+        "Srinagar": [
+            "Parimpore APMC"
+        ]
+    },
+    "Chandigarh": {
+        "Chandigarh": [
+            "Chandigarh(Grain/Fruit) APMC"
+        ]
+    },
+    "Nagaland": {
+        "Phek": [
+            "Phek APMC"
+        ]
+    },
+    "Meghalaya": {
+        "East Khasi Hills": [
+            "Shillong APMC"
+        ]
+    }
+}
