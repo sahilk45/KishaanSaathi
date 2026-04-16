@@ -63,6 +63,7 @@ from services.health_score import calculate_health_score
 from services.agro_service import create_agro_polygon, get_satellite_data, fetch_agro_snapshot
 from services.geocoding_service import reverse_geocode_city_state
 from chatbot.agent import run_agent, run_agent_streaming
+from services.apmc_service import load_mandi_master, is_valid_market_selection, fetch_and_simulate_history
 
 logger = logging.getLogger("kishanSaathi")
 
@@ -353,6 +354,35 @@ class AgroSnapshotResponse(BaseModel):
     soil:              dict[str, Any]
 
 
+class ApmcMasterResponse(BaseModel):
+    master: dict[str, dict[str, list[str]]]
+
+
+class ApmcHistoryRequest(BaseModel):
+    state:     str = Field(..., example="Punjab")
+    district:  str = Field(..., example="Ludhiana")
+    market:    str = Field(..., example="Ludhiana APMC")
+    commodity: str = Field(..., example="Wheat")
+    days:      int = Field(25, ge=1, le=90)
+
+
+class ApmcHistoryRow(BaseModel):
+    arrival_date: str
+    min_price:    float
+    max_price:    float
+    modal_price:  float
+
+
+class ApmcHistoryResponse(BaseModel):
+    state:            str
+    district:         str
+    market:           str
+    commodity:        str
+    source:           str
+    latest_real_date: str
+    records:          list[ApmcHistoryRow]
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # ENDPOINT 1: GET /health
 # ─────────────────────────────────────────────────────────────────────────────
@@ -413,7 +443,55 @@ async def get_crops():
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# ENDPOINT 4: POST /farmers/register
+# ENDPOINT 4: APMC (master + history)
+# ─────────────────────────────────────────────────────────────────────────────
+
+@app.get("/apmc/master", response_model=ApmcMasterResponse, tags=["APMC"])
+async def get_apmc_master():
+    """Returns State -> District -> APMC mandi master hierarchy."""
+    return {"master": load_mandi_master()}
+
+
+@app.post("/apmc/history", response_model=ApmcHistoryResponse, tags=["APMC"])
+async def get_apmc_history(body: ApmcHistoryRequest):
+    """
+    Fetches latest mandi prices from data.gov and simulates previous history rows.
+    Returns min/max/modal table-ready data for the selected mandi and commodity.
+    """
+    master = load_mandi_master()
+
+    if not is_valid_market_selection(master, body.state, body.district, body.market):
+        raise HTTPException(
+            status_code=422,
+            detail="Selected state/district/market combination is not present in mandi_master.json",
+        )
+
+    try:
+        result = await fetch_and_simulate_history(
+            state=body.state,
+            district=body.district,
+            market=body.market,
+            commodity=body.commodity,
+            days=body.days,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except RuntimeError as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+
+    return {
+        "state": result["state"],
+        "district": result["district"],
+        "market": result["market"],
+        "commodity": result["commodity"],
+        "source": result["source"],
+        "latest_real_date": result["latest_real_date"],
+        "records": result["records"],
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ENDPOINT 5: POST /farmers/register
 # ─────────────────────────────────────────────────────────────────────────────
 
 @app.post("/farmers/register", response_model=FarmerRegisterResponse, tags=["Farmers"])
