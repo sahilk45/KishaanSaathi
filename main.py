@@ -16,15 +16,6 @@ Run with:
 import os
 import sys
 
-# ── Windows event loop: use the default ProactorEventLoop ───────────────────
-# WindowsSelectorEventLoopPolicy breaks SSL TCP connections to remote hosts
-# (e.g. Neon cloud DB) — causes CancelledError → TimeoutError in sock_connect.
-# ProactorEventLoop (Windows default) handles asyncpg SSL correctly.
-import asyncio
-
-# Apply ProactorEventLoop on Windows — fixes SSL TCP timeouts with asyncpg on Neon
-if sys.platform == "win32":
-    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
 import logging
 import datetime
@@ -67,7 +58,6 @@ from services.health_score import calculate_health_score
 from services.agro_service import create_agro_polygon, get_satellite_data, fetch_agro_snapshot
 from services.geocoding_service import reverse_geocode_city_state
 from chatbot.agent import run_agent, run_agent_streaming
-from services.apmc_service import load_mandi_master, is_valid_market_selection, fetch_and_simulate_history
 
 logger = logging.getLogger("kishanSaathi")
 
@@ -358,35 +348,6 @@ class AgroSnapshotResponse(BaseModel):
     soil:              dict[str, Any]
 
 
-class ApmcMasterResponse(BaseModel):
-    master: dict[str, dict[str, list[str]]]
-
-
-class ApmcHistoryRequest(BaseModel):
-    state:     str = Field(..., example="Punjab")
-    district:  str = Field(..., example="Ludhiana")
-    market:    str = Field(..., example="Ludhiana APMC")
-    commodity: str = Field(..., example="Wheat")
-    days:      int = Field(25, ge=1, le=90)
-
-
-class ApmcHistoryRow(BaseModel):
-    arrival_date: str
-    min_price:    float
-    max_price:    float
-    modal_price:  float
-
-
-class ApmcHistoryResponse(BaseModel):
-    state:            str
-    district:         str
-    market:           str
-    commodity:        str
-    source:           str
-    latest_real_date: str
-    records:          list[ApmcHistoryRow]
-
-
 # ─────────────────────────────────────────────────────────────────────────────
 # ENDPOINT 1: GET /health
 # ─────────────────────────────────────────────────────────────────────────────
@@ -447,55 +408,7 @@ async def get_crops():
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# ENDPOINT 4: APMC (master + history)
-# ─────────────────────────────────────────────────────────────────────────────
-
-@app.get("/apmc/master", response_model=ApmcMasterResponse, tags=["APMC"])
-async def get_apmc_master():
-    """Returns State -> District -> APMC mandi master hierarchy."""
-    return {"master": load_mandi_master()}
-
-
-@app.post("/apmc/history", response_model=ApmcHistoryResponse, tags=["APMC"])
-async def get_apmc_history(body: ApmcHistoryRequest):
-    """
-    Fetches latest mandi prices from data.gov and simulates previous history rows.
-    Returns min/max/modal table-ready data for the selected mandi and commodity.
-    """
-    master = load_mandi_master()
-
-    if not is_valid_market_selection(master, body.state, body.district, body.market):
-        raise HTTPException(
-            status_code=422,
-            detail="Selected state/district/market combination is not present in mandi_master.json",
-        )
-
-    try:
-        result = await fetch_and_simulate_history(
-            state=body.state,
-            district=body.district,
-            market=body.market,
-            commodity=body.commodity,
-            days=body.days,
-        )
-    except ValueError as exc:
-        raise HTTPException(status_code=404, detail=str(exc)) from exc
-    except RuntimeError as exc:
-        raise HTTPException(status_code=502, detail=str(exc)) from exc
-
-    return {
-        "state": result["state"],
-        "district": result["district"],
-        "market": result["market"],
-        "commodity": result["commodity"],
-        "source": result["source"],
-        "latest_real_date": result["latest_real_date"],
-        "records": result["records"],
-    }
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# ENDPOINT 5: POST /farmers/register
+# ENDPOINT 4: POST /farmers/register
 # ─────────────────────────────────────────────────────────────────────────────
 
 @app.post("/farmers/register", response_model=FarmerRegisterResponse, tags=["Farmers"])
@@ -1093,23 +1006,33 @@ class ChatRequest(BaseModel):
         description="The farmer's chat message",
         json_schema_extra={"example": "Mera health score kya hai?"},
     )
+    thread_id: Optional[str] = Field(
+        default=None,
+        description=(
+            "Chat session ID for thread persistence and resumption. "
+            "Omit to auto-derive as 'thread-{farmer_id}'. "
+            "Provide the same value across turns to maintain conversation history."
+        ),
+        json_schema_extra={"example": "thread-abc-123"},
+    )
     history: list[dict] = Field(
         default=[],
-        description="Prior conversation turns: [{'role': 'user'|'assistant', 'content': '...'}]",
+        description="(Legacy — ignored; history is loaded from DB via thread_id)",
     )
 
 
 class ChatResponse(BaseModel):
     reply: str
     farmer_id: str
+    thread_id: str
 
 
 @app.post("/chat", response_model=ChatResponse, tags=["Chatbot"])
 async def chat(req: ChatRequest):
     """
-    KisanSaathi conversational AI agent.
+    KisanSaathi conversational AI agent — LangGraph StateGraph edition.
 
-    Powered by LangGraph (ReAct agent) + ChatGroq (llama-3.3-70b-versatile).
+    Powered by LangGraph (StateGraph) + ChatGroq (llama-3.3-70b-versatile).
     The agent has 4 tools:
       • get_farmer_data   — farm status, NDVI, health score, yield
       • get_weather       — current weather + 7-day forecast
@@ -1118,12 +1041,17 @@ async def chat(req: ChatRequest):
 
     Supports Hinglish (Hindi + English mixed) responses.
     All data is fetched live from the database — no hallucinated values.
+
+    Thread persistence:
+      Provide thread_id to resume a previous conversation with full memory.
+      Omit it to auto-derive a default thread for this farmer.
     """
+    thread_id = req.thread_id or f"thread-{req.farmer_id}"
     try:
         reply = await run_agent(
             farmer_id=req.farmer_id,
             message=req.message,
-            history=req.history,
+            thread_id=thread_id,
         )
     except Exception as exc:
         logger.error("Chat endpoint error: %s", exc, exc_info=True)
@@ -1131,7 +1059,7 @@ async def chat(req: ChatRequest):
             status_code=500,
             detail=f"Chatbot error: {str(exc)}",
         )
-    return {"reply": reply, "farmer_id": req.farmer_id}
+    return {"reply": reply, "farmer_id": req.farmer_id, "thread_id": thread_id}
 
 
 from fastapi.responses import StreamingResponse as _StreamingResponse
@@ -1140,25 +1068,39 @@ from fastapi.responses import StreamingResponse as _StreamingResponse
 @app.post("/chat/stream", tags=["Chatbot"])
 async def chat_stream(req: ChatRequest):
     """
-    Streaming variant of /chat.
+    Token-streaming variant of /chat.
 
-    Returns text as a Server-Sent stream — tokens arrive as they are generated.
-    Best for mobile clients on slow networks where the farmer sees the reply being typed.
-    Media type: text/plain
+    Tokens stream via Server-Sent Events as they are generated by the LLM.
+    Ideal for mobile clients on slow networks — farmer sees the reply appear word by word.
+
+    Response format: text/plain — each chunk is a raw token string.
+    Prefix your SSE listener with 'data: ' if you need standard SSE wrapping.
+
+    Thread persistence same as /chat — provide thread_id or default is used.
     """
+    thread_id = req.thread_id or f"thread-{req.farmer_id}"
+
     async def token_generator():
         try:
             async for chunk in run_agent_streaming(
                 farmer_id=req.farmer_id,
                 message=req.message,
-                history=req.history,
+                thread_id=thread_id,
             ):
-                yield chunk
+                if chunk:
+                    yield chunk
         except Exception as exc:
             logger.error("Streaming chat error: %s", exc, exc_info=True)
-            yield f"[Error: {exc}]"
+            yield f"\n[Error: {type(exc).__name__} — {exc}]"
 
-    return _StreamingResponse(token_generator(), media_type="text/plain")
+    return _StreamingResponse(
+        token_generator(),
+        media_type="text/plain",
+        headers={
+            "X-Thread-Id": thread_id,
+            "Cache-Control": "no-cache",
+        },
+    )
 
 
 if __name__ == "__main__":

@@ -146,6 +146,35 @@ CREATE INDEX IF NOT EXISTS idx_fp_field_crop_year
 
 CREATE INDEX IF NOT EXISTS idx_fp_farmer
     ON field_predictions(farmer_id);
+
+
+-- ── Table 5: chat_threads ─────────────────────────────────────────────────────
+-- One row per chat session.  Stores a rolling LLM-generated summary so the
+-- conversation can be resumed with full context even after 50+ messages.
+CREATE TABLE IF NOT EXISTS chat_threads (
+    thread_id   VARCHAR(100) PRIMARY KEY,
+    farmer_id   UUID REFERENCES farmers(id) ON DELETE CASCADE,
+    summary     TEXT,
+    created_at  TIMESTAMP DEFAULT NOW(),
+    updated_at  TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_ct_farmer ON chat_threads(farmer_id);
+
+
+-- ── Table 6: chat_messages ────────────────────────────────────────────────────
+-- Individual messages stored for session resumption and summarisation.
+-- role: 'human' | 'ai' | 'tool' | 'summary'
+CREATE TABLE IF NOT EXISTS chat_messages (
+    msg_id      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    thread_id   VARCHAR(100) REFERENCES chat_threads(thread_id) ON DELETE CASCADE,
+    role        VARCHAR(20)  NOT NULL,
+    content     TEXT         NOT NULL,
+    tool_name   VARCHAR(50),
+    created_at  TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_cm_thread ON chat_messages(thread_id, created_at);
 """
 
 
