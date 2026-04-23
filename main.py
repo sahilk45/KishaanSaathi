@@ -16,11 +16,15 @@ Run with:
 import os
 import sys
 
-# ── Windows: force SelectorEventLoop so asyncpg + httpx work properly ──────
-# ProactorEventLoop (Windows default) breaks some SSL + async DB connections.
+# ── Windows event loop: use the default ProactorEventLoop ───────────────────
+# WindowsSelectorEventLoopPolicy breaks SSL TCP connections to remote hosts
+# (e.g. Neon cloud DB) — causes CancelledError → TimeoutError in sock_connect.
+# ProactorEventLoop (Windows default) handles asyncpg SSL correctly.
 import asyncio
+
+# Apply ProactorEventLoop on Windows — fixes SSL TCP timeouts with asyncpg on Neon
 if sys.platform == "win32":
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
 import logging
 import datetime

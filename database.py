@@ -163,6 +163,7 @@ async def create_pool(dsn: str) -> asyncpg.Pool:
         min_size=2,
         max_size=10,
         command_timeout=60,
+        timeout=30,          # Increased for remote cloud DBs with SSL (seconds)
         # asyncpg needs explicit JSON codec registration
         init=_init_connection,
     )
