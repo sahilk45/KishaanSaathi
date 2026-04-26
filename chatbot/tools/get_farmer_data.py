@@ -33,12 +33,19 @@ async def get_farmer_data(farmer_id: str) -> dict:
     Args:
         farmer_id: UUID string of the farmer (from /farmers/register endpoint)
     """
+    import uuid
+    try:
+        farmer_uuid = uuid.UUID(str(farmer_id))  # ← Fix #1: parse once, reuse below
+    except ValueError:
+        logger.error("FATAL: Invalid farmer_id '%s' passed by AI.", farmer_id)
+        return {"error": True, "message": "FATAL ERROR: The farmer_id provided is invalid. DO NOT CALL ANY TOOLS AGAIN. Answer the user based on the FARMER PROFILE context."}
+
     try:
         async with get_db_connection() as conn:
             # ── Farmer profile ────────────────────────────────────────────────
             farmer = await conn.fetchrow(
                 "SELECT name, state_name, dist_name, phone FROM farmers WHERE id = $1",
-                farmer_id,
+                farmer_uuid,  # ← Fix #1: uuid.UUID object, not plain str
             )
             if not farmer:
                 return {
@@ -56,7 +63,7 @@ async def get_farmer_data(farmer_id: str) -> dict:
                 ORDER  BY created_at DESC
                 LIMIT  1
                 """,
-                farmer_id,
+                farmer_uuid,  # ← Fix #1: uuid.UUID object, not plain str
             )
             if not farm:
                 return {

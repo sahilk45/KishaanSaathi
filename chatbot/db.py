@@ -9,13 +9,18 @@ import os
 import json
 import logging
 from contextlib import asynccontextmanager
+from typing import Any, Optional
 
 import asyncpg
 from dotenv import load_dotenv
+from pathlib import Path
+from logger_config import get_logger
 
-load_dotenv()
+load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env")
 
-logger = logging.getLogger(__name__)
+
+logger = get_logger(__name__)
+
 
 _pool: asyncpg.Pool | None = None
 
@@ -52,7 +57,12 @@ async def get_pool() -> asyncpg.Pool:
             command_timeout=15,
             init=_init_connection,
         )
-        logger.info("✅ chatbot asyncpg pool created")
+        logger.log_db_operation(
+            "pool_created",
+            {"min_size": 1, "max_size": 5, "command_timeout": 15},
+            operation="POOL_INIT",
+            table="all"
+        )
     return _pool
 
 

@@ -8,8 +8,8 @@ START
   │
   ▼
 load_context  ──────────────────────────────────────────┐
-  │                                                      │
-  ▼                                                      │
+  │                                                     │
+  ▼                                                     │
 agent_node ──[has tool_calls?]──YES──► tool_node ───────┘
   │                                    (loops back to agent)
   NO (final response)
@@ -43,6 +43,8 @@ from chatbot.graph.state import AgriSageState
 from chatbot.graph.nodes import (
     load_context_node,
     agent_node,
+    sanitize_tool_args_node,
+    block_tool_node,
     memory_check_node,
     save_message_node,
     should_use_tool,
@@ -75,6 +77,8 @@ def build_graph():
     # ── Add nodes ──────────────────────────────────────────────────────────────
     graph.add_node("load_context",  load_context_node)
     graph.add_node("agent",         agent_node)
+    graph.add_node("sanitize",      sanitize_tool_args_node)
+    graph.add_node("block_tool",    block_tool_node)
     graph.add_node("tools",         tool_node)
     graph.add_node("memory_check",  memory_check_node)
     graph.add_node("save_message",  save_message_node)
@@ -83,17 +87,25 @@ def build_graph():
     graph.add_edge(START,          "load_context")
     graph.add_edge("load_context", "agent")
 
-    # Conditional: tool calls → ToolNode, else → memory check
+    # Conditional: tool calls → sanitize → tools, else → memory check
+    # Fix #2: route through sanitize node first to correct any bad farmer_ids
     graph.add_conditional_edges(
         "agent",
         should_use_tool,
         {
-            "tools":        "tools",
+            "tools":        "sanitize",
+            "block_tool":   "block_tool",
             "memory_check": "memory_check",
         },
     )
 
-    # After tool execution, loop back to agent for the next reasoning step
+    # After blocking, proceed to memory check
+    graph.add_edge("block_tool", "memory_check")
+
+    # After sanitization, run the actual tool
+    graph.add_edge("sanitize",     "tools")    # Fix #2: sanitize then dispatch
+
+    # After tool execution, loop back to agent
     graph.add_edge("tools",        "agent")
 
     # Final path: memory check → persist → done
@@ -101,7 +113,7 @@ def build_graph():
     graph.add_edge("save_message", END)
 
     compiled = graph.compile()
-    logger.info("✅ AgriSage LangGraph StateGraph compiled successfully.")
+    logger.info(" AgriSage LangGraph StateGraph compiled successfully.")
     return compiled
 
 

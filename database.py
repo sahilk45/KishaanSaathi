@@ -9,7 +9,9 @@ import asyncpg
 import logging
 from contextlib import asynccontextmanager
 
-logger = logging.getLogger(__name__)
+from logger_config import get_logger
+
+logger = get_logger(__name__)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # DDL — all 4 tables

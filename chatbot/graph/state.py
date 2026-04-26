@@ -15,22 +15,28 @@ Adapted to the ACTUAL Neon DB schema used in this project:
                              kharif_total_rain, rabi_avg_maxtemp
 
 Key design:
-  - `messages` is a plain list managed explicitly by each node.
-    load_context_node fully rebuilds it each turn (system prompt + history +
-    current human message).  Subsequent nodes append to it.
+  - `messages` uses the add_messages reducer so LangGraph APPENDS new messages
+    instead of replacing the whole list. This prevents the tool-call loop where
+    the LLM lost all history after each ToolNode execution.
+  - load_context_node rebuilds the full list once per turn by returning the
+    complete initial list — add_messages handles this correctly via ID dedup.
   - All other fields are simple values set by load_context_node once per turn.
   - Mandi-selection fields track the multi-turn market price conversation flow.
 """
 
-from typing import Optional
+from typing import Annotated, Optional
 from typing_extensions import TypedDict
 from langchain_core.messages import BaseMessage
+from langgraph.graph.message import add_messages   # ← BUG FIX: append reducer
 
 
 class AgriSageState(TypedDict):
-    # ── Core message list — replaced wholesale each turn by load_context_node ──
-    # agent_node, memory_check_node, save_message_node append to it.
-    messages: list[BaseMessage]
+    # ── Core message list ─────────────────────────────────────────────────────
+    # add_messages reducer: LangGraph APPENDS returned messages instead of
+    # replacing the whole list. This is the fix for the infinite tool-call loop.
+    # load_context_node returns the full rebuilt list — add_messages deduplicates
+    # by message ID so there are no duplicates even on full rebuild.
+    messages: Annotated[list[BaseMessage], add_messages]   # ← BUG FIX
 
     # ── Routing / session keys ─────────────────────────────────────────────────
     farmer_id: str
@@ -67,5 +73,6 @@ class AgriSageState(TypedDict):
     awaiting_mandi_selection: bool          # True when bot listed mandis, awaiting choice
     available_mandis: Optional[list[str]]  # List shown to farmer
 
-    # ── Safety counter — prevents infinite agent↔tool loops ───────────────────
-    tool_call_count: int  # Incremented by agent_node each time it fires a tool call
+    # ── Safety counters — prevents infinite agent↔tool loops ──────────────────
+    tool_call_count: int            # Total tool calls this turn (global cap)
+    tool_call_counts: dict          # Per-tool counts e.g. {"get_farmer_data": 2} — blocks retries

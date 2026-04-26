@@ -16,6 +16,10 @@ Run with:
 import os
 import sys
 
+# ── Fix Windows asyncio loop policy for asyncpg SSL ────────────────────────────
+if sys.platform == "win32":
+    import asyncio
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 import logging
 import datetime
@@ -31,15 +35,12 @@ load_dotenv()  # Load .env file into os.environ
 if os.getenv("GROK_API_KEY") and not os.getenv("GROQ_API_KEY"):
     os.environ["GROQ_API_KEY"] = os.environ["GROK_API_KEY"]
 
-# ── Logging with UTF-8 so emoji don't crash on Windows CP1252 terminals ────
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s  %(levelname)-8s  %(name)s — %(message)s",
-    handlers=[
-        logging.StreamHandler(
-            stream=open(sys.stdout.fileno(), mode="w", encoding="utf-8", closefd=False)
-        )
-    ],
+# ── Structured logging with UTF-8 so emoji don't crash on Windows CP1252 terminals ────
+from logger_config import setup_structured_logging, get_logger
+
+setup_structured_logging(
+    log_level="INFO",
+    log_file=os.getenv("LOG_FILE", None)  # Optional: set LOG_FILE env var to log to file
 )
 
 from contextlib import asynccontextmanager
@@ -50,7 +51,7 @@ import asyncpg
 from fastapi import FastAPI, HTTPException, Depends, Request, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 from database import create_pool, create_all_tables
 from services.imputation   import impute_weather_from_db
@@ -58,8 +59,10 @@ from services.health_score import calculate_health_score
 from services.agro_service import create_agro_polygon, get_satellite_data, fetch_agro_snapshot
 from services.geocoding_service import reverse_geocode_city_state
 from chatbot.agent import run_agent, run_agent_streaming
+from chatbot.db import close_pool as close_chatbot_pool  # Bug #5: close chatbot pool on shutdown
 
-logger = logging.getLogger("kishanSaathi")
+
+logger = get_logger("krishisarthi_api")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Config from environment
@@ -68,7 +71,15 @@ DATABASE_URL  = os.getenv(
     "DATABASE_URL",
     "postgresql://postgres:postgres@localhost:5432/kishandb"
 )
-MODEL_DIR     = os.getenv("MODEL_DIR", "Encoder_and_model")
+MODEL_DIR          = os.getenv("MODEL_DIR", "Encoder_and_model")
+
+# ── XGBoost training data cutoff year ────────────────────────────────────────
+# The model was trained on KrishiTwin_Final_Engineered.csv which ends at 2015.
+# Passing year > 2015 causes tree-boundary extrapolation → unrealistic yields.
+# FIX: clamp 'year' feature to this value before prediction.
+# The ORIGINAL year (e.g. 2026) is still stored in field_predictions and
+# returned in the API response — only the model input is clamped.
+MAX_TRAINING_YEAR  = 2015
 
 # ─────────────────────────────────────────────────────────────────────────────
 # ML Artifacts — loaded ONCE at startup (globals for speed)
@@ -84,10 +95,19 @@ def _load_artifacts():
         _model    = joblib.load(os.path.join(MODEL_DIR, "krishi_twin_xgb_model.pkl"))
         _le_crop  = joblib.load(os.path.join(MODEL_DIR, "crop_encoder.pkl"))
         _le_state = joblib.load(os.path.join(MODEL_DIR, "state_encoder.pkl"))
-        logger.info("✅ ML artifacts loaded — crops: %d  states: %d",
-                    len(_le_crop.classes_), len(_le_state.classes_))
+        
+        logger.log_real_data(
+            "ml_artifacts_loaded",
+            {
+                "model_type": "XGBoost",
+                "crop_classes": len(_le_crop.classes_),
+                "state_classes": len(_le_state.classes_),
+                "model_dir": MODEL_DIR,
+            },
+            source="FILE_SYSTEM"
+        )
     except FileNotFoundError as e:
-        logger.error("❌ ML artifact not found: %s", e)
+        logger.log_error("ml_artifacts_load_failed", e, context={"model_dir": MODEL_DIR})
         raise RuntimeError(f"Model file missing: {e}") from e
 
 
@@ -157,7 +177,11 @@ CROP_BENCHMARKS = {
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # ── Startup ───────────────────────────────────────────────────────────────
-    logger.info("🚀 KishanSaathi API starting...")
+    logger.log_computation(
+        "api_startup_initiated",
+        {"status": "initializing"},
+        computation_type="application_startup"
+    )
 
     # Load ML artifacts
     _load_artifacts()
@@ -168,12 +192,22 @@ async def lifespan(app: FastAPI):
     # Ensure all tables exist (idempotent)
     await create_all_tables(app.state.pool)
 
-    logger.info("✅ Startup complete. Ready to serve requests.")
+    logger.log_computation(
+        "api_startup_complete",
+        {"status": "ready"},
+        computation_type="application_startup"
+    )
     yield
 
     # ── Shutdown ──────────────────────────────────────────────────────────────
     await app.state.pool.close()
-    logger.info("👋 DB pool closed. Shutdown complete.")
+    await close_chatbot_pool()   # Bug #5: release chatbot's separate asyncpg pool
+    logger.log_computation(
+        "api_shutdown_complete",
+        {"status": "closed"},
+        computation_type="application_shutdown"
+    )
+
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -203,7 +237,7 @@ app.add_middleware(
 @app.exception_handler(asyncpg.exceptions.DataError)
 async def asyncpg_data_error_handler(request: Request, exc: asyncpg.exceptions.DataError):
     """Catches asyncpg DataError (e.g. invalid UUID format) and returns 422."""
-    logger.warning("DB DataError on %s: %s", request.url.path, exc)
+    logger.log_error("db_data_error", exc, context={"path": str(request.url.path)})
     return JSONResponse(
         status_code=422,
         content={"detail": f"Invalid input data: {exc}. Check that all IDs are valid UUIDs."},
@@ -212,7 +246,7 @@ async def asyncpg_data_error_handler(request: Request, exc: asyncpg.exceptions.D
 @app.exception_handler(asyncpg.exceptions.ForeignKeyViolationError)
 async def asyncpg_fk_error_handler(request: Request, exc: asyncpg.exceptions.ForeignKeyViolationError):
     """Catches FK violations and returns 404."""
-    logger.warning("DB FK violation on %s: %s", request.url.path, exc)
+    logger.log_error("db_fk_violation", exc, context={"path": str(request.url.path)})
     return JSONResponse(
         status_code=404,
         content={"detail": f"Referenced record not found: {exc}"},
@@ -444,7 +478,13 @@ async def register_farmer(
             body.name, body.phone, state_clean, dist_clean,
         )
 
-    logger.info("Registered farmer: %s  id=%s", body.name, row["id"])
+    logger.log_db_operation(
+        "farmer_registered",
+        {"name": body.name, "phone": body.phone},
+        operation="INSERT",
+        table="farmers",
+        rows_affected=1
+    )
     return {
         "farmer_id":  str(row["id"]),
         "name":       row["name"],
@@ -540,7 +580,13 @@ async def register_farm(
         )
 
     field_id = str(row["id"])
-    logger.info("Registered field %s  polygon=%s  farmer=%s", field_id, polygon_id, body.farmer_id)
+    logger.log_db_operation(
+        "field_registered",
+        {"field_id": field_id, "polygon_id": polygon_id},
+        operation="INSERT",
+        table="farm_fields",
+        rows_affected=1
+    )
 
     return {
         "field_id":    field_id,
@@ -679,10 +725,22 @@ async def predict(
         )
 
     if cached:
-        logger.info("Cache HIT  field=%s crop=%s year=%d", field_id, crop_type, year)
+        logger.log_db_operation(
+            "cache_hit",
+            {"field_id": field_id, "crop_type": crop_type, "year": year},
+            operation="SELECT",
+            table="field_predictions",
+            rows_affected=1
+        )
         return _row_to_predict_response(cached, cached=True)
 
-    logger.info("Cache MISS field=%s crop=%s year=%d — computing...", field_id, crop_type, year)
+    logger.log_db_operation(
+        "cache_miss",
+        {"field_id": field_id, "crop_type": crop_type, "year": year},
+        operation="SELECT",
+        table="field_predictions",
+        rows_affected=0
+    )
 
     # ══════════════════════════════════════════════════════════════════════════
     # STEP 2 — Impute weather from DB
@@ -739,9 +797,30 @@ async def predict(
 
     # ══════════════════════════════════════════════════════════════════════════
     # STEP 5 — Build the exact 10-feature DataFrame (must match training order)
+    #
+    # YEAR CLAMPING FIX:
+    #   The model was trained up to MAX_TRAINING_YEAR (2015).
+    #   XGBoost trees don't extrapolate — any year > 2015 hits the same leaf
+    #   as 2015, but can produce extreme log-space values → unrealistic yields.
+    #   Solution: clamp 'year' to MAX_TRAINING_YEAR for the model input ONLY.
+    #   The original user-supplied year (e.g. 2026) is stored in the DB and
+    #   returned in the API response unchanged.
     # ══════════════════════════════════════════════════════════════════════════
+    model_year = min(year, MAX_TRAINING_YEAR)   # ← clamped for XGBoost only
+
+    if year > MAX_TRAINING_YEAR:
+        logger.log_hardcoded(
+            "year_clamped_for_model",
+            {"requested_year": year, "model_year": model_year},
+            reason=(
+                f"Input year {year} exceeds training cutoff {MAX_TRAINING_YEAR}. "
+                f"Clamping to {model_year} to prevent extrapolation. "
+                f"DB record will still show year={year}."
+            )
+        )
+
     input_df = pd.DataFrame([{
-        "year":                        year,
+        "year":                        model_year,   # ← clamped
         "State_Encoded":               state_encoded,
         "Crop_Encoded":                crop_encoded,
         "NPK_Intensity_KgHa":          body.npk_input,
@@ -753,7 +832,15 @@ async def predict(
         "District_Soil_Health_Score":  soil_score,
     }])
 
-    logger.info("Input features:\n%s", input_df.to_dict(orient="records")[0])
+    logger.log_computation(
+        "input_features_prepared",
+        {
+            **input_df.to_dict(orient="records")[0],
+            "requested_year": year,      # original user input
+            "model_year":     model_year, # what XGBoost actually sees
+        },
+        computation_type="feature_engineering"
+    )
 
     # ══════════════════════════════════════════════════════════════════════════
     # STEP 6 — XGBoost predict
@@ -764,8 +851,12 @@ async def predict(
     # ML safeguard: prevent Infinity / NaN
     import math
     if math.isnan(log_pred) or math.isinf(log_pred):
-        logger.warning(f"XGBoost gave non-finite log_pred: {log_pred}. Using fallback.")
         predicted_yield = CROP_BENCHMARKS.get(crop_type, 1000.0)
+        logger.log_hardcoded(
+            "yield_fallback_used",
+            {"yield": predicted_yield},
+            reason=f"XGBoost gave non-finite log_pred: {log_pred}"
+        )
     else:
         # Cap log_pred roughly at 11 (~60k kg/ha) so expm1 doesn't overflow to INF
         log_pred_safe   = min(max(log_pred, 0.0), 11.0)
@@ -773,9 +864,10 @@ async def predict(
 
     benchmark_yield = CROP_BENCHMARKS.get(crop_type, 1000.0)
 
-    logger.info(
-        "Model prediction: log=%.4f  yield=%.2f Kg/ha  benchmark=%.2f",
-        log_pred, predicted_yield, benchmark_yield,
+    logger.log_prediction(
+        "yield_model_prediction",
+        {"predicted_yield_kg_ha": predicted_yield, "benchmark_yield_kg_ha": benchmark_yield},
+        model_name="XGBoost"
     )
 
     # ══════════════════════════════════════════════════════════════════════════
@@ -860,10 +952,18 @@ async def predict(
             sat_date_obj,
         )
 
-    logger.info(
-        "Stored prediction: field=%s crop=%s year=%d score=%.2f %s",
-        field_id, crop_type, year,
-        health["final_health_score"], health["loan_decision"],
+    logger.log_db_operation(
+        "prediction_cached",
+        {
+            "field_id": field_id,
+            "crop_type": crop_type,
+            "year": year,
+            "health_score": health["final_health_score"],
+            "loan_decision": health["loan_decision"]
+        },
+        operation="INSERT",
+        table="field_predictions",
+        rows_affected=1
     )
 
     return _row_to_predict_response(new_row, cached=False)
@@ -1001,6 +1101,14 @@ class ChatRequest(BaseModel):
         description="UUID of the farmer (from /farmers/register)",
         json_schema_extra={"example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"},
     )
+
+    @field_validator("farmer_id", mode="before")
+    @classmethod
+    def extract_uuid(cls, v: str) -> str:
+        """Silently strips any extra copied text (like ' - farmer_id') and extracts just the UUID."""
+        import re
+        match = re.search(r'[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}', str(v))
+        return match.group(0) if match else v
     message: str = Field(
         ...,
         description="The farmer's chat message",
@@ -1054,7 +1162,11 @@ async def chat(req: ChatRequest):
             thread_id=thread_id,
         )
     except Exception as exc:
-        logger.error("Chat endpoint error: %s", exc, exc_info=True)
+        logger.log_error(
+            "chat_endpoint_error",
+            exc,
+            context={"farmer_id": req.farmer_id, "thread_id": thread_id}
+        )
         raise HTTPException(
             status_code=500,
             detail=f"Chatbot error: {str(exc)}",
@@ -1090,7 +1202,11 @@ async def chat_stream(req: ChatRequest):
                 if chunk:
                     yield chunk
         except Exception as exc:
-            logger.error("Streaming chat error: %s", exc, exc_info=True)
+            logger.log_error(
+                "streaming_chat_error",
+                exc,
+                context={"farmer_id": req.farmer_id}
+            )
             yield f"\n[Error: {type(exc).__name__} — {exc}]"
 
     return _StreamingResponse(

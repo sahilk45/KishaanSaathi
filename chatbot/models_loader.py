@@ -17,10 +17,11 @@ import logging
 import joblib
 
 from dotenv import load_dotenv
+from logger_config import get_logger
 
 load_dotenv()
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # ── Paths (configurable via env vars) ─────────────────────────────────────────
 MODEL_DIR = os.getenv("MODEL_DIR", "Encoder_and_model")
@@ -70,14 +71,34 @@ def get_models():
     global _xgb_model, _le_crop, _le_state
 
     if _xgb_model is None:
-        logger.info("Loading chatbot ML artifacts from %s ...", MODEL_DIR)
-        _xgb_model = joblib.load(_XGB_MODEL_PATH)
-        _le_crop   = joblib.load(_CROP_ENC_PATH)
-        _le_state  = joblib.load(_STATE_ENC_PATH)
-        logger.info(
-            "✅ Chatbot ML artifacts loaded — crops: %d  states: %d",
-            len(_le_crop.classes_), len(_le_state.classes_),
+        logger.log_computation(
+            "model_loading_started",
+            {"model_dir": MODEL_DIR},
+            computation_type="model_initialization"
         )
+        try:
+            _xgb_model = joblib.load(_XGB_MODEL_PATH)
+            _le_crop   = joblib.load(_CROP_ENC_PATH)
+            _le_state  = joblib.load(_STATE_ENC_PATH)
+            
+            logger.log_real_data(
+                "models_loaded_from_disk",
+                {
+                    "xgb_model": _XGB_MODEL_PATH,
+                    "crop_encoder": _CROP_ENC_PATH,
+                    "state_encoder": _STATE_ENC_PATH,
+                    "crop_classes_count": len(_le_crop.classes_),
+                    "state_classes_count": len(_le_state.classes_),
+                },
+                source="FILE_SYSTEM"
+            )
+        except Exception as e:
+            logger.log_error(
+                "model_loading_failed",
+                e,
+                context={"model_dir": MODEL_DIR}
+            )
+            raise
 
     return _xgb_model, _le_crop, _le_state, BENCHMARK_YIELDS
 

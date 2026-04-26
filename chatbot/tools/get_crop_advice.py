@@ -281,6 +281,13 @@ async def get_crop_advice(farmer_id: str) -> dict:
     Args:
         farmer_id: UUID string of the farmer
     """
+    import uuid
+    try:
+        uuid.UUID(str(farmer_id))
+    except ValueError:
+        logger.error("FATAL: Invalid farmer_id '%s' passed by AI.", farmer_id)
+        return {"error": True, "message": "FATAL ERROR: The farmer_id provided is invalid. DO NOT CALL ANY TOOLS AGAIN. Answer the user based on the FARMER PROFILE context."}
+
     # ── Load farmer inputs ────────────────────────────────────────────────────
     try:
         inputs = await _fetch_farmer_inputs(farmer_id)

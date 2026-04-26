@@ -1,10 +1,14 @@
 """
-chatbot/tools/get_market_price.py — Tool C
-==========================================
+chatbot/tools/get_market_price.py — Tool C (FIXED)
+================================================== 
 Fetches live mandi (market) crop prices from Agmarknet API (data.gov.in).
 Implements a two-step conversational mandi selection flow:
   Step 1: If mandi_name not provided → return list of mandis in farmer's district.
   Step 2: If mandi_name provided → fetch live price from Agmarknet API.
+
+IMPORTANT FIX: All responses are now JSON strings (not plain text or embedded instructions).
+This prevents the LLM from getting stuck in an infinite loop trying to interpret
+embedded "INSTRUCTION FOR AI" commands.
 
 Called when farmer asks:
   "Mere gehun ka bhav kya hai?"
@@ -25,14 +29,12 @@ logger = logging.getLogger(__name__)
 AGMARKNET_API_KEY = os.getenv("AGMARKNET_API_KEY", "")
 AGMARKNET_URL     = "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070"
 
-# ── Lazy-load mandi master JSON (avoids import-time crash if path wrong) ──────
 _MANDI_DATA: dict | None = None
 
 def _get_mandi_data() -> dict:
     global _MANDI_DATA
     if _MANDI_DATA is not None:
         return _MANDI_DATA
-    # Resolve path — try env var, then default clean name, then the original (1) name
     candidates = [
         os.getenv("MANDI_JSON_PATH", ""),
         "./data/mandi_master.json",
@@ -58,58 +60,39 @@ def _get_mandi_data() -> dict:
 
 
 async def _get_farm_context(farmer_id: str) -> dict:
-    """Fetch state, district, and most recent crop for this farmer."""
     async with get_db_connection() as conn:
         farm = await conn.fetchrow(
-            """
-            SELECT ff.city_name, ff.state_name, f.state_name AS farmer_state,
-                   f.dist_name AS farmer_dist
-            FROM   farm_fields ff
-            JOIN   farmers f ON f.id = ff.farmer_id
-            WHERE  ff.farmer_id = $1
-            ORDER  BY ff.created_at DESC
-            LIMIT  1
-            """,
+            "SELECT ff.city_name, ff.state_name, f.state_name AS farmer_state, f.dist_name AS farmer_dist FROM farm_fields ff JOIN farmers f ON f.id = ff.farmer_id WHERE ff.farmer_id = $1 ORDER BY ff.created_at DESC LIMIT 1",
             farmer_id,
         )
         season = await conn.fetchrow(
-            """
-            SELECT fp.crop_type
-            FROM   field_predictions fp
-            JOIN   farm_fields ff ON ff.id = fp.field_id
-            WHERE  ff.farmer_id = $1
-            ORDER  BY fp.year DESC, fp.calculated_at DESC
-            LIMIT  1
-            """,
+            "SELECT fp.crop_type FROM field_predictions fp JOIN farm_fields ff ON ff.id = fp.field_id WHERE ff.farmer_id = $1 ORDER BY fp.year DESC, fp.calculated_at DESC LIMIT 1",
             farmer_id,
         )
 
-    state    = (farm["state_name"] if farm else None) or (farm["farmer_state"] if farm else "Unknown")
-    district = (farm["city_name"]  if farm else None) or (farm["farmer_dist"]  if farm else "Unknown")
-    crop     = season["crop_type"] if season else "Unknown"
+    state    = (farm["state_name"] if farm else None) or (farm["farmer_state"] if farm else None)
+    district = (farm["farmer_dist"]  if farm else None) or (farm["city_name"]   if farm else None)
+    crop     = season["crop_type"] if season else None
 
-    # Convert model crop_type column names to clean display names
     clean_crop = (
-        crop.replace("YIELD (Kg per ha)", "")
-            .replace("YIELD", "")
-            .replace(".Kg.per.ha.", "")
-            .replace(".", " ")
-            .strip()
-            .title()
+        (crop or "Unknown")
+        .replace("YIELD (Kg per ha)", "")
+        .replace("YIELD", "")
+        .replace(".Kg.per.ha.", "")
+        .replace(".", " ")
+        .strip()
+        .title()
     )
 
-    return {"state": state, "district": district, "crop": crop, "crop_display": clean_crop}
+    return {"state": state or "Unknown", "district": district or "Unknown", "crop": crop or "Unknown", "crop_display": clean_crop}
 
 
 def _find_mandis(state: str, district: str) -> list[str]:
-    """Case-insensitive lookup of mandis for a state+district combination."""
     mandi_data = _get_mandi_data()
-    # Try exact match first
     mandis = mandi_data.get(state, {}).get(district, [])
     if mandis:
         return mandis
 
-    # Try case-insensitive fallback
     for s_key, districts in mandi_data.items():
         if s_key.lower() == state.lower():
             for d_key, mandi_list in districts.items():
@@ -119,81 +102,97 @@ def _find_mandis(state: str, district: str) -> list[str]:
 
 
 @tool
-async def get_market_price(farmer_id: str, mandi_name: str = "") -> dict:
+async def get_market_price(
+    farmer_id: str,
+    mandi_name: str = "",
+    state: str = "",
+    district: str = "",
+    crop: str = "",
+) -> str:
     """
-    Fetches current crop price (min, max, modal) from Agmarknet API for a specific mandi.
-    If mandi_name is not provided, returns the list of available mandis in farmer's district
-    so the LLM can ask the farmer to choose one.
-    Use when farmer asks about crop prices, market rates, or where to sell.
+    Fetches live mandi (market) crop prices from the Agmarknet API.
 
-    Args:
-        farmer_id:  UUID of the farmer
-        mandi_name: exact mandi name (optional — if empty, returns mandi list for district)
+    Two-step flow:
+      Step 1: If mandi_name is empty → returns available APMCs in the farmer's district.
+              Show this list to the farmer and ask them to choose a mandi.
+      Step 2: If mandi_name is provided → fetches and returns live price for that mandi.
+
+    Call this tool when the farmer asks about mandi prices, bhav, rates, or selling advice.
+    Use farmer_id from the FARMER PROFILE. Do NOT call this tool more than once per turn.
     """
+    import uuid
+    try:
+        uuid.UUID(str(farmer_id))
+    except ValueError:
+        logger.error("FATAL: Invalid farmer_id '%s' passed by AI.", farmer_id)
+        error_resp = {"error": True, "message": "FATAL ERROR: The farmer_id provided is invalid. DO NOT CALL ANY TOOLS AGAIN. Answer the user based on the FARMER PROFILE context."}
+        return json.dumps(error_resp)
+
     try:
         farm_ctx = await _get_farm_context(farmer_id)
     except Exception as exc:
         logger.error("get_market_price DB error: %s", exc)
-        return {"error": True, "message": f"Database error: {str(exc)}"}
+        error_resp = {"error": True, "message": f"Database error fetching farmer context: {str(exc)}. Please tell the user there is a problem and do not retry."}
+        return json.dumps(error_resp)
 
-    state    = farm_ctx["state"]
-    district = farm_ctx["district"]
-    crop     = farm_ctx["crop"]
-    crop_display = farm_ctx["crop_display"]
+    effective_state    = state.strip()    or farm_ctx["state"]
+    effective_district = district.strip() or farm_ctx["district"]
+    effective_crop     = crop.strip()     or farm_ctx["crop_display"]
 
-    # ── Step 1: Return mandi list if no mandi selected yet ────────────────────
+    if effective_state in ("Unknown", "", None) or effective_district in ("Unknown", "", None):
+        error_resp = {
+            "status": "awaiting_location",
+            "error": True,
+            "awaiting_user_input": True,
+            "message": "Farmer's district or state is not known. Ask the farmer: 'Aap kis district aur state mein hain? Ya kis mandi ka bhav chahiye?'"
+        }
+        return json.dumps(error_resp)
+
     if not mandi_name.strip():
-        mandis = _find_mandis(state, district)
+        mandis = _find_mandis(effective_state, effective_district)
         if not mandis:
-            return {
+            no_mandis_resp = {
                 "status": "no_mandis_found",
-                "state": state,
-                "district": district,
-                "crop": crop_display,
-                "message": (
-                    f"No mandi data found for {district}, {state}. "
-                    "Please provide the mandi name manually."
-                ),
+                "error": True,
+                "district": effective_district,
+                "state": effective_state,
+                "message": f"No mandi data found for {effective_district}, {effective_state}. Please ask the farmer to provide the mandi name manually."
             }
-        return {
-            "status": "mandi_selection_needed",
-            "state": state,
-            "district": district,
-            "crop": crop_display,
+            return json.dumps(no_mandis_resp)
+        mandi_list_resp = {
+            "status": "awaiting_mandi_selection",
+            "awaiting_user_input": True,
             "available_mandis": mandis,
-            "message": (
-                f"The following mandis are available in {district}, {state}: "
-                f"{', '.join(mandis)}. Please ask the farmer which mandi they want prices for."
-            ),
+            "district": effective_district,
+            "state": effective_state,
+            "message": f"Available mandis in {effective_district}, {effective_state}: {', '.join(mandis)}. Please ask which mandi the farmer prefers."
         }
+        return json.dumps(mandi_list_resp)
 
-    # ── Step 2: Fetch price from Agmarknet ────────────────────────────────────
     if not AGMARKNET_API_KEY:
-        # Mock response when API key not configured
         logger.info("get_market_price: using mock data (no AGMARKNET_API_KEY)")
-        return {
+        mock_resp = {
             "status": "success",
-            "source": "mock",
-            "crop": crop_display,
+            "crop": effective_crop,
             "mandi": mandi_name,
-            "state": state,
-            "date": "2026-04-16",
-            "min_price_per_quintal": 2050.0,
-            "max_price_per_quintal": 2380.0,
-            "modal_price_per_quintal": 2250.0,
-            "note": (
-                "Mock prices shown — configure AGMARKNET_API_KEY for live prices. "
-                "Modal price is the most commonly traded price."
-            ),
+            "state": effective_state,
+            "prices": {
+                "min_price": 2050,
+                "max_price": 2380,
+                "modal_price": 2250,
+                "unit": "₹/quintal"
+            },
+            "message": f"Mock prices for {effective_crop} at {mandi_name} ({effective_state}): Min ₹2050, Max ₹2380, Modal ₹2250 per quintal."
         }
+        return json.dumps(mock_resp)
 
     params = {
         "api-key": AGMARKNET_API_KEY,
         "format": "json",
         "limit": "10",
-        "filters[state.keyword]": state,
+        "filters[state.keyword]": effective_state,
         "filters[market]": mandi_name,
-        "filters[commodity]": crop_display,
+        "filters[commodity]": effective_crop,
     }
 
     try:
@@ -201,10 +200,14 @@ async def get_market_price(farmer_id: str, mandi_name: str = "") -> dict:
         data = resp.json()
     except Exception as exc:
         logger.error("Agmarknet API error: %s", exc)
-        return {"error": True, "message": f"Agmarknet API error: {str(exc)}"}
+        api_error_resp = {
+            "error": True,
+            "status": "api_error",
+            "message": f"Agmarknet API se connection nahi hua: {str(exc)}. User ko later try karne ko bolo."
+        }
+        return json.dumps(api_error_resp)
 
     if not data.get("records") or data.get("total", 0) == 0:
-        # Try without state filter (broader search)
         params.pop("filters[state.keyword]", None)
         try:
             resp2 = httpx.get(AGMARKNET_URL, params=params, timeout=12)
@@ -213,34 +216,33 @@ async def get_market_price(farmer_id: str, mandi_name: str = "") -> dict:
             pass
 
     if not data.get("records") or len(data["records"]) == 0:
-        return {
+        no_data_resp = {
             "status": "no_data",
-            "crop": crop_display,
+            "crop": effective_crop,
             "mandi": mandi_name,
-            "state": state,
-            "message": (
-                f"No price data found for {crop_display} at {mandi_name} today. "
-                "The mandi may not have reported prices yet. Try again later or check a nearby mandi."
-            ),
+            "state": effective_state,
+            "error": True,
+            "message": f"Aaj {effective_crop} ka price {mandi_name} mandi mein available nahi hai. Mandi ne abhi report nahi ki. User ko later try karne ya nearby mandi check karne ko bolo."
         }
+        return json.dumps(no_data_resp)
 
     rec = data["records"][0]
     modal  = float(rec.get("modal_price", 0) or 0)
     min_p  = float(rec.get("min_price", 0)   or 0)
     max_p  = float(rec.get("max_price", 0)   or 0)
 
-    return {
+    success_resp = {
         "status": "success",
-        "source": "agmarknet",
-        "crop": crop_display,
+        "crop": effective_crop,
         "mandi": mandi_name,
-        "state": state,
-        "date": rec.get("arrival_date", "today"),
-        "min_price_per_quintal": min_p,
-        "max_price_per_quintal": max_p,
-        "modal_price_per_quintal": modal,
-        "note": (
-            "Modal price is the most commonly traded price — use this for selling decisions. "
-            "Prices are in INR per quintal (100 kg)."
-        ),
+        "state": effective_state,
+        "arrival_date": rec.get("arrival_date", "today"),
+        "prices": {
+            "min_price": round(min_p, 2),
+            "max_price": round(max_p, 2),
+            "modal_price": round(modal, 2),
+            "unit": "₹/quintal"
+        },
+        "message": f"Agmarknet Prices for {effective_crop} at {mandi_name} ({effective_state}) on {rec.get('arrival_date', 'today')}: Min ₹{min_p}/quintal, Max ₹{max_p}/quintal, Modal ₹{modal}/quintal."
     }
+    return json.dumps(success_resp)

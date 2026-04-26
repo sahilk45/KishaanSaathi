@@ -24,7 +24,9 @@ from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
 
 import httpx
 
-logger = logging.getLogger(__name__)
+from logger_config import get_logger
+
+logger = get_logger(__name__)
 
 AGRO_API_KEY = os.getenv("AGRO_API_KEY", "").strip()
 AGRO_BASE_URL = os.getenv("AGRO_BASE_URL", "https://api.agromonitoring.com/agro/1.0").rstrip("/")

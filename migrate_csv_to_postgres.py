@@ -27,6 +27,10 @@ logging.basicConfig(
 )
 logger = logging.getLogger("migrate")
 
+from dotenv import load_dotenv
+from pathlib import Path
+load_dotenv(dotenv_path=Path(__file__).resolve().parent / ".env")
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Config — override via environment variables
 # ─────────────────────────────────────────────────────────────────────────────
@@ -34,6 +38,7 @@ DATABASE_URL = os.getenv(
     "DATABASE_URL",
     "postgresql://postgres:postgres@localhost:5432/kishandb"
 )
+
 CSV_PATH = os.getenv(
     "CSV_PATH",
     os.path.join(os.path.dirname(__file__), "..", "Dataset", "KrishiTwin_Final_Engineered.csv")

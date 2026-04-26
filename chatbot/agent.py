@@ -90,8 +90,10 @@ def _build_initial_state(
         "selected_mandi":          None,
         "awaiting_mandi_selection": False,
         "available_mandis":        None,
-        "tool_call_count":         0,   # Safety counter — reset each turn
+        "tool_call_count":         0,   # Total safety counter — reset each turn
+        "tool_call_counts":        {},  # Fix #4: per-tool counts — reset each turn
     }
+
 
 
 async def run_agent(
