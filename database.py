@@ -45,6 +45,31 @@ CREATE TABLE IF NOT EXISTS district_climate_history (
     -- Static district-level health score (same across all years per district)
     district_soil_health_score  FLOAT,
 
+    -- Yield columns
+    yield_rice FLOAT,
+    yield_pearl_millet FLOAT,
+    yield_chickpea FLOAT,
+    yield_groundnut FLOAT,
+    yield_sugarcane FLOAT,
+    yield_wheat FLOAT,
+    yield_kharif_sorghum FLOAT,
+    yield_rabi_sorghum FLOAT,
+    yield_sorghum FLOAT,
+    yield_maize FLOAT,
+    yield_finger_millet FLOAT,
+    yield_barley FLOAT,
+    yield_pigeonpea FLOAT,
+    yield_minor_pulses FLOAT,
+    yield_sesamum FLOAT,
+    yield_rapeseed_and_mustard FLOAT,
+    yield_safflower FLOAT,
+    yield_castor FLOAT,
+    yield_linseed FLOAT,
+    yield_sunflower FLOAT,
+    yield_soyabean FLOAT,
+    yield_oilseeds FLOAT,
+    yield_cotton FLOAT,
+
     created_at                  TIMESTAMP DEFAULT NOW(),
     UNIQUE(dist_name, year)
 );

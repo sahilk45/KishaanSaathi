@@ -23,7 +23,7 @@ import httpx
 from dotenv import load_dotenv
 
 DATA_GOV_MANDI_URL = "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070"
-_DEFAULT_MANDI_MASTER_PATH = Path(__file__).resolve().parents[1] / "mandi_master.json"
+_DEFAULT_MANDI_MASTER_PATH = Path(__file__).resolve().parents[1] / "data" / "mandi_master.json"
 MANDI_MASTER_PATH = Path(os.getenv("MANDI_MASTER_JSON_PATH", str(_DEFAULT_MANDI_MASTER_PATH))).expanduser().resolve()
 BACKEND_ENV_PATH = Path(__file__).resolve().parents[1] / ".env"
 

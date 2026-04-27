@@ -5,9 +5,12 @@ Loads the XGBoost model and label encoders once at startup.
 Provides prepare_features() used by the What-If engine.
 
 Adapts to the ACTUAL project structure:
-  Encoder_and_model/krishi_twin_xgb_model.pkl  — XGBoost model (log1p target)
-  Encoder_and_model/crop_encoder.pkl            — LabelEncoder for crop_type
-  Encoder_and_model/state_encoder.pkl           — LabelEncoder for state_name
+  Encoder_and_model/krishi_kharif_xgb_final.pkl
+  Encoder_and_model/krishi_rabi_xgb_final.pkl
+  Encoder_and_model/kharif_feature_list.pkl
+  Encoder_and_model/rabi_feature_list.pkl
+  Encoder_and_model/crop_encoder.pkl
+  Encoder_and_model/state_encoder.pkl
 
 Benchmark yields are kept in-module (sourced from main.py CROP_BENCHMARKS).
 """
@@ -24,10 +27,16 @@ load_dotenv()
 logger = get_logger(__name__)
 
 # ── Paths (configurable via env vars) ─────────────────────────────────────────
-MODEL_DIR = os.getenv("MODEL_DIR", "Encoder_and_model")
-_XGB_MODEL_PATH = os.path.join(MODEL_DIR, "krishi_twin_xgb_model.pkl")
-_CROP_ENC_PATH  = os.path.join(MODEL_DIR, "crop_encoder.pkl")
-_STATE_ENC_PATH = os.path.join(MODEL_DIR, "state_encoder.pkl")
+MODEL_DIR = os.getenv("MODEL_DIR_ABS", "Encoder_and_model")
+if not os.path.isabs(MODEL_DIR):
+    MODEL_DIR = os.path.join(os.getcwd(), MODEL_DIR)
+
+_XGB_KHARIF_PATH  = os.path.join(MODEL_DIR, "krishi_kharif_xgb_final.pkl")
+_XGB_RABI_PATH    = os.path.join(MODEL_DIR, "krishi_rabi_xgb_final.pkl")
+_FEAT_KHARIF_PATH = os.path.join(MODEL_DIR, "kharif_feature_list.pkl")
+_FEAT_RABI_PATH   = os.path.join(MODEL_DIR, "rabi_feature_list.pkl")
+_CROP_ENC_PATH    = os.path.join(MODEL_DIR, "crop_encoder.pkl")
+_STATE_ENC_PATH   = os.path.join(MODEL_DIR, "state_encoder.pkl")
 
 # ── Benchmark yields per crop (kg/ha) — same as main.py CROP_BENCHMARKS ───────
 BENCHMARK_YIELDS: dict[str, float] = {
@@ -58,33 +67,61 @@ BENCHMARK_YIELDS: dict[str, float] = {
 }
 
 # ── Singleton state ────────────────────────────────────────────────────────────
-_xgb_model  = None
-_le_crop    = None
-_le_state   = None
+_xgb_kharif      = None
+_xgb_rabi        = None
+_kharif_features = None
+_rabi_features   = None
+_le_crop         = None
+_le_state        = None
+
+# ── Routing Helpers ───────────────────────────────────────────────────────────
+KHARIF_CROP_KEYWORDS = ['RICE', 'PEARL MILLET', 'GROUNDNUT', 'SUGARCANE',
+                         'MAIZE', 'COTTON', 'SOYABEAN', 'SESAMUM',
+                         'KHARIF SORGHUM', 'FINGER MILLET']
+RABI_CROP_KEYWORDS   = ['CHICKPEA', 'WHEAT', 'MUSTARD', 'LENTIL',
+                         'BARLEY', 'LINSEED', 'SAFFLOWER', 'RABI SORGHUM',
+                         'RAPESEED']
+
+KHARIF_ALT_CROPS = ['RICE YIELD (Kg per ha)', 'GROUNDNUT YIELD (Kg per ha)',
+                     'PEARL MILLET YIELD (Kg per ha)']
+RABI_ALT_CROPS   = ['WHEAT.YIELD.Kg.per.ha.', 'CHICKPEA YIELD (Kg per ha)']
+
+def _is_kharif(crop_type: str) -> bool:
+    cu = crop_type.upper()
+    return any(k in cu for k in KHARIF_CROP_KEYWORDS)
+
+def _current_season() -> str:
+    """Returns 'kharif' (Jun–Oct) or 'rabi' (Nov–May) based on current month."""
+    import datetime
+    return "kharif" if datetime.datetime.now().month in [6,7,8,9,10] else "rabi"
 
 
 def get_models():
     """
-    Returns (xgb_model, le_crop, le_state, benchmark_yields).
+    Returns (_xgb_kharif, _xgb_rabi, _kharif_features, _rabi_features, _le_crop, _le_state, benchmark_yields).
     Loads artifacts on first call; subsequent calls return cached objects.
     """
-    global _xgb_model, _le_crop, _le_state
+    global _xgb_kharif, _xgb_rabi, _kharif_features, _rabi_features, _le_crop, _le_state
 
-    if _xgb_model is None:
+    if _xgb_kharif is None:
         logger.log_computation(
             "model_loading_started",
             {"model_dir": MODEL_DIR},
             computation_type="model_initialization"
         )
         try:
-            _xgb_model = joblib.load(_XGB_MODEL_PATH)
-            _le_crop   = joblib.load(_CROP_ENC_PATH)
-            _le_state  = joblib.load(_STATE_ENC_PATH)
+            _xgb_kharif      = joblib.load(_XGB_KHARIF_PATH)
+            _xgb_rabi        = joblib.load(_XGB_RABI_PATH)
+            _kharif_features = joblib.load(_FEAT_KHARIF_PATH)
+            _rabi_features   = joblib.load(_FEAT_RABI_PATH)
+            _le_crop         = joblib.load(_CROP_ENC_PATH)
+            _le_state        = joblib.load(_STATE_ENC_PATH)
             
             logger.log_real_data(
                 "models_loaded_from_disk",
                 {
-                    "xgb_model": _XGB_MODEL_PATH,
+                    "xgb_kharif": _XGB_KHARIF_PATH,
+                    "xgb_rabi": _XGB_RABI_PATH,
                     "crop_encoder": _CROP_ENC_PATH,
                     "state_encoder": _STATE_ENC_PATH,
                     "crop_classes_count": len(_le_crop.classes_),
@@ -100,39 +137,5 @@ def get_models():
             )
             raise
 
-    return _xgb_model, _le_crop, _le_state, BENCHMARK_YIELDS
+    return _xgb_kharif, _xgb_rabi, _kharif_features, _rabi_features, _le_crop, _le_state, BENCHMARK_YIELDS
 
-
-def prepare_features(inputs: dict, le_crop, le_state) -> list:
-    """
-    Encodes categorical features and returns the ordered 10-feature list
-    expected by the XGBoost model (must match training-time column order):
-
-      year, State_Encoded, Crop_Encoded, NPK_Intensity_KgHa,
-      Irrigation_Intensity_Ratio, WDI,
-      Kharif_Avg_MaxTemp, Kharif_Total_Rain, Rabi_Avg_MaxTemp,
-      District_Soil_Health_Score
-    """
-    try:
-        crop_enc  = int(le_crop.transform([inputs["Crop_Type"]])[0])
-    except ValueError:
-        # Fallback: unknown crop → median encoded index
-        crop_enc = len(le_crop.classes_) // 2
-
-    try:
-        state_enc = int(le_state.transform([inputs["State_Name"]])[0])
-    except ValueError:
-        state_enc = len(le_state.classes_) // 2
-
-    return [
-        inputs.get("year", 2026),
-        state_enc,
-        crop_enc,
-        inputs["NPK_Intensity_KgHa"],
-        inputs["Irrigation_Intensity_Ratio"],
-        inputs["WDI"],
-        inputs["Kharif_Avg_MaxTemp"],
-        inputs["Kharif_Total_Rain"],
-        inputs["Rabi_Avg_MaxTemp"],
-        inputs["District_Soil_Health_Score"],
-    ]

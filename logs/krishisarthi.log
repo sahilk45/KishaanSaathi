@@ -1,0 +1,716 @@
+2026-04-27 17:11:19 [INFO] chatbot.graph.workflow:  AgriSage LangGraph StateGraph compiled successfully.
+2026-04-27 17:11:19 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T11:41:19.751593Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-27 17:11:19 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T11:41:19.752231Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-27 17:11:21 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T11:41:21.709310Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-27 17:11:30 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T11:41:30.509361Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-27 17:13:25 [INFO] chatbot.db: {"timestamp": "2026-04-27T11:43:25.726167Z", "logger": "chatbot.db", "event": "pool_created", "source": "[DATABASE] POOL_INIT", "severity": "INFO", "data": {"operation": "POOL_INIT", "result": {"min_size": 1, "max_size": 5, "command_timeout": 15}, "table": "all"}, "data_type": "DATABASE"}
+2026-04-27 17:13:38 [INFO] chatbot.graph.nodes: LLM provider: Groq (llama-3.3-70b-versatile)
+2026-04-27 17:13:40 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 17:13:44 [INFO] httpx: HTTP Request: GET https://api.open-meteo.com/v1/forecast?latitude=27.1767&longitude=78.0081&daily=temperature_2m_max%2Ctemperature_2m_min%2Cprecipitation_sum%2Cweathercode&hourly=temperature_2m%2Cprecipitation%2Crelativehumidity_2m%2Cwindspeed_10m&current_weather=true&timezone=Asia%2FKolkata&forecast_days=7 "HTTP/1.1 200 OK"
+2026-04-27 17:13:44 [INFO] chatbot.tools.get_weather: get_weather: fetched Open-Meteo data for agra, uttar pradesh (27.1767, 78.0081)
+2026-04-27 17:13:44 [INFO] chatbot.graph.nodes: LLM provider: Groq (llama-3.3-70b-versatile)
+2026-04-27 17:13:47 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 17:15:56 [INFO] chatbot.graph.nodes: LLM provider: Groq (llama-3.3-70b-versatile)
+2026-04-27 17:15:59 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 17:17:00 [INFO] chatbot.graph.nodes: LLM provider: Groq (llama-3.3-70b-versatile)
+2026-04-27 17:17:01 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 17:17:06 [INFO] httpx: HTTP Request: GET https://api.open-meteo.com/v1/forecast?latitude=27.1767&longitude=78.0081&daily=temperature_2m_max%2Ctemperature_2m_min%2Cprecipitation_sum%2Cweathercode&hourly=temperature_2m%2Cprecipitation%2Crelativehumidity_2m%2Cwindspeed_10m&current_weather=true&timezone=Asia%2FKolkata&forecast_days=7 "HTTP/1.1 200 OK"
+2026-04-27 17:17:06 [INFO] chatbot.tools.get_weather: get_weather: fetched Open-Meteo data for agra, uttar pradesh (27.1767, 78.0081)
+2026-04-27 17:17:06 [INFO] chatbot.graph.nodes: LLM provider: Groq (llama-3.3-70b-versatile)
+2026-04-27 17:17:09 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 17:18:41 [INFO] chatbot.graph.nodes: LLM provider: Groq (llama-3.3-70b-versatile)
+2026-04-27 17:18:43 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 17:18:46 [INFO] httpx: HTTP Request: GET https://api.open-meteo.com/v1/forecast?latitude=27.1767&longitude=78.0081&daily=temperature_2m_max%2Ctemperature_2m_min%2Cprecipitation_sum%2Cweathercode&hourly=temperature_2m%2Cprecipitation%2Crelativehumidity_2m%2Cwindspeed_10m&current_weather=true&timezone=Asia%2FKolkata&forecast_days=7 "HTTP/1.1 200 OK"
+2026-04-27 17:18:46 [INFO] chatbot.tools.get_weather: get_weather: fetched Open-Meteo data for agra, uttar pradesh (27.1767, 78.0081)
+2026-04-27 17:18:46 [INFO] chatbot.graph.nodes: LLM provider: Groq (llama-3.3-70b-versatile)
+2026-04-27 17:18:48 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 17:19:54 [INFO] chatbot.graph.nodes: LLM provider: Groq (llama-3.3-70b-versatile)
+2026-04-27 17:19:57 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 17:20:09 [INFO] httpx: HTTP Request: GET https://api.open-meteo.com/v1/forecast?latitude=27.1767&longitude=78.0081&daily=temperature_2m_max%2Ctemperature_2m_min%2Cprecipitation_sum%2Cweathercode&hourly=temperature_2m%2Cprecipitation%2Crelativehumidity_2m%2Cwindspeed_10m&current_weather=true&timezone=Asia%2FKolkata&forecast_days=7 "HTTP/1.1 200 OK"
+2026-04-27 17:20:09 [INFO] chatbot.tools.get_weather: get_weather: fetched Open-Meteo data for agra, uttar pradesh (27.1767, 78.0081)
+2026-04-27 17:20:09 [INFO] chatbot.graph.nodes: LLM provider: Groq (llama-3.3-70b-versatile)
+2026-04-27 17:20:12 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 17:20:36 [INFO] chatbot.graph.nodes: LLM provider: Groq (llama-3.3-70b-versatile)
+2026-04-27 17:20:39 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 17:20:41 [INFO] httpx: HTTP Request: GET https://api.open-meteo.com/v1/forecast?latitude=27.1767&longitude=78.0081&daily=temperature_2m_max%2Ctemperature_2m_min%2Cprecipitation_sum%2Cweathercode&hourly=temperature_2m%2Cprecipitation%2Crelativehumidity_2m%2Cwindspeed_10m&current_weather=true&timezone=Asia%2FKolkata&forecast_days=7 "HTTP/1.1 200 OK"
+2026-04-27 17:20:41 [INFO] chatbot.tools.get_weather: get_weather: fetched Open-Meteo data for agra, uttar pradesh (27.1767, 78.0081)
+2026-04-27 17:20:41 [INFO] chatbot.graph.nodes: LLM provider: Groq (llama-3.3-70b-versatile)
+2026-04-27 17:20:43 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 17:21:55 [INFO] chatbot.graph.nodes: LLM provider: Groq (llama-3.3-70b-versatile)
+2026-04-27 17:21:57 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 17:21:59 [INFO] httpx: HTTP Request: GET https://api.open-meteo.com/v1/forecast?latitude=27.1767&longitude=78.0081&daily=temperature_2m_max%2Ctemperature_2m_min%2Cprecipitation_sum%2Cweathercode&hourly=temperature_2m%2Cprecipitation%2Crelativehumidity_2m%2Cwindspeed_10m&current_weather=true&timezone=Asia%2FKolkata&forecast_days=7 "HTTP/1.1 200 OK"
+2026-04-27 17:21:59 [INFO] chatbot.tools.get_weather: get_weather: fetched Open-Meteo data for agra, uttar pradesh (27.1767, 78.0081)
+2026-04-27 17:21:59 [INFO] chatbot.graph.nodes: LLM provider: Groq (llama-3.3-70b-versatile)
+2026-04-27 17:22:01 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 17:32:38 [INFO] chatbot.db: chatbot asyncpg pool closed
+2026-04-27 17:32:38 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T12:02:38.011447Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-27 17:32:42 [INFO] chatbot.graph.workflow:  AgriSage LangGraph StateGraph compiled successfully.
+2026-04-27 17:32:42 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T12:02:42.222684Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-27 17:32:42 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T12:02:42.223257Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-27 17:32:43 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T12:02:43.988335Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-27 17:32:55 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T12:02:55.348683Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-27 17:33:14 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T12:03:14.261842Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-27 17:33:17 [INFO] chatbot.graph.workflow:  AgriSage LangGraph StateGraph compiled successfully.
+2026-04-27 17:33:18 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T12:03:18.010398Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-27 17:33:18 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T12:03:18.010937Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-27 17:33:19 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T12:03:19.823889Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-27 17:33:31 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T12:03:31.979849Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-27 17:33:33 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T12:03:33.349307Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-27 17:33:36 [INFO] chatbot.graph.workflow:  AgriSage LangGraph StateGraph compiled successfully.
+2026-04-27 17:33:36 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T12:03:36.902459Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-27 17:33:36 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T12:03:36.903476Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-27 17:33:38 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T12:03:38.736235Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-27 17:33:49 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T12:03:49.345111Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-27 17:36:51 [INFO] chatbot.db: {"timestamp": "2026-04-27T12:06:51.482722Z", "logger": "chatbot.db", "event": "pool_created", "source": "[DATABASE] POOL_INIT", "severity": "INFO", "data": {"operation": "POOL_INIT", "result": {"min_size": 1, "max_size": 5, "command_timeout": 15}, "table": "all"}, "data_type": "DATABASE"}
+2026-04-27 17:37:04 [INFO] chatbot.graph.nodes: LLM provider: Groq (llama-3.3-70b-versatile)
+2026-04-27 17:37:06 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 17:37:10 [INFO] httpx: HTTP Request: GET https://api.open-meteo.com/v1/forecast?latitude=27.1767&longitude=78.0081&daily=temperature_2m_max%2Ctemperature_2m_min%2Cprecipitation_sum%2Cweathercode&hourly=temperature_2m%2Cprecipitation%2Crelativehumidity_2m%2Cwindspeed_10m&current_weather=true&timezone=Asia%2FKolkata&forecast_days=7 "HTTP/1.1 200 OK"
+2026-04-27 17:37:10 [INFO] chatbot.tools.get_weather: get_weather: fetched Open-Meteo data for agra, uttar pradesh (27.1767, 78.0081)
+2026-04-27 17:37:10 [INFO] chatbot.graph.nodes: LLM provider: Groq (llama-3.3-70b-versatile)
+2026-04-27 17:37:12 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 17:41:59 [INFO] chatbot.db: chatbot asyncpg pool closed
+2026-04-27 17:41:59 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T12:11:59.690468Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-27 19:10:29 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T13:40:29.458057Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-27 19:10:29 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T13:40:29.458528Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-27 19:10:30 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T13:40:30.946735Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-27 19:10:37 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T13:40:37.166723Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-27 19:11:30 [INFO] chatbot.db: {"timestamp": "2026-04-27T13:41:30.244080Z", "logger": "chatbot.db", "event": "pool_created", "source": "[DATABASE] POOL_INIT", "severity": "INFO", "data": {"operation": "POOL_INIT", "result": {"min_size": 1, "max_size": 5, "command_timeout": 15}, "table": "all"}, "data_type": "DATABASE"}
+2026-04-27 19:11:33 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:11:38 [INFO] httpx: HTTP Request: GET https://api.open-meteo.com/v1/forecast?latitude=27.1767&longitude=78.0081&daily=temperature_2m_max%2Ctemperature_2m_min%2Cprecipitation_sum%2Cwindspeed_10m_max&forecast_days=3&timezone=Asia%2FKolkata "HTTP/1.1 200 OK"
+2026-04-27 19:11:38 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:12:06 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:12:10 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:12:27 [INFO] chatbot.memory: Memory pressure: thread='thread-abc-3' has 23 messages — summarising oldest 18
+2026-04-27 19:12:29 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:12:33 [INFO] chatbot.memory: Memory pressure resolved: stored new summary (1204 chars)
+2026-04-27 19:12:34 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:12:38 [INFO] httpx: HTTP Request: GET https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd000001cfccd5ce2b5a46fe72b1c4458a6a3613&format=json&filters%5Bstate%5D=uttar+pradesh&filters%5Bmarket%5D=Achnera&filters%5Bcommodity%5D=wheat "HTTP/1.1 200 OK"
+2026-04-27 19:12:38 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:13:08 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:13:14 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:15:05 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:17:39 [INFO] chatbot.db: chatbot asyncpg pool closed
+2026-04-27 19:17:39 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T13:47:39.702701Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-27 19:28:49 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T13:58:49.909262Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-27 19:28:49 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T13:58:49.909409Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-27 19:28:50 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T13:58:50.767454Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-27 19:28:57 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T13:58:57.619610Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-27 19:31:33 [INFO] chatbot.db: {"timestamp": "2026-04-27T14:01:33.775342Z", "logger": "chatbot.db", "event": "pool_created", "source": "[DATABASE] POOL_INIT", "severity": "INFO", "data": {"operation": "POOL_INIT", "result": {"min_size": 1, "max_size": 5, "command_timeout": 15}, "table": "all"}, "data_type": "DATABASE"}
+2026-04-27 19:31:37 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:31:59 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:31:59 [ERROR] chatbot.agent: run_agent_streaming error: Failed to call a function. Please adjust your prompt. See 'failed_generation' for more details.
+Traceback (most recent call last):
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\chatbot\agent.py", line 94, in run_agent_streaming
+    async for event in agrisage_graph.astream_events(
+    ...<40 lines>...
+                            yield text
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1516, in astream_events
+    async for event in event_stream:
+        yield event
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1100, in _astream_events_implementation_v2
+    await task
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1055, in consume_astream
+    async for _ in event_streamer.tap_output_aiter(run_id, stream):
+        # All the content will be picked up
+        pass
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\main.py", line 3181, in astream
+    async for _ in runner.atick(
+    ...<16 lines>...
+            yield o
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\_runner.py", line 304, in atick
+    await arun_with_retry(
+    ...<15 lines>...
+    )
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\_retry.py", line 237, in arun_with_retry
+    async for _ in task.proc.astream(task.input, config):
+        pass
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 839, in astream
+    output = await asyncio.create_task(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        _consume_aiter(aiterator), context=context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 904, in _consume_aiter
+    async for chunk in it:
+    ...<8 lines>...
+            output = chunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+    ...<14 lines>...
+                final = ichunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+    ...<14 lines>...
+                final = ichunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1170, in astream
+    yield await self.ainvoke(input, config, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\chatbot\graph.py", line 67, in call_model
+    response = await llm_model.ainvoke(messages)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 5708, in ainvoke
+    return await self.bound.ainvoke(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 478, in ainvoke
+    llm_result = await self.agenerate_prompt(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<8 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1209, in agenerate_prompt
+    return await self.agenerate(
+           ^^^^^^^^^^^^^^^^^^^^^
+        prompt_messages, stop=stop, callbacks=callbacks, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1167, in agenerate
+    raise exceptions[0]
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1393, in _agenerate_with_cache
+    async for chunk in self._astream(messages, stop=stop, **kwargs):
+    ...<21 lines>...
+        yielded = True
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_groq\chat_models.py", line 709, in _astream
+    async for chunk in await self.async_client.create(
+    ...<41 lines>...
+        yield generation_chunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\_streaming.py", line 146, in __aiter__
+    async for item in self._iterator:
+        yield item
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\_streaming.py", line 192, in __stream__
+    raise APIError(
+    ...<3 lines>...
+    )
+groq.APIError: Failed to call a function. Please adjust your prompt. See 'failed_generation' for more details.
+During task with name 'agent' and id 'd8cf5f42-b856-c532-769b-8252f143aa68'
+2026-04-27 19:32:22 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:32:27 [INFO] httpx: HTTP Request: GET https://api.open-meteo.com/v1/forecast?latitude=27.1767&longitude=78.0081&daily=temperature_2m_max%2Ctemperature_2m_min%2Cprecipitation_sum%2Cwindspeed_10m_max&forecast_days=3&timezone=Asia%2FKolkata "HTTP/1.1 200 OK"
+2026-04-27 19:32:28 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:32:58 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:33:03 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:33:12 [INFO] chatbot.memory: Memory pressure: thread='thread-abc-3' has 21 messages — summarising oldest 16
+2026-04-27 19:33:14 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:33:19 [INFO] chatbot.memory: Memory pressure resolved: stored new summary (1324 chars)
+2026-04-27 19:33:20 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:33:26 [INFO] httpx: HTTP Request: GET https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd000001cfccd5ce2b5a46fe72b1c4458a6a3613&format=json&filters%5Bstate%5D=uttar+pradesh&filters%5Bmarket%5D=Achnera&filters%5Bcommodity%5D=wheat "HTTP/1.1 200 OK"
+2026-04-27 19:33:27 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:33:55 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:34:20 [INFO] groq._base_client: Retrying request to /openai/v1/chat/completions in 0.397137 seconds
+2026-04-27 19:34:20 [INFO] groq._base_client: Retrying request to /openai/v1/chat/completions in 0.822932 seconds
+2026-04-27 19:34:21 [ERROR] chatbot.agent: run_agent_streaming error: Connection error.
+Traceback (most recent call last):
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\httpx\_transports\default.py", line 394, in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 256, in handle_async_request
+    raise exc from None
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 236, in handle_async_request
+    response = await connection.handle_async_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        pool_request.request
+        ^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\httpcore\_async\connection.py", line 101, in handle_async_request
+    raise exc
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\httpcore\_async\connection.py", line 78, in handle_async_request
+    stream = await self._connect(request)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\httpcore\_async\connection.py", line 124, in _connect
+    stream = await self._network_backend.connect_tcp(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\httpcore\_backends\auto.py", line 31, in connect_tcp
+    return await self._backend.connect_tcp(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\httpcore\_backends\anyio.py", line 113, in connect_tcp
+    with map_exceptions(exc_map):
+         ~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3568.0_x64__qbz5n2kfra8p0\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectError: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\_base_client.py", line 1512, in request
+    response = await self._client.send(
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\httpx\_client.py", line 1629, in send
+    response = await self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\httpx\_client.py", line 1657, in _send_handling_auth
+    response = await self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\httpx\_client.py", line 1694, in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\httpx\_client.py", line 1730, in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\httpx\_transports\default.py", line 393, in handle_async_request
+    with map_httpcore_exceptions():
+         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3568.0_x64__qbz5n2kfra8p0\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectError: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\chatbot\agent.py", line 94, in run_agent_streaming
+    async for event in agrisage_graph.astream_events(
+    ...<40 lines>...
+                            yield text
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1516, in astream_events
+    async for event in event_stream:
+        yield event
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1100, in _astream_events_implementation_v2
+    await task
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1055, in consume_astream
+    async for _ in event_streamer.tap_output_aiter(run_id, stream):
+        # All the content will be picked up
+        pass
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 222, in tap_output_aiter
+    async for chunk in output:
+    ...<4 lines>...
+        yield chunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\main.py", line 3181, in astream
+    async for _ in runner.atick(
+    ...<16 lines>...
+            yield o
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\_runner.py", line 304, in atick
+    await arun_with_retry(
+    ...<15 lines>...
+    )
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\_retry.py", line 237, in arun_with_retry
+    async for _ in task.proc.astream(task.input, config):
+        pass
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 839, in astream
+    output = await asyncio.create_task(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        _consume_aiter(aiterator), context=context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 904, in _consume_aiter
+    async for chunk in it:
+    ...<8 lines>...
+            output = chunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+    ...<14 lines>...
+                final = ichunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+    ...<14 lines>...
+                final = ichunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1170, in astream
+    yield await self.ainvoke(input, config, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\chatbot\graph.py", line 67, in call_model
+    response = await llm_model.ainvoke(messages)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 5708, in ainvoke
+    return await self.bound.ainvoke(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 478, in ainvoke
+    llm_result = await self.agenerate_prompt(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<8 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1209, in agenerate_prompt
+    return await self.agenerate(
+           ^^^^^^^^^^^^^^^^^^^^^
+        prompt_messages, stop=stop, callbacks=callbacks, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1167, in agenerate
+    raise exceptions[0]
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1393, in _agenerate_with_cache
+    async for chunk in self._astream(messages, stop=stop, **kwargs):
+    ...<21 lines>...
+        yielded = True
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_groq\chat_models.py", line 709, in _astream
+    async for chunk in await self.async_client.create(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        messages=message_dicts, **params
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\resources\chat\completions.py", line 941, in create
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+    ...<47 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\_base_client.py", line 1762, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\_base_client.py", line 1544, in request
+    raise APIConnectionError(request=request) from err
+groq.APIConnectionError: Connection error.
+During task with name 'agent' and id '78cc64da-1d58-3f14-1d55-3a926397444f'
+2026-04-27 19:34:29 [WARNING] langsmith.client: Failed to send compressed multipart ingest: Connection error caused failure to POST https://api.smith.langchain.com/runs/multipart in LangSmith API. Please confirm your internet connection. ConnectionError(MaxRetryError('HTTPSConnectionPool(host=\'api.smith.langchain.com\', port=443): Max retries exceeded with url: /runs/multipart (Caused by NameResolutionError("HTTPSConnection(host=\'api.smith.langchain.com\', port=443): Failed to resolve \'api.smith.langchain.com\' ([Errno 11001] getaddrinfo failed)"))'))
+Content-Length: 5027
+API Key: lsv2_********************************************5atrace=019dcf40-f8e4-7b20-86f3-c740943368ec,id=019dcf40-fb0c-7663-8ca2-fa63eff9f5df; trace=019dcf40-f8e4-7b20-86f3-c740943368ec,id=019dcf40-fb0a-74a0-b329-1f2d1d814b91; trace=019dcf40-f8e4-7b20-86f3-c740943368ec,id=019dcf41-5b70-7581-a15e-be3c6af4cc7c; trace=019dcf40-f8e4-7b20-86f3-c740943368ec,id=019dcf41-5b73-7280-88b8-1b5b3fb86a71
+2026-04-27 19:34:39 [WARNING] langsmith.client: Failed to send compressed multipart ingest: Connection error caused failure to POST https://api.smith.langchain.com/runs/multipart in LangSmith API. Please confirm your internet connection. ConnectionError(MaxRetryError('HTTPSConnectionPool(host=\'api.smith.langchain.com\', port=443): Max retries exceeded with url: /runs/multipart (Caused by NameResolutionError("HTTPSConnection(host=\'api.smith.langchain.com\', port=443): Failed to resolve \'api.smith.langchain.com\' ([Errno 11001] getaddrinfo failed)"))'))
+Content-Length: 6660
+API Key: lsv2_********************************************5atrace=019dcf40-f8e4-7b20-86f3-c740943368ec,id=019dcf41-5b73-7280-88b8-1b5b3fb86a71; trace=019dcf40-f8e4-7b20-86f3-c740943368ec,id=019dcf41-5b70-7581-a15e-be3c6af4cc7c; trace=019dcf40-f8e4-7b20-86f3-c740943368ec,id=019dcf40-f8e4-7b20-86f3-c740943368ec
+2026-04-27 19:35:06 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:05:06.735487Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-27 19:35:06 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T14:05:06.736098Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-27 19:35:09 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T14:05:09.342308Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-27 19:36:08 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:06:08.845448Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-27 19:36:08 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T14:06:08.846025Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-27 19:36:10 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T14:06:10.777497Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-27 19:37:45 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:07:45.344962Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-27 19:37:45 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T14:07:45.345476Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-27 19:37:47 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T14:07:47.277010Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-27 19:42:40 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:12:40.731441Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-27 19:42:40 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T14:12:40.732033Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-27 19:42:42 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T14:12:42.592571Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-27 19:42:49 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:12:49.420448Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-27 19:44:16 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:44:23 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:45:30 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:46:08 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:46:52 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-27 19:46:56 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-04-27 19:46:56 [ERROR] chatbot.agent: run_agent_streaming error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k4xhe4pqer7r115yy300xh65` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98799, Requested 2436. Please try again in 17m47.04s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+Traceback (most recent call last):
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\chatbot\agent.py", line 94, in run_agent_streaming
+    async for event in agrisage_graph.astream_events(
+    ...<40 lines>...
+                            yield text
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1516, in astream_events
+    async for event in event_stream:
+        yield event
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1100, in _astream_events_implementation_v2
+    await task
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1055, in consume_astream
+    async for _ in event_streamer.tap_output_aiter(run_id, stream):
+        # All the content will be picked up
+        pass
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 222, in tap_output_aiter
+    async for chunk in output:
+    ...<4 lines>...
+        yield chunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\main.py", line 3181, in astream
+    async for _ in runner.atick(
+    ...<16 lines>...
+            yield o
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\_runner.py", line 304, in atick
+    await arun_with_retry(
+    ...<15 lines>...
+    )
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\_retry.py", line 237, in arun_with_retry
+    async for _ in task.proc.astream(task.input, config):
+        pass
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 839, in astream
+    output = await asyncio.create_task(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        _consume_aiter(aiterator), context=context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 904, in _consume_aiter
+    async for chunk in it:
+    ...<8 lines>...
+            output = chunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+    ...<14 lines>...
+                final = ichunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+    ...<14 lines>...
+                final = ichunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1170, in astream
+    yield await self.ainvoke(input, config, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\chatbot\graph.py", line 67, in call_model
+    response = await llm_model.ainvoke(messages)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 5708, in ainvoke
+    return await self.bound.ainvoke(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 478, in ainvoke
+    llm_result = await self.agenerate_prompt(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<8 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1209, in agenerate_prompt
+    return await self.agenerate(
+           ^^^^^^^^^^^^^^^^^^^^^
+        prompt_messages, stop=stop, callbacks=callbacks, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1167, in agenerate
+    raise exceptions[0]
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1393, in _agenerate_with_cache
+    async for chunk in self._astream(messages, stop=stop, **kwargs):
+    ...<21 lines>...
+        yielded = True
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_groq\chat_models.py", line 709, in _astream
+    async for chunk in await self.async_client.create(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        messages=message_dicts, **params
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\resources\chat\completions.py", line 941, in create
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+    ...<47 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\_base_client.py", line 1762, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\_base_client.py", line 1576, in request
+    raise self._make_status_error_from_response(err.response) from None
+groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k4xhe4pqer7r115yy300xh65` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98799, Requested 2436. Please try again in 17m47.04s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+During task with name 'agent' and id '51c72c92-fe0f-7b49-561e-e3e73a420862'
+2026-04-27 19:47:13 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-04-27 19:47:13 [ERROR] chatbot.agent: run_agent_streaming error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k4xhe4pqer7r115yy300xh65` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98779, Requested 2306. Please try again in 15m37.44s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+Traceback (most recent call last):
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\chatbot\agent.py", line 94, in run_agent_streaming
+    async for event in agrisage_graph.astream_events(
+    ...<40 lines>...
+                            yield text
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1516, in astream_events
+    async for event in event_stream:
+        yield event
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1100, in _astream_events_implementation_v2
+    await task
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1055, in consume_astream
+    async for _ in event_streamer.tap_output_aiter(run_id, stream):
+        # All the content will be picked up
+        pass
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\main.py", line 3181, in astream
+    async for _ in runner.atick(
+    ...<16 lines>...
+            yield o
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\_runner.py", line 304, in atick
+    await arun_with_retry(
+    ...<15 lines>...
+    )
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\_retry.py", line 237, in arun_with_retry
+    async for _ in task.proc.astream(task.input, config):
+        pass
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 839, in astream
+    output = await asyncio.create_task(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        _consume_aiter(aiterator), context=context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 904, in _consume_aiter
+    async for chunk in it:
+    ...<8 lines>...
+            output = chunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+    ...<14 lines>...
+                final = ichunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+    ...<14 lines>...
+                final = ichunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1170, in astream
+    yield await self.ainvoke(input, config, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\chatbot\graph.py", line 67, in call_model
+    response = await llm_model.ainvoke(messages)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 5708, in ainvoke
+    return await self.bound.ainvoke(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 478, in ainvoke
+    llm_result = await self.agenerate_prompt(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<8 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1209, in agenerate_prompt
+    return await self.agenerate(
+           ^^^^^^^^^^^^^^^^^^^^^
+        prompt_messages, stop=stop, callbacks=callbacks, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1167, in agenerate
+    raise exceptions[0]
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1393, in _agenerate_with_cache
+    async for chunk in self._astream(messages, stop=stop, **kwargs):
+    ...<21 lines>...
+        yielded = True
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_groq\chat_models.py", line 709, in _astream
+    async for chunk in await self.async_client.create(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        messages=message_dicts, **params
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\resources\chat\completions.py", line 941, in create
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+    ...<47 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\_base_client.py", line 1762, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\_base_client.py", line 1576, in request
+    raise self._make_status_error_from_response(err.response) from None
+groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k4xhe4pqer7r115yy300xh65` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98779, Requested 2306. Please try again in 15m37.44s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+During task with name 'agent' and id '1910e206-bb96-e656-b176-72f47aa6160c'
+2026-04-27 19:48:23 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:18:23.536211Z", "logger": "krishisarthi_api", "event": "farmer_registered", "source": "[DATABASE] INSERT", "severity": "INFO", "data": {"operation": "INSERT", "result": {"name": "Tomar Saksham", "phone": "9410046073"}, "table": "farmers", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-27 19:50:10 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:20:10.982605Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "b354f706-c77f-4cc6-bfc6-27773b1e5626", "crop_type": "COTTON.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-27 19:50:14 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:20:14.291791Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "b354f706-c77f-4cc6-bfc6-27773b1e5626", "crop_type": "COTTON.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-27 19:50:17 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:20:17.942806Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "b354f706-c77f-4cc6-bfc6-27773b1e5626", "crop_type": "COTTON.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-27 19:50:22 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/image/search?polyid=69e9f050d02279628247ba9d&start=1774687818&end=1777279818&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:50:23 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:20:23.436348Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "b354f706-c77f-4cc6-bfc6-27773b1e5626", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-27 19:50:24 [INFO] httpx: HTTP Request: GET http://api.agromonitoring.com/stats/1.0/12369ec0400/69e9f050d02279628247ba9d?appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:50:24 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:20:24.205519Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "b354f706-c77f-4cc6-bfc6-27773b1e5626", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-27 19:50:24 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/soil?polyid=69e9f050d02279628247ba9d&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:50:25 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/weather?polyid=69e9f050d02279628247ba9d&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:50:25 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/image/search?polyid=69e9f050d02279628247ba9d&start=1774687823&end=1777279823&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:50:27 [INFO] httpx: HTTP Request: GET http://api.agromonitoring.com/stats/1.0/12369ec0400/69e9f050d02279628247ba9d?appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:50:28 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/soil?polyid=69e9f050d02279628247ba9d&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:50:28 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/weather?polyid=69e9f050d02279628247ba9d&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:50:29 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/image/search?polyid=69e9f050d02279628247ba9d&start=1774687827&end=1777279827&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:50:30 [INFO] httpx: HTTP Request: GET http://api.agromonitoring.com/stats/1.0/12369ec0400/69e9f050d02279628247ba9d?appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:50:31 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/soil?polyid=69e9f050d02279628247ba9d&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:50:31 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/weather?polyid=69e9f050d02279628247ba9d&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:50:31 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/image/search?polyid=69e9f050d02279628247ba9d&start=1774687829&end=1777279829&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:50:32 [INFO] httpx: HTTP Request: GET http://api.agromonitoring.com/stats/1.0/12369ec0400/69e9f050d02279628247ba9d?appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:50:33 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/soil?polyid=69e9f050d02279628247ba9d&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:50:33 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/weather?polyid=69e9f050d02279628247ba9d&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:50:35 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/image/search?polyid=69e9f050d02279628247ba9d&start=1774687833&end=1777279833&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:50:36 [INFO] httpx: HTTP Request: GET http://api.agromonitoring.com/stats/1.0/12369ec0400/69e9f050d02279628247ba9d?appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:50:37 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/soil?polyid=69e9f050d02279628247ba9d&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:50:37 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/weather?polyid=69e9f050d02279628247ba9d&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:51:10 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:21:10.716860Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "b354f706-c77f-4cc6-bfc6-27773b1e5626", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-27 19:51:20 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/image/search?polyid=69e9f050d02279628247ba9d&start=1774687878&end=1777279878&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:51:21 [INFO] httpx: HTTP Request: GET http://api.agromonitoring.com/stats/1.0/12369ec0400/69e9f050d02279628247ba9d?appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:51:22 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/soil?polyid=69e9f050d02279628247ba9d&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:51:22 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/weather?polyid=69e9f050d02279628247ba9d&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:52:04 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:22:04.579275Z", "logger": "krishisarthi_api", "event": "farmer_registered", "source": "[DATABASE] INSERT", "severity": "INFO", "data": {"operation": "INSERT", "result": {"name": "Tomar Saksham", "phone": "9410046074"}, "table": "farmers", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-27 19:52:29 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:22:29.406637Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "b354f706-c77f-4cc6-bfc6-27773b1e5626", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-27 19:52:39 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/image/search?polyid=69e9f050d02279628247ba9d&start=1774687956&end=1777279956&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:52:41 [INFO] httpx: HTTP Request: GET http://api.agromonitoring.com/stats/1.0/12369ec0400/69e9f050d02279628247ba9d?appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:52:41 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/soil?polyid=69e9f050d02279628247ba9d&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:52:41 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/weather?polyid=69e9f050d02279628247ba9d&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-27 19:54:09 [INFO] httpx: HTTP Request: POST https://api.agromonitoring.com/agro/1.0/polygons?appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 422 Unprocessable Entity"
+2026-04-27 19:54:09 [ERROR] services.agro_service: Agromonitoring polygon creation failed: Client error '422 Unprocessable Entity' for url 'https://api.agromonitoring.com/agro/1.0/polygons?appid=0066c812acba0ad5e5d09da90be80b0c'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422
+2026-04-27 19:54:11 [INFO] httpx: HTTP Request: POST https://api.agromonitoring.com/agro/1.0/polygons?appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 422 Unprocessable Entity"
+2026-04-27 19:54:11 [ERROR] services.agro_service: Agromonitoring polygon creation failed: Client error '422 Unprocessable Entity' for url 'https://api.agromonitoring.com/agro/1.0/polygons?appid=0066c812acba0ad5e5d09da90be80b0c'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422
+2026-04-27 19:54:11 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=30.735&lon=76.785&addressdetails=1&zoom=12 "HTTP/1.1 200 OK"
+2026-04-27 19:54:12 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=30.735&lon=76.785&addressdetails=1&zoom=12 "HTTP/1.1 200 OK"
+2026-04-27 19:54:12 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:24:12.919501Z", "logger": "krishisarthi_api", "event": "field_registered", "source": "[DATABASE] INSERT", "severity": "INFO", "data": {"operation": "INSERT", "result": {"field_id": "8ed7177b-0512-4955-9890-4e46cc87b74f", "polygon_id": "mock_8698447"}, "table": "farm_fields", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-27 19:54:14 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:24:14.852499Z", "logger": "krishisarthi_api", "event": "field_registered", "source": "[DATABASE] INSERT", "severity": "INFO", "data": {"operation": "INSERT", "result": {"field_id": "ef924400-e53d-400c-b358-4f9df7e563a7", "polygon_id": "mock_8698447"}, "table": "farm_fields", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-27 19:54:15 [INFO] httpx: HTTP Request: POST https://api.agromonitoring.com/agro/1.0/polygons?appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 422 Unprocessable Entity"
+2026-04-27 19:54:15 [ERROR] services.agro_service: Agromonitoring polygon creation failed: Client error '422 Unprocessable Entity' for url 'https://api.agromonitoring.com/agro/1.0/polygons?appid=0066c812acba0ad5e5d09da90be80b0c'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422
+2026-04-27 19:54:17 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=30.735&lon=76.785&addressdetails=1&zoom=12 "HTTP/1.1 200 OK"
+2026-04-27 19:54:17 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:24:17.997607Z", "logger": "krishisarthi_api", "event": "field_registered", "source": "[DATABASE] INSERT", "severity": "INFO", "data": {"operation": "INSERT", "result": {"field_id": "89b123e1-bbc5-4240-85c2-1550ba195596", "polygon_id": "mock_8698447"}, "table": "farm_fields", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-27 19:54:38 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:24:38.890810Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "89b123e1-bbc5-4240-85c2-1550ba195596", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-27 19:54:40 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:24:40.859982Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "89b123e1-bbc5-4240-85c2-1550ba195596", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-27 19:54:43 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:24:43.379742Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "89b123e1-bbc5-4240-85c2-1550ba195596", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-27 19:54:44 [INFO] services.agro_service: Using mock agro snapshot for polygon mock_8698447
+2026-04-27 19:54:44 [WARNING] krishisarthi_api: {"timestamp": "2026-04-27T14:24:44.511694Z", "logger": "krishisarthi_api", "event": "year_clamped_for_model", "source": "[HARDCODED]", "severity": "WARNING", "data": {"hardcoded_value": {"requested_year": 2025, "model_year": 2015}}, "data_type": "HARDCODED", "reason": "Input year 2025 exceeds training cutoff 2015. Clamping to 2015 to prevent extrapolation. DB record will still show year=2025."}
+2026-04-27 19:54:45 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:24:45.783420Z", "logger": "krishisarthi_api", "event": "input_features_prepared", "source": "[COMPUTATION] feature_engineering", "severity": "INFO", "data": {"computed_value": {"year": 2015, "State_Encoded": 17, "Crop_Encoded": 8, "NPK_Intensity_KgHa": 19.0, "Irrigation_Intensity_Ratio": 0.7, "WDI": 0.022919, "Kharif_Avg_MaxTemp": 34.5026, "Kharif_Total_Rain": 654.708004, "District_Soil_Health_Score": 15.3642, "NPK_Intensity_KgHa_Lag1": 158.77902149554492, "NPK_Intensity_KgHa_Lag2": 161.93956291794402, "NPK_Intensity_KgHa_Lag3": 150.42751919394686, "Irrigation_Intensity_Ratio_Lag1": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag2": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag3": 0.6693548446878521, "WDI_Lag1": 0.0226055072669597, "WDI_Lag2": 0.0242269008189686, "WDI_Lag3": 0.0217401858969987, "Kharif_Avg_MaxTemp_Lag1": 34.42399978637695, "Kharif_Avg_MaxTemp_Lag2": 35.14199981689453, "Kharif_Avg_MaxTemp_Lag3": 33.74000015258789, "Kharif_Total_Rain_Lag1": 587.4300022125244, "Kharif_Total_Rain_Lag2": 551.4700088500977, "Kharif_Total_Rain_Lag3": 977.7600021362304, "Rabi_Avg_MaxTemp_Lag1": 25.462499618530277, "Rabi_Avg_MaxTemp_Lag2": 24.417499542236328, "Rabi_Avg_MaxTemp_Lag3": 25.40750026702881, "Kharif_Avg_MaxTemp_Delta1": 0.07860021362304792, "Kharif_Total_Rain_Delta1": 67.27800178747555, "NPK_Intensity_KgHa_Delta1": -139.77902149554492, "Kharif_Avg_MaxTemp_Roll3": 34.435333251953125, "Kharif_Total_Rain_Roll3": 705.5533377329508, "requested_year": 2025, "model_year": 2015}}, "data_type": "COMPUTATION"}
+2026-04-27 19:54:45 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:24:45.808018Z", "logger": "krishisarthi_api", "event": "yield_model_prediction", "source": "[PREDICTION] XGBoost", "severity": "INFO", "data": {"prediction": {"predicted_yield_kg_ha": 682.2974925649427, "benchmark_yield_kg_ha": 1880.7}, "model": "XGBoost"}, "data_type": "PREDICTION"}
+2026-04-27 19:54:45 [INFO] services.health_score: Health score: final=53.35  risk=MEDIUM  decision=REVIEW
+2026-04-27 19:54:47 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:24:47.633525Z", "logger": "krishisarthi_api", "event": "prediction_cached", "source": "[DATABASE] INSERT", "severity": "INFO", "data": {"operation": "INSERT", "result": {"field_id": "89b123e1-bbc5-4240-85c2-1550ba195596", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025, "health_score": 53.35, "loan_decision": "REVIEW"}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-27 19:54:47 [INFO] services.agro_service: Using mock agro snapshot for polygon mock_8698447
+2026-04-27 19:54:47 [WARNING] krishisarthi_api: {"timestamp": "2026-04-27T14:24:47.640543Z", "logger": "krishisarthi_api", "event": "year_clamped_for_model", "source": "[HARDCODED]", "severity": "WARNING", "data": {"hardcoded_value": {"requested_year": 2025, "model_year": 2015}}, "data_type": "HARDCODED", "reason": "Input year 2025 exceeds training cutoff 2015. Clamping to 2015 to prevent extrapolation. DB record will still show year=2025."}
+2026-04-27 19:54:48 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:24:48.913212Z", "logger": "krishisarthi_api", "event": "input_features_prepared", "source": "[COMPUTATION] feature_engineering", "severity": "INFO", "data": {"computed_value": {"year": 2015, "State_Encoded": 17, "Crop_Encoded": 8, "NPK_Intensity_KgHa": 19.0, "Irrigation_Intensity_Ratio": 0.7, "WDI": 0.022919, "Kharif_Avg_MaxTemp": 34.5026, "Kharif_Total_Rain": 654.708004, "District_Soil_Health_Score": 15.3642, "NPK_Intensity_KgHa_Lag1": 158.77902149554492, "NPK_Intensity_KgHa_Lag2": 161.93956291794402, "NPK_Intensity_KgHa_Lag3": 150.42751919394686, "Irrigation_Intensity_Ratio_Lag1": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag2": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag3": 0.6693548446878521, "WDI_Lag1": 0.0226055072669597, "WDI_Lag2": 0.0242269008189686, "WDI_Lag3": 0.0217401858969987, "Kharif_Avg_MaxTemp_Lag1": 34.42399978637695, "Kharif_Avg_MaxTemp_Lag2": 35.14199981689453, "Kharif_Avg_MaxTemp_Lag3": 33.74000015258789, "Kharif_Total_Rain_Lag1": 587.4300022125244, "Kharif_Total_Rain_Lag2": 551.4700088500977, "Kharif_Total_Rain_Lag3": 977.7600021362304, "Rabi_Avg_MaxTemp_Lag1": 25.462499618530277, "Rabi_Avg_MaxTemp_Lag2": 24.417499542236328, "Rabi_Avg_MaxTemp_Lag3": 25.40750026702881, "Kharif_Avg_MaxTemp_Delta1": 0.07860021362304792, "Kharif_Total_Rain_Delta1": 67.27800178747555, "NPK_Intensity_KgHa_Delta1": -139.77902149554492, "Kharif_Avg_MaxTemp_Roll3": 34.435333251953125, "Kharif_Total_Rain_Roll3": 705.5533377329508, "requested_year": 2025, "model_year": 2015}}, "data_type": "COMPUTATION"}
+2026-04-27 19:54:48 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:24:48.920877Z", "logger": "krishisarthi_api", "event": "yield_model_prediction", "source": "[PREDICTION] XGBoost", "severity": "INFO", "data": {"prediction": {"predicted_yield_kg_ha": 682.2974925649427, "benchmark_yield_kg_ha": 1880.7}, "model": "XGBoost"}, "data_type": "PREDICTION"}
+2026-04-27 19:54:48 [INFO] services.health_score: Health score: final=56.55  risk=MEDIUM  decision=REVIEW
+2026-04-27 19:54:50 [INFO] services.agro_service: Using mock agro snapshot for polygon mock_8698447
+2026-04-27 19:54:50 [WARNING] krishisarthi_api: {"timestamp": "2026-04-27T14:24:50.227419Z", "logger": "krishisarthi_api", "event": "year_clamped_for_model", "source": "[HARDCODED]", "severity": "WARNING", "data": {"hardcoded_value": {"requested_year": 2025, "model_year": 2015}}, "data_type": "HARDCODED", "reason": "Input year 2025 exceeds training cutoff 2015. Clamping to 2015 to prevent extrapolation. DB record will still show year=2025."}
+2026-04-27 19:54:50 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:24:50.332683Z", "logger": "krishisarthi_api", "event": "prediction_cached", "source": "[DATABASE] INSERT", "severity": "INFO", "data": {"operation": "INSERT", "result": {"field_id": "89b123e1-bbc5-4240-85c2-1550ba195596", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025, "health_score": 56.55, "loan_decision": "REVIEW"}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-27 19:54:51 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:24:51.473612Z", "logger": "krishisarthi_api", "event": "input_features_prepared", "source": "[COMPUTATION] feature_engineering", "severity": "INFO", "data": {"computed_value": {"year": 2015, "State_Encoded": 17, "Crop_Encoded": 8, "NPK_Intensity_KgHa": 19.0, "Irrigation_Intensity_Ratio": 0.7, "WDI": 0.022919, "Kharif_Avg_MaxTemp": 34.5026, "Kharif_Total_Rain": 654.708004, "District_Soil_Health_Score": 15.3642, "NPK_Intensity_KgHa_Lag1": 158.77902149554492, "NPK_Intensity_KgHa_Lag2": 161.93956291794402, "NPK_Intensity_KgHa_Lag3": 150.42751919394686, "Irrigation_Intensity_Ratio_Lag1": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag2": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag3": 0.6693548446878521, "WDI_Lag1": 0.0226055072669597, "WDI_Lag2": 0.0242269008189686, "WDI_Lag3": 0.0217401858969987, "Kharif_Avg_MaxTemp_Lag1": 34.42399978637695, "Kharif_Avg_MaxTemp_Lag2": 35.14199981689453, "Kharif_Avg_MaxTemp_Lag3": 33.74000015258789, "Kharif_Total_Rain_Lag1": 587.4300022125244, "Kharif_Total_Rain_Lag2": 551.4700088500977, "Kharif_Total_Rain_Lag3": 977.7600021362304, "Rabi_Avg_MaxTemp_Lag1": 25.462499618530277, "Rabi_Avg_MaxTemp_Lag2": 24.417499542236328, "Rabi_Avg_MaxTemp_Lag3": 25.40750026702881, "Kharif_Avg_MaxTemp_Delta1": 0.07860021362304792, "Kharif_Total_Rain_Delta1": 67.27800178747555, "NPK_Intensity_KgHa_Delta1": -139.77902149554492, "Kharif_Avg_MaxTemp_Roll3": 34.435333251953125, "Kharif_Total_Rain_Roll3": 705.5533377329508, "requested_year": 2025, "model_year": 2015}}, "data_type": "COMPUTATION"}
+2026-04-27 19:54:51 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:24:51.484403Z", "logger": "krishisarthi_api", "event": "yield_model_prediction", "source": "[PREDICTION] XGBoost", "severity": "INFO", "data": {"prediction": {"predicted_yield_kg_ha": 682.2974925649427, "benchmark_yield_kg_ha": 1880.7}, "model": "XGBoost"}, "data_type": "PREDICTION"}
+2026-04-27 19:54:51 [INFO] services.health_score: Health score: final=59.67  risk=MEDIUM  decision=REVIEW
+2026-04-27 19:54:52 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:24:52.984491Z", "logger": "krishisarthi_api", "event": "prediction_cached", "source": "[DATABASE] INSERT", "severity": "INFO", "data": {"operation": "INSERT", "result": {"field_id": "89b123e1-bbc5-4240-85c2-1550ba195596", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025, "health_score": 59.67, "loan_decision": "REVIEW"}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-27 19:55:25 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:25:25.579829Z", "logger": "krishisarthi_api", "event": "cache_hit", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "89b123e1-bbc5-4240-85c2-1550ba195596", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-27 19:55:42 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:25:42.770932Z", "logger": "krishisarthi_api", "event": "cache_hit", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "89b123e1-bbc5-4240-85c2-1550ba195596", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-27 19:56:07 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:26:07.962401Z", "logger": "krishisarthi_api", "event": "cache_hit", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "89b123e1-bbc5-4240-85c2-1550ba195596", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-27 19:56:15 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:26:15.744663Z", "logger": "krishisarthi_api", "event": "cache_hit", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "89b123e1-bbc5-4240-85c2-1550ba195596", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-27 19:57:53 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:27:53.305669Z", "logger": "krishisarthi_api", "event": "cache_hit", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "89b123e1-bbc5-4240-85c2-1550ba195596", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-27 19:58:10 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:28:10.743257Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "89b123e1-bbc5-4240-85c2-1550ba195596", "crop_type": "KHARIF.SORGHUM.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-27 19:58:17 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:28:17.502383Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "89b123e1-bbc5-4240-85c2-1550ba195596", "crop_type": "KHARIF.SORGHUM.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-27 19:58:24 [INFO] services.agro_service: Using mock agro snapshot for polygon mock_8698447
+2026-04-27 19:58:26 [INFO] services.agro_service: Using mock agro snapshot for polygon mock_8698447
+2026-04-27 19:58:54 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:28:54.554472Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}

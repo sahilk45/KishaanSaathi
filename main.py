@@ -50,7 +50,8 @@ from uuid import UUID
 import asyncpg
 from fastapi import FastAPI, HTTPException, Depends, Request, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
 
 from database import create_pool, create_all_tables
@@ -60,6 +61,7 @@ from services.agro_service import create_agro_polygon, get_satellite_data, fetch
 from services.geocoding_service import reverse_geocode_city_state
 from chatbot.agent import run_agent, run_agent_streaming
 from chatbot.db import close_pool as close_chatbot_pool  # Bug #5: close chatbot pool on shutdown
+from chatbot.models_loader import get_models, _is_kharif
 
 
 logger = get_logger("krishisarthi_api")
@@ -80,36 +82,6 @@ MODEL_DIR          = os.getenv("MODEL_DIR", "Encoder_and_model")
 # The ORIGINAL year (e.g. 2026) is still stored in field_predictions and
 # returned in the API response — only the model input is clamped.
 MAX_TRAINING_YEAR  = 2015
-
-# ─────────────────────────────────────────────────────────────────────────────
-# ML Artifacts — loaded ONCE at startup (globals for speed)
-# ─────────────────────────────────────────────────────────────────────────────
-# Paths relative to this file or absolute via MODEL_DIR env var.
-_model    = None
-_le_crop  = None
-_le_state = None
-
-def _load_artifacts():
-    global _model, _le_crop, _le_state
-    try:
-        _model    = joblib.load(os.path.join(MODEL_DIR, "krishi_twin_xgb_model.pkl"))
-        _le_crop  = joblib.load(os.path.join(MODEL_DIR, "crop_encoder.pkl"))
-        _le_state = joblib.load(os.path.join(MODEL_DIR, "state_encoder.pkl"))
-        
-        logger.log_real_data(
-            "ml_artifacts_loaded",
-            {
-                "model_type": "XGBoost",
-                "crop_classes": len(_le_crop.classes_),
-                "state_classes": len(_le_state.classes_),
-                "model_dir": MODEL_DIR,
-            },
-            source="FILE_SYSTEM"
-        )
-    except FileNotFoundError as e:
-        logger.log_error("ml_artifacts_load_failed", e, context={"model_dir": MODEL_DIR})
-        raise RuntimeError(f"Model file missing: {e}") from e
-
 
 # ── Crop → yield-column mapping (exact column names from the CSV / model) ────
 # The model was trained on the melted version of this CSV, so crop_type in
@@ -171,6 +143,22 @@ CROP_BENCHMARKS = {
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Tier 3 crop block list (R² < 0 in validation — do NOT predict these)
+# Root cause: sparse/regional crops with too many zero-yield training rows.
+# ─────────────────────────────────────────────────────────────────────────────
+TIER3_BLOCKED_CROPS: set = {
+    "KHARIF.SORGHUM.YIELD.Kg.per.ha.",
+    "COTTON.YIELD.Kg.per.ha.",
+    "SUNFLOWER.YIELD.Kg.per.ha.",
+    "CASTOR.YIELD.Kg.per.ha.",
+    "FINGER.MILLET.YIELD.Kg.per.ha.",
+    "LINSEED.YIELD.Kg.per.ha.",
+    "SOYABEAN.YIELD.Kg.per.ha.",
+    "RABI.SORGHUM.YIELD.Kg.per.ha.",
+    "SAFFLOWER.YIELD.Kg.per.ha.",
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Lifespan: startup + shutdown
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -183,8 +171,8 @@ async def lifespan(app: FastAPI):
         computation_type="application_startup"
     )
 
-    # Load ML artifacts
-    _load_artifacts()
+    # Load ML artifacts using shared models_loader
+    get_models()
 
     # Create DB connection pool
     app.state.pool = await create_pool(DATABASE_URL)
@@ -227,6 +215,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Serve the static dashboard at /static and / 
+_static_dir = os.path.join(os.path.dirname(__file__), "static")
+if os.path.isdir(_static_dir):
+    app.mount("/static", StaticFiles(directory=_static_dir), name="static")
+
+@app.get("/", include_in_schema=False)
+async def serve_dashboard():
+    """Serves the KisanSaathi frontend dashboard."""
+    return FileResponse(os.path.join(_static_dir, "index.html"))
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -775,9 +773,8 @@ async def predict(
     sat_date       = sat.get("satellite_image_date")
     sat_source     = sat.get("source", "mock")
 
-    # ══════════════════════════════════════════════════════════════════════════
-    # STEP 4 — Encode state + crop using saved LabelEncoders
-    # ══════════════════════════════════════════════════════════════════════════
+    _xgb_kharif, _xgb_rabi, _kharif_features, _rabi_features, _le_crop, _le_state, _ = get_models()
+
     try:
         state_encoded = int(_le_state.transform([state_name])[0])
     except ValueError:
@@ -796,7 +793,21 @@ async def predict(
         )
 
     # ══════════════════════════════════════════════════════════════════════════
-    # STEP 5 — Build the exact 10-feature DataFrame (must match training order)
+    # STEP 4b — Tier 3 crop block guard
+    # These crops have R² < 0 in walk-forward validation due to sparse data.
+    # ══════════════════════════════════════════════════════════════════════════
+    if crop_type in TIER3_BLOCKED_CROPS:
+        raise HTTPException(
+            status_code=422,
+            detail=(
+                f"Crop '{crop_type}' is not supported for yield prediction in this model version. "
+                "This crop has insufficient training data for reliable district-level prediction. "
+                "Supported Tier 1 crops: WHEAT, RICE, MAIZE, RAPESEED, SUGARCANE."
+            )
+        )
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # STEP 5 — Build the full 33-feature DataFrame (must match training order)
     #
     # YEAR CLAMPING FIX:
     #   The model was trained up to MAX_TRAINING_YEAR (2015).
@@ -819,18 +830,98 @@ async def predict(
             )
         )
 
-    input_df = pd.DataFrame([{
-        "year":                        model_year,   # ← clamped
-        "State_Encoded":               state_encoded,
-        "Crop_Encoded":                crop_encoded,
-        "NPK_Intensity_KgHa":          body.npk_input,
-        "Irrigation_Intensity_Ratio":  irr,
-        "WDI":                         wdi,
-        "Kharif_Avg_MaxTemp":          kharif_temp,
-        "Kharif_Total_Rain":           kharif_rain,
-        "Rabi_Avg_MaxTemp":            rabi_temp,
-        "District_Soil_Health_Score":  soil_score,
-    }])
+    # ── Fetch Lags from database ──────────────────────────────────────────────
+    async with pool.acquire() as conn:
+        dist_hist = await conn.fetch(
+            """
+            SELECT * FROM district_climate_history 
+            WHERE LOWER(dist_name) = $1 AND year <= $2
+            ORDER BY year DESC LIMIT 3
+            """, dist_name.lower(), model_year
+        )
+    
+    if len(dist_hist) < 3:
+        logger.warning(f"District {dist_name} has fewer than 3 years of history before {model_year}. Fallbacks will be applied.")
+
+    def _get_lag(idx, col, default):
+        if len(dist_hist) > idx and dist_hist[idx][col] is not None:
+            return float(dist_hist[idx][col])
+        return default
+
+    # ── 33-feature construction ───────────────────────────────────────────────
+    _npk       = body.npk_input
+    _irr       = irr
+    _wdi       = wdi
+    _kt        = kharif_temp
+    _kr        = kharif_rain
+    _rt        = rabi_temp
+
+    _npk_lag1 = _get_lag(0, "npk_intensity_kgha", _npk)
+    _npk_lag2 = _get_lag(1, "npk_intensity_kgha", _npk_lag1)
+    _npk_lag3 = _get_lag(2, "npk_intensity_kgha", _npk_lag2)
+    
+    _irr_lag1 = _get_lag(0, "irrigation_intensity_ratio", _irr)
+    _irr_lag2 = _get_lag(1, "irrigation_intensity_ratio", _irr_lag1)
+    _irr_lag3 = _get_lag(2, "irrigation_intensity_ratio", _irr_lag2)
+
+    _wdi_lag1 = _get_lag(0, "wdi", _wdi)
+    _wdi_lag2 = _get_lag(1, "wdi", _wdi_lag1)
+    _wdi_lag3 = _get_lag(2, "wdi", _wdi_lag2)
+    
+    _kt_lag1 = _get_lag(0, "kharif_avg_maxtemp", _kt)
+    _kt_lag2 = _get_lag(1, "kharif_avg_maxtemp", _kt_lag1)
+    _kt_lag3 = _get_lag(2, "kharif_avg_maxtemp", _kt_lag2)
+
+    _kr_lag1 = _get_lag(0, "kharif_total_rain", _kr)
+    _kr_lag2 = _get_lag(1, "kharif_total_rain", _kr_lag1)
+    _kr_lag3 = _get_lag(2, "kharif_total_rain", _kr_lag2)
+
+    _rt_lag1 = _get_lag(0, "rabi_avg_maxtemp", _rt)
+    _rt_lag2 = _get_lag(1, "rabi_avg_maxtemp", _rt_lag1)
+    _rt_lag3 = _get_lag(2, "rabi_avg_maxtemp", _rt_lag2)
+
+    is_kharif = _is_kharif(crop_type)
+    mdl       = _xgb_kharif if is_kharif else _xgb_rabi
+    feat_list = _kharif_features if is_kharif else _rabi_features
+
+    feat_dict = {
+        "year":                            model_year,
+        "State_Encoded":                   state_encoded,
+        "Crop_Encoded":                    crop_encoded,
+        "NPK_Intensity_KgHa":              _npk,
+        "Irrigation_Intensity_Ratio":      _irr,
+        "WDI":                             _wdi,
+        "Kharif_Avg_MaxTemp":              _kt,
+        "Kharif_Total_Rain":               _kr,
+        "Rabi_Avg_MaxTemp":                _rt,
+        "District_Soil_Health_Score":      soil_score,
+        "NPK_Intensity_KgHa_Lag1":         _npk_lag1,
+        "NPK_Intensity_KgHa_Lag2":         _npk_lag2,
+        "NPK_Intensity_KgHa_Lag3":         _npk_lag3,
+        "Irrigation_Intensity_Ratio_Lag1": _irr_lag1,
+        "Irrigation_Intensity_Ratio_Lag2": _irr_lag2,
+        "Irrigation_Intensity_Ratio_Lag3": _irr_lag3,
+        "WDI_Lag1":                        _wdi_lag1,
+        "WDI_Lag2":                        _wdi_lag2,
+        "WDI_Lag3":                        _wdi_lag3,
+        "Kharif_Avg_MaxTemp_Lag1":         _kt_lag1,
+        "Kharif_Avg_MaxTemp_Lag2":         _kt_lag2,
+        "Kharif_Avg_MaxTemp_Lag3":         _kt_lag3,
+        "Kharif_Total_Rain_Lag1":          _kr_lag1,
+        "Kharif_Total_Rain_Lag2":          _kr_lag2,
+        "Kharif_Total_Rain_Lag3":          _kr_lag3,
+        "Rabi_Avg_MaxTemp_Lag1":           _rt_lag1,
+        "Rabi_Avg_MaxTemp_Lag2":           _rt_lag2,
+        "Rabi_Avg_MaxTemp_Lag3":           _rt_lag3,
+        "Kharif_Avg_MaxTemp_Delta1":       _kt - _kt_lag1,
+        "Kharif_Total_Rain_Delta1":        _kr - _kr_lag1,
+        "NPK_Intensity_KgHa_Delta1":       _npk - _npk_lag1,
+        "Kharif_Avg_MaxTemp_Roll3":        (_kt_lag1 + _kt_lag2 + _kt_lag3) / 3.0,
+        "Kharif_Total_Rain_Roll3":         (_kr_lag1 + _kr_lag2 + _kr_lag3) / 3.0,
+    }
+
+    # Extract only the features expected by the chosen model
+    input_df = pd.DataFrame([feat_dict])[feat_list]
 
     logger.log_computation(
         "input_features_prepared",
@@ -846,7 +937,7 @@ async def predict(
     # STEP 6 — XGBoost predict
     # Model was trained on log1p(yield), so inverse is np.expm1()
     # ══════════════════════════════════════════════════════════════════════════
-    log_pred        = float(_model.predict(input_df)[0])
+    log_pred        = float(mdl.predict(input_df)[0])
     
     # ML safeguard: prevent Infinity / NaN
     import math
