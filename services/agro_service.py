@@ -182,7 +182,7 @@ async def fetch_agro_snapshot(
     """
     start, end = _default_time_range(start_ts, end_ts)
 
-    if not AGRO_API_KEY or polygon_id.startswith("mock_"):
+    if not AGRO_API_KEY or not polygon_id or polygon_id.startswith("mock_"):
         logger.info("Using mock agro snapshot for polygon %s", polygon_id)
         return _mock_agro_snapshot(polygon_id, start, end)
 

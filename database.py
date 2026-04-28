@@ -164,8 +164,8 @@ CREATE TABLE IF NOT EXISTS field_predictions (
 
     calculated_at   TIMESTAMP DEFAULT NOW(),
 
-    -- One cached result per field + crop + year combination
-    UNIQUE(field_id, crop_type, year)
+    -- One cached result per field + crop + year + npk + irrigation combination
+    UNIQUE(field_id, crop_type, year, npk_input, irrigation_ratio)
 );
 
 CREATE INDEX IF NOT EXISTS idx_fp_field_crop_year

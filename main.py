@@ -709,17 +709,37 @@ async def predict(
     farmer_id   = str(field["farmer_id"])
 
     # ══════════════════════════════════════════════════════════════════════════
-    # STEP 1 — Cache check
+    # STEP 1 — Impute weather from DB
+    # ══════════════════════════════════════════════════════════════════════════
+    imputed = await impute_weather_from_db(
+        dist_name=dist_name,
+        target_year=year,
+        pool=pool,
+        provided_irrigation=body.irrigation_ratio,
+    )
+
+    kharif_temp = imputed["kharif_avg_maxtemp"]
+    kharif_rain = imputed["kharif_total_rain"]
+    rabi_temp   = imputed["rabi_avg_maxtemp"]
+    wdi         = imputed["wdi"]
+    irr         = imputed["irrigation_intensity_ratio"]
+    soil_score  = imputed["district_soil_health_score"]
+    irr_source  = imputed["irr_source"]
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # STEP 2 — Cache check
     # ══════════════════════════════════════════════════════════════════════════
     async with pool.acquire() as conn:
         cached = await conn.fetchrow(
             """
             SELECT * FROM field_predictions
-            WHERE  field_id  = $1
-              AND  crop_type = $2
-              AND  year      = $3
+            WHERE  field_id         = $1
+              AND  crop_type        = $2
+              AND  year             = $3
+              AND  npk_input        = $4
+              AND  irrigation_ratio = $5
             """,
-            field_id, crop_type, year,
+            field_id, crop_type, year, body.npk_input, irr,
         )
 
     if cached:
@@ -740,23 +760,7 @@ async def predict(
         rows_affected=0
     )
 
-    # ══════════════════════════════════════════════════════════════════════════
-    # STEP 2 — Impute weather from DB
-    # ══════════════════════════════════════════════════════════════════════════
-    imputed = await impute_weather_from_db(
-        dist_name=dist_name,
-        target_year=year,
-        pool=pool,
-        provided_irrigation=body.irrigation_ratio,
-    )
 
-    kharif_temp = imputed["kharif_avg_maxtemp"]
-    kharif_rain = imputed["kharif_total_rain"]
-    rabi_temp   = imputed["rabi_avg_maxtemp"]
-    wdi         = imputed["wdi"]
-    irr         = imputed["irrigation_intensity_ratio"]
-    soil_score  = imputed["district_soil_health_score"]
-    irr_source  = imputed["irr_source"]
 
     # ══════════════════════════════════════════════════════════════════════════
     # STEP 3 — Fetch satellite data from Agromonitoring (async)
@@ -1015,7 +1019,7 @@ async def predict(
                 $27,$28,$29,$30,
                 $31
             )
-            ON CONFLICT (field_id, crop_type, year) DO UPDATE
+            ON CONFLICT (field_id, crop_type, year, npk_input, irrigation_ratio) DO UPDATE
                 SET calculated_at = NOW()
             RETURNING *
             """,

@@ -714,3 +714,581 @@ For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/St
 2026-04-27 19:58:24 [INFO] services.agro_service: Using mock agro snapshot for polygon mock_8698447
 2026-04-27 19:58:26 [INFO] services.agro_service: Using mock agro snapshot for polygon mock_8698447
 2026-04-27 19:58:54 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:28:54.554472Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-27 20:06:20 [INFO] chatbot.db: chatbot asyncpg pool closed
+2026-04-27 20:06:20 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:36:20.012024Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-27 20:06:24 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:36:24.793518Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-27 20:06:24 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T14:36:24.793676Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-27 20:06:27 [INFO] chatbot.models_loader: {"timestamp": "2026-04-27T14:36:27.248397Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-27 20:06:34 [INFO] krishisarthi_api: {"timestamp": "2026-04-27T14:36:34.213147Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 10:28:38 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T04:58:38.277748Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 10:28:38 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T04:58:38.278389Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 10:28:47 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T04:58:47.251699Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 10:28:53 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T04:58:53.911471Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 10:29:43 [INFO] chatbot.db: {"timestamp": "2026-04-28T04:59:43.932867Z", "logger": "chatbot.db", "event": "pool_created", "source": "[DATABASE] POOL_INIT", "severity": "INFO", "data": {"operation": "POOL_INIT", "result": {"min_size": 1, "max_size": 5, "command_timeout": 15}, "table": "all"}, "data_type": "DATABASE"}
+2026-04-28 10:29:47 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:30:16 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:30:25 [INFO] httpx: HTTP Request: GET https://api.open-meteo.com/v1/forecast?latitude=27.1767&longitude=78.0081&daily=temperature_2m_max%2Ctemperature_2m_min%2Cprecipitation_sum%2Cwindspeed_10m_max&forecast_days=6&timezone=Asia%2FKolkata "HTTP/1.1 200 OK"
+2026-04-28 10:30:25 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:31:22 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:31:27 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:32:17 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:32:23 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:32:58 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:33:04 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:33:43 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:33:47 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:34:02 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:34:07 [INFO] httpx: HTTP Request: GET https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd000001cfccd5ce2b5a46fe72b1c4458a6a3613&format=json&filters%5Bstate%5D=uttar+pradesh&filters%5Bmarket%5D=Achnera&filters%5Bcommodity%5D=onion "HTTP/1.1 200 OK"
+2026-04-28 10:34:07 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:35:05 [INFO] chatbot.memory: Memory pressure: thread='thread-740e8268-730f-4bf6-bc2d-540e7d3325e5' has 22 messages — summarising oldest 17
+2026-04-28 10:35:07 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:35:11 [INFO] chatbot.memory: Memory pressure resolved: stored new summary (1230 chars)
+2026-04-28 10:35:12 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:35:15 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:36:15 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:36:19 [INFO] httpx: HTTP Request: GET https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd000001cfccd5ce2b5a46fe72b1c4458a6a3613&format=json&filters%5Bstate%5D=uttar+pradesh&filters%5Bmarket%5D=Fatehpur+Sikri&filters%5Bcommodity%5D=wheat "HTTP/1.1 200 OK"
+2026-04-28 10:36:20 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:36:43 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:36:47 [INFO] httpx: HTTP Request: GET https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd000001cfccd5ce2b5a46fe72b1c4458a6a3613&format=json&filters%5Bstate%5D=uttar+pradesh&filters%5Bmarket%5D=Achnera&filters%5Bcommodity%5D=wheat "HTTP/1.1 200 OK"
+2026-04-28 10:36:48 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 10:43:39 [INFO] chatbot.db: chatbot asyncpg pool closed
+2026-04-28 10:43:39 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T05:13:39.107230Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 10:43:41 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T05:13:41.986469Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 10:43:41 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T05:13:41.986752Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 10:43:43 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T05:13:43.067863Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 10:43:49 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T05:13:49.669839Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 10:44:51 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T05:14:51.157403Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 10:44:53 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T05:14:53.183826Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 10:44:53 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T05:14:53.184086Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 10:44:53 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T05:14:53.928684Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 10:44:59 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T05:14:59.568980Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 10:48:57 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T05:18:57.865997Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 11:29:29 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T05:59:29.288508Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 11:29:29 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T05:59:29.288787Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 11:29:30 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T05:59:30.051242Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 11:29:35 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T05:59:35.754629Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 11:29:36 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T05:59:36.269641Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 11:30:40 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:00:40.325031Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 11:30:40 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T06:00:40.325246Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 11:30:41 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T06:00:41.110782Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 11:30:47 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:00:47.171392Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 11:30:47 [INFO] httpx: HTTP Request: POST http://testserver/predict "HTTP/1.1 422 Unprocessable Entity"
+2026-04-28 11:30:47 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:00:47.558289Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 11:31:16 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:01:16.470872Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 11:31:16 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T06:01:16.471098Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 11:31:17 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T06:01:17.273426Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 11:31:23 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:01:23.310238Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 11:31:23 [INFO] httpx: HTTP Request: POST http://testserver/predict "HTTP/1.1 422 Unprocessable Entity"
+2026-04-28 11:31:23 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:01:23.669986Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 11:33:56 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:03:56.943687Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 11:33:56 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T06:03:56.943955Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 11:33:57 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T06:03:57.693647Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 11:34:03 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:04:03.789958Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 11:34:46 [INFO] chatbot.db: {"timestamp": "2026-04-28T06:04:46.162657Z", "logger": "chatbot.db", "event": "pool_created", "source": "[DATABASE] POOL_INIT", "severity": "INFO", "data": {"operation": "POOL_INIT", "result": {"min_size": 1, "max_size": 5, "command_timeout": 15}, "table": "all"}, "data_type": "DATABASE"}
+2026-04-28 11:35:25 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 11:35:52 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 11:35:56 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 11:36:28 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 11:36:31 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 11:36:37 [INFO] httpx: HTTP Request: GET https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd000001cfccd5ce2b5a46fe72b1c4458a6a3613&format=json&filters%5Bstate%5D=uttar+pradesh&filters%5Bmarket%5D=Jagnair&filters%5Bcommodity%5D=wheat "HTTP/1.1 200 OK"
+2026-04-28 11:36:37 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-04-28 11:36:37 [ERROR] chatbot.agent: run_agent_streaming error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k4xhe4pqer7r115yy300xh65` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98269, Requested 2470. Please try again in 10m38.496s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+Traceback (most recent call last):
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\chatbot\agent.py", line 94, in run_agent_streaming
+    async for event in agrisage_graph.astream_events(
+    ...<40 lines>...
+                            yield text
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1516, in astream_events
+    async for event in event_stream:
+        yield event
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1100, in _astream_events_implementation_v2
+    await task
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1055, in consume_astream
+    async for _ in event_streamer.tap_output_aiter(run_id, stream):
+        # All the content will be picked up
+        pass
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 222, in tap_output_aiter
+    async for chunk in output:
+    ...<4 lines>...
+        yield chunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\main.py", line 3181, in astream
+    async for _ in runner.atick(
+    ...<16 lines>...
+            yield o
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\_runner.py", line 304, in atick
+    await arun_with_retry(
+    ...<15 lines>...
+    )
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\_retry.py", line 237, in arun_with_retry
+    async for _ in task.proc.astream(task.input, config):
+        pass
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 839, in astream
+    output = await asyncio.create_task(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        _consume_aiter(aiterator), context=context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 904, in _consume_aiter
+    async for chunk in it:
+    ...<8 lines>...
+            output = chunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+    ...<14 lines>...
+                final = ichunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+    ...<14 lines>...
+                final = ichunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1170, in astream
+    yield await self.ainvoke(input, config, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\chatbot\graph.py", line 67, in call_model
+    response = await llm_model.ainvoke(messages)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 5708, in ainvoke
+    return await self.bound.ainvoke(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 478, in ainvoke
+    llm_result = await self.agenerate_prompt(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<8 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1209, in agenerate_prompt
+    return await self.agenerate(
+           ^^^^^^^^^^^^^^^^^^^^^
+        prompt_messages, stop=stop, callbacks=callbacks, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1167, in agenerate
+    raise exceptions[0]
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1393, in _agenerate_with_cache
+    async for chunk in self._astream(messages, stop=stop, **kwargs):
+    ...<21 lines>...
+        yielded = True
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_groq\chat_models.py", line 709, in _astream
+    async for chunk in await self.async_client.create(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        messages=message_dicts, **params
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\resources\chat\completions.py", line 941, in create
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+    ...<47 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\_base_client.py", line 1762, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\_base_client.py", line 1576, in request
+    raise self._make_status_error_from_response(err.response) from None
+groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k4xhe4pqer7r115yy300xh65` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98269, Requested 2470. Please try again in 10m38.496s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+During task with name 'agent' and id 'cad46776-2282-220d-121e-9133d9be1847'
+2026-04-28 11:36:51 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-04-28 11:36:51 [ERROR] chatbot.agent: run_agent_streaming error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k4xhe4pqer7r115yy300xh65` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98253, Requested 2263. Please try again in 7m25.823999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+Traceback (most recent call last):
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\chatbot\agent.py", line 94, in run_agent_streaming
+    async for event in agrisage_graph.astream_events(
+    ...<40 lines>...
+                            yield text
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1516, in astream_events
+    async for event in event_stream:
+        yield event
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1100, in _astream_events_implementation_v2
+    await task
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1055, in consume_astream
+    async for _ in event_streamer.tap_output_aiter(run_id, stream):
+        # All the content will be picked up
+        pass
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\main.py", line 3181, in astream
+    async for _ in runner.atick(
+    ...<16 lines>...
+            yield o
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\_runner.py", line 304, in atick
+    await arun_with_retry(
+    ...<15 lines>...
+    )
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\_retry.py", line 237, in arun_with_retry
+    async for _ in task.proc.astream(task.input, config):
+        pass
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 839, in astream
+    output = await asyncio.create_task(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        _consume_aiter(aiterator), context=context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 904, in _consume_aiter
+    async for chunk in it:
+    ...<8 lines>...
+            output = chunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+    ...<14 lines>...
+                final = ichunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+    ...<14 lines>...
+                final = ichunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1170, in astream
+    yield await self.ainvoke(input, config, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\chatbot\graph.py", line 67, in call_model
+    response = await llm_model.ainvoke(messages)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 5708, in ainvoke
+    return await self.bound.ainvoke(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 478, in ainvoke
+    llm_result = await self.agenerate_prompt(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<8 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1209, in agenerate_prompt
+    return await self.agenerate(
+           ^^^^^^^^^^^^^^^^^^^^^
+        prompt_messages, stop=stop, callbacks=callbacks, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1167, in agenerate
+    raise exceptions[0]
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1393, in _agenerate_with_cache
+    async for chunk in self._astream(messages, stop=stop, **kwargs):
+    ...<21 lines>...
+        yielded = True
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_groq\chat_models.py", line 709, in _astream
+    async for chunk in await self.async_client.create(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        messages=message_dicts, **params
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\resources\chat\completions.py", line 941, in create
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+    ...<47 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\_base_client.py", line 1762, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\_base_client.py", line 1576, in request
+    raise self._make_status_error_from_response(err.response) from None
+groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k4xhe4pqer7r115yy300xh65` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98253, Requested 2263. Please try again in 7m25.823999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+During task with name 'agent' and id '91f68009-1c30-6fbc-c935-2348c41090a7'
+2026-04-28 11:37:24 [INFO] chatbot.db: chatbot asyncpg pool closed
+2026-04-28 11:37:24 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:07:24.781069Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:08:10 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:38:10.706659Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:08:10 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T06:38:10.706911Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:08:12 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T06:38:12.307522Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 12:08:18 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:38:18.898018Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:11:57 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:41:57.668374Z", "logger": "krishisarthi_api", "event": "farmer_registered", "source": "[DATABASE] INSERT", "severity": "INFO", "data": {"operation": "INSERT", "result": {"name": "Rahul", "phone": "9027136727"}, "table": "farmers", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-28 12:15:20 [INFO] httpx: HTTP Request: POST https://api.agromonitoring.com/agro/1.0/polygons?appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 201 Created"
+2026-04-28 12:15:21 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=27.175&lon=78.005&addressdetails=1&zoom=12 "HTTP/1.1 200 OK"
+2026-04-28 12:15:22 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:45:22.381436Z", "logger": "krishisarthi_api", "event": "field_registered", "source": "[DATABASE] INSERT", "severity": "INFO", "data": {"operation": "INSERT", "result": {"field_id": "ddd015f1-34d9-49a4-a74a-1fe7b7aa5653", "polygon_id": "69f0578063eb0c31f862aeea"}, "table": "farm_fields", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-28 12:16:16 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:46:16.488537Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "ddd015f1-34d9-49a4-a74a-1fe7b7aa5653", "crop_type": "COTTON.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-28 12:16:26 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/image/search?polyid=69f0578063eb0c31f862aeea&start=1774746984&end=1777338984&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:16:28 [INFO] httpx: HTTP Request: GET http://api.agromonitoring.com/stats/1.0/12369ec0400/69f0578063eb0c31f862aeea?appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:16:28 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/soil?polyid=69f0578063eb0c31f862aeea&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:16:28 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/weather?polyid=69f0578063eb0c31f862aeea&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:17:11 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:47:11.009905Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "ddd015f1-34d9-49a4-a74a-1fe7b7aa5653", "crop_type": "SUGARCANE YIELD (Kg per ha)", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-28 12:17:18 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/image/search?polyid=69f0578063eb0c31f862aeea&start=1774747036&end=1777339036&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:17:19 [INFO] httpx: HTTP Request: GET http://api.agromonitoring.com/stats/1.0/12369ec0400/69f0578063eb0c31f862aeea?appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:17:19 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/soil?polyid=69f0578063eb0c31f862aeea&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:17:20 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/weather?polyid=69f0578063eb0c31f862aeea&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:17:20 [WARNING] krishisarthi_api: {"timestamp": "2026-04-28T06:47:20.022946Z", "logger": "krishisarthi_api", "event": "year_clamped_for_model", "source": "[HARDCODED]", "severity": "WARNING", "data": {"hardcoded_value": {"requested_year": 2025, "model_year": 2015}}, "data_type": "HARDCODED", "reason": "Input year 2025 exceeds training cutoff 2015. Clamping to 2015 to prevent extrapolation. DB record will still show year=2025."}
+2026-04-28 12:17:21 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:47:21.894322Z", "logger": "krishisarthi_api", "event": "input_features_prepared", "source": "[COMPUTATION] feature_engineering", "severity": "INFO", "data": {"computed_value": {"year": 2015, "State_Encoded": 17, "Crop_Encoded": 20, "NPK_Intensity_KgHa": 44.0, "Irrigation_Intensity_Ratio": 0.67, "WDI": 0.022919, "Kharif_Avg_MaxTemp": 34.5026, "Kharif_Total_Rain": 654.708004, "District_Soil_Health_Score": 15.3642, "NPK_Intensity_KgHa_Lag1": 158.77902149554492, "NPK_Intensity_KgHa_Lag2": 161.93956291794402, "NPK_Intensity_KgHa_Lag3": 150.42751919394686, "Irrigation_Intensity_Ratio_Lag1": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag2": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag3": 0.6693548446878521, "WDI_Lag1": 0.0226055072669597, "WDI_Lag2": 0.0242269008189686, "WDI_Lag3": 0.0217401858969987, "Kharif_Avg_MaxTemp_Lag1": 34.42399978637695, "Kharif_Avg_MaxTemp_Lag2": 35.14199981689453, "Kharif_Avg_MaxTemp_Lag3": 33.74000015258789, "Kharif_Total_Rain_Lag1": 587.4300022125244, "Kharif_Total_Rain_Lag2": 551.4700088500977, "Kharif_Total_Rain_Lag3": 977.7600021362304, "Rabi_Avg_MaxTemp_Lag1": 25.462499618530277, "Rabi_Avg_MaxTemp_Lag2": 24.417499542236328, "Rabi_Avg_MaxTemp_Lag3": 25.40750026702881, "Kharif_Avg_MaxTemp_Delta1": 0.07860021362304792, "Kharif_Total_Rain_Delta1": 67.27800178747555, "NPK_Intensity_KgHa_Delta1": -114.77902149554492, "Kharif_Avg_MaxTemp_Roll3": 34.435333251953125, "Kharif_Total_Rain_Roll3": 705.5533377329508, "requested_year": 2025, "model_year": 2015}}, "data_type": "COMPUTATION"}
+2026-04-28 12:17:21 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:47:21.917748Z", "logger": "krishisarthi_api", "event": "yield_model_prediction", "source": "[PREDICTION] XGBoost", "severity": "INFO", "data": {"prediction": {"predicted_yield_kg_ha": 4214.093124584092, "benchmark_yield_kg_ha": 5619.3}, "model": "XGBoost"}, "data_type": "PREDICTION"}
+2026-04-28 12:17:21 [INFO] services.health_score: Health score: final=58.76  risk=MEDIUM  decision=REVIEW
+2026-04-28 12:17:23 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:47:23.050432Z", "logger": "krishisarthi_api", "event": "prediction_cached", "source": "[DATABASE] INSERT", "severity": "INFO", "data": {"operation": "INSERT", "result": {"field_id": "ddd015f1-34d9-49a4-a74a-1fe7b7aa5653", "crop_type": "SUGARCANE YIELD (Kg per ha)", "year": 2025, "health_score": 58.76, "loan_decision": "REVIEW"}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-28 12:18:26 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:48:26.104221Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "ddd015f1-34d9-49a4-a74a-1fe7b7aa5653", "crop_type": "RICE YIELD (Kg per ha)", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-28 12:18:33 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/image/search?polyid=69f0578063eb0c31f862aeea&start=1774747111&end=1777339111&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:18:34 [INFO] httpx: HTTP Request: GET http://api.agromonitoring.com/stats/1.0/12369ec0400/69f0578063eb0c31f862aeea?appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:18:35 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/soil?polyid=69f0578063eb0c31f862aeea&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:18:35 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/weather?polyid=69f0578063eb0c31f862aeea&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:18:35 [WARNING] krishisarthi_api: {"timestamp": "2026-04-28T06:48:35.355658Z", "logger": "krishisarthi_api", "event": "year_clamped_for_model", "source": "[HARDCODED]", "severity": "WARNING", "data": {"hardcoded_value": {"requested_year": 2025, "model_year": 2015}}, "data_type": "HARDCODED", "reason": "Input year 2025 exceeds training cutoff 2015. Clamping to 2015 to prevent extrapolation. DB record will still show year=2025."}
+2026-04-28 12:18:36 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:48:36.062232Z", "logger": "krishisarthi_api", "event": "input_features_prepared", "source": "[COMPUTATION] feature_engineering", "severity": "INFO", "data": {"computed_value": {"year": 2015, "State_Encoded": 17, "Crop_Encoded": 15, "NPK_Intensity_KgHa": 44.0, "Irrigation_Intensity_Ratio": 0.67, "WDI": 0.022919, "Kharif_Avg_MaxTemp": 34.5026, "Kharif_Total_Rain": 654.708004, "District_Soil_Health_Score": 15.3642, "NPK_Intensity_KgHa_Lag1": 158.77902149554492, "NPK_Intensity_KgHa_Lag2": 161.93956291794402, "NPK_Intensity_KgHa_Lag3": 150.42751919394686, "Irrigation_Intensity_Ratio_Lag1": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag2": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag3": 0.6693548446878521, "WDI_Lag1": 0.0226055072669597, "WDI_Lag2": 0.0242269008189686, "WDI_Lag3": 0.0217401858969987, "Kharif_Avg_MaxTemp_Lag1": 34.42399978637695, "Kharif_Avg_MaxTemp_Lag2": 35.14199981689453, "Kharif_Avg_MaxTemp_Lag3": 33.74000015258789, "Kharif_Total_Rain_Lag1": 587.4300022125244, "Kharif_Total_Rain_Lag2": 551.4700088500977, "Kharif_Total_Rain_Lag3": 977.7600021362304, "Rabi_Avg_MaxTemp_Lag1": 25.462499618530277, "Rabi_Avg_MaxTemp_Lag2": 24.417499542236328, "Rabi_Avg_MaxTemp_Lag3": 25.40750026702881, "Kharif_Avg_MaxTemp_Delta1": 0.07860021362304792, "Kharif_Total_Rain_Delta1": 67.27800178747555, "NPK_Intensity_KgHa_Delta1": -114.77902149554492, "Kharif_Avg_MaxTemp_Roll3": 34.435333251953125, "Kharif_Total_Rain_Roll3": 705.5533377329508, "requested_year": 2025, "model_year": 2015}}, "data_type": "COMPUTATION"}
+2026-04-28 12:18:36 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:48:36.066370Z", "logger": "krishisarthi_api", "event": "yield_model_prediction", "source": "[PREDICTION] XGBoost", "severity": "INFO", "data": {"prediction": {"predicted_yield_kg_ha": 1286.2881846983782, "benchmark_yield_kg_ha": 1872.1}, "model": "XGBoost"}, "data_type": "PREDICTION"}
+2026-04-28 12:18:36 [INFO] services.health_score: Health score: final=57.18  risk=MEDIUM  decision=REVIEW
+2026-04-28 12:18:36 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:48:36.869915Z", "logger": "krishisarthi_api", "event": "prediction_cached", "source": "[DATABASE] INSERT", "severity": "INFO", "data": {"operation": "INSERT", "result": {"field_id": "ddd015f1-34d9-49a4-a74a-1fe7b7aa5653", "crop_type": "RICE YIELD (Kg per ha)", "year": 2025, "health_score": 57.18, "loan_decision": "REVIEW"}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-28 12:18:59 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:48:59.349123Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "ddd015f1-34d9-49a4-a74a-1fe7b7aa5653", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-28 12:19:06 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/image/search?polyid=69f0578063eb0c31f862aeea&start=1774747144&end=1777339144&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:19:07 [INFO] httpx: HTTP Request: GET http://api.agromonitoring.com/stats/1.0/12369ec0400/69f0578063eb0c31f862aeea?appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:19:07 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/soil?polyid=69f0578063eb0c31f862aeea&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:19:08 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/weather?polyid=69f0578063eb0c31f862aeea&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:19:08 [WARNING] krishisarthi_api: {"timestamp": "2026-04-28T06:49:08.143938Z", "logger": "krishisarthi_api", "event": "year_clamped_for_model", "source": "[HARDCODED]", "severity": "WARNING", "data": {"hardcoded_value": {"requested_year": 2025, "model_year": 2015}}, "data_type": "HARDCODED", "reason": "Input year 2025 exceeds training cutoff 2015. Clamping to 2015 to prevent extrapolation. DB record will still show year=2025."}
+2026-04-28 12:19:08 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:49:08.925420Z", "logger": "krishisarthi_api", "event": "input_features_prepared", "source": "[COMPUTATION] feature_engineering", "severity": "INFO", "data": {"computed_value": {"year": 2015, "State_Encoded": 17, "Crop_Encoded": 8, "NPK_Intensity_KgHa": 44.0, "Irrigation_Intensity_Ratio": 0.67, "WDI": 0.022919, "Kharif_Avg_MaxTemp": 34.5026, "Kharif_Total_Rain": 654.708004, "District_Soil_Health_Score": 15.3642, "NPK_Intensity_KgHa_Lag1": 158.77902149554492, "NPK_Intensity_KgHa_Lag2": 161.93956291794402, "NPK_Intensity_KgHa_Lag3": 150.42751919394686, "Irrigation_Intensity_Ratio_Lag1": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag2": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag3": 0.6693548446878521, "WDI_Lag1": 0.0226055072669597, "WDI_Lag2": 0.0242269008189686, "WDI_Lag3": 0.0217401858969987, "Kharif_Avg_MaxTemp_Lag1": 34.42399978637695, "Kharif_Avg_MaxTemp_Lag2": 35.14199981689453, "Kharif_Avg_MaxTemp_Lag3": 33.74000015258789, "Kharif_Total_Rain_Lag1": 587.4300022125244, "Kharif_Total_Rain_Lag2": 551.4700088500977, "Kharif_Total_Rain_Lag3": 977.7600021362304, "Rabi_Avg_MaxTemp_Lag1": 25.462499618530277, "Rabi_Avg_MaxTemp_Lag2": 24.417499542236328, "Rabi_Avg_MaxTemp_Lag3": 25.40750026702881, "Kharif_Avg_MaxTemp_Delta1": 0.07860021362304792, "Kharif_Total_Rain_Delta1": 67.27800178747555, "NPK_Intensity_KgHa_Delta1": -114.77902149554492, "Kharif_Avg_MaxTemp_Roll3": 34.435333251953125, "Kharif_Total_Rain_Roll3": 705.5533377329508, "requested_year": 2025, "model_year": 2015}}, "data_type": "COMPUTATION"}
+2026-04-28 12:19:08 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:49:08.929609Z", "logger": "krishisarthi_api", "event": "yield_model_prediction", "source": "[PREDICTION] XGBoost", "severity": "INFO", "data": {"prediction": {"predicted_yield_kg_ha": 678.8281839080149, "benchmark_yield_kg_ha": 1880.7}, "model": "XGBoost"}, "data_type": "PREDICTION"}
+2026-04-28 12:19:08 [INFO] services.health_score: Health score: final=49.03  risk=MEDIUM  decision=REVIEW
+2026-04-28 12:19:09 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:49:09.692212Z", "logger": "krishisarthi_api", "event": "prediction_cached", "source": "[DATABASE] INSERT", "severity": "INFO", "data": {"operation": "INSERT", "result": {"field_id": "ddd015f1-34d9-49a4-a74a-1fe7b7aa5653", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025, "health_score": 49.03, "loan_decision": "REVIEW"}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-28 12:24:27 [INFO] chatbot.db: {"timestamp": "2026-04-28T06:54:27.678003Z", "logger": "chatbot.db", "event": "pool_created", "source": "[DATABASE] POOL_INIT", "severity": "INFO", "data": {"operation": "POOL_INIT", "result": {"min_size": 1, "max_size": 5, "command_timeout": 15}, "table": "all"}, "data_type": "DATABASE"}
+2026-04-28 12:24:32 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 12:28:30 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:58:30.790175Z", "logger": "krishisarthi_api", "event": "cache_hit", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "ddd015f1-34d9-49a4-a74a-1fe7b7aa5653", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-28 12:28:49 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T06:58:49.252502Z", "logger": "krishisarthi_api", "event": "cache_hit", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "ddd015f1-34d9-49a4-a74a-1fe7b7aa5653", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-28 12:31:52 [INFO] chatbot.db: chatbot asyncpg pool closed
+2026-04-28 12:31:52 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:01:52.777627Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:32:03 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:02:03.399161Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:32:03 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:02:03.399447Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:32:10 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:02:10.973540Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 12:32:16 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:02:16.857086Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:33:51 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:03:51.767843Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:33:53 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:03:53.949040Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:33:53 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:03:53.949265Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:33:54 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:03:54.697448Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 12:34:00 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:04:00.414706Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:34:53 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:04:53.456160Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:34:55 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:04:55.475383Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:34:55 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:04:55.475641Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:34:56 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:04:56.221659Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 12:35:02 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:05:02.310781Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:35:03 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:05:03.324982Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:35:05 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:05:05.366446Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:35:05 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:05:05.366708Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:35:06 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:05:06.107582Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 12:35:11 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:05:11.642598Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:35:24 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:05:24.806055Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:35:26 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:05:26.919861Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:35:26 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:05:26.920116Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:35:27 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:05:27.670591Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 12:35:33 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:05:33.526291Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:35:36 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:05:36.758693Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:35:36 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:05:36.758907Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:35:37 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:05:37.520461Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 12:35:43 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:05:43.246211Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:35:43 [INFO] httpx: HTTP Request: POST http://testserver/predict "HTTP/1.1 422 Unprocessable Entity"
+2026-04-28 12:35:43 [INFO] httpx: HTTP Request: POST http://testserver/predict "HTTP/1.1 422 Unprocessable Entity"
+2026-04-28 12:35:43 [INFO] httpx: HTTP Request: POST http://testserver/predict "HTTP/1.1 422 Unprocessable Entity"
+2026-04-28 12:35:43 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:05:43.610300Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:36:49 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:06:49.919731Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:36:51 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:06:51.963797Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:36:51 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:06:51.964036Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:36:52 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:06:52.718734Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 12:36:58 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:06:58.106613Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:37:00 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:07:00.027030Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:37:00 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:07:00.027241Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:37:00 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:07:00.820108Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 12:37:06 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:07:06.569967Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:37:08 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:07:08.580102Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:37:50 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:07:50.581925Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:37:52 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:07:52.581400Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:37:52 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:07:52.581650Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:37:53 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:07:53.340142Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 12:37:59 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:07:59.195803Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:38:04 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:08:04.206269Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:38:04 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:08:04.206505Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:38:04 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:08:04.976198Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 12:38:10 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:08:10.655641Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:38:21 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:08:21.672187Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "13eee978-de31-4b68-bad9-5ced53c50e72", "crop_type": "WHEAT.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-28 12:38:22 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:08:22.031649Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:38:38 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:08:38.470599Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:38:40 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:08:40.524104Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:38:40 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:08:40.524365Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:38:41 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:08:41.290632Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 12:38:47 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:08:47.092685Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:38:50 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:08:50.624224Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:38:50 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:08:50.624427Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:38:51 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T07:08:51.383369Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 12:38:57 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:08:57.205571Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:39:07 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:09:07.243359Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "13eee978-de31-4b68-bad9-5ced53c50e72", "crop_type": "WHEAT.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-28 12:39:07 [INFO] services.agro_service: Using mock agro snapshot for polygon None
+2026-04-28 12:39:07 [WARNING] krishisarthi_api: {"timestamp": "2026-04-28T07:09:07.244341Z", "logger": "krishisarthi_api", "event": "year_clamped_for_model", "source": "[HARDCODED]", "severity": "WARNING", "data": {"hardcoded_value": {"requested_year": 2025, "model_year": 2015}}, "data_type": "HARDCODED", "reason": "Input year 2025 exceeds training cutoff 2015. Clamping to 2015 to prevent extrapolation. DB record will still show year=2025."}
+2026-04-28 12:39:08 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:09:08.314279Z", "logger": "krishisarthi_api", "event": "input_features_prepared", "source": "[COMPUTATION] feature_engineering", "severity": "INFO", "data": {"computed_value": {"year": 2015, "State_Encoded": 17, "Crop_Encoded": 22, "NPK_Intensity_KgHa": 120.0, "Irrigation_Intensity_Ratio": 0.8, "WDI": 0.022919, "Kharif_Avg_MaxTemp": 34.5026, "Kharif_Total_Rain": 654.708004, "Rabi_Avg_MaxTemp": 25.138, "District_Soil_Health_Score": 15.3642, "NPK_Intensity_KgHa_Lag1": 158.77902149554492, "NPK_Intensity_KgHa_Lag2": 161.93956291794402, "NPK_Intensity_KgHa_Lag3": 150.42751919394686, "Irrigation_Intensity_Ratio_Lag1": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag2": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag3": 0.6693548446878521, "WDI_Lag1": 0.0226055072669597, "WDI_Lag2": 0.0242269008189686, "WDI_Lag3": 0.0217401858969987, "Kharif_Avg_MaxTemp_Lag1": 34.42399978637695, "Kharif_Avg_MaxTemp_Lag2": 35.14199981689453, "Kharif_Avg_MaxTemp_Lag3": 33.74000015258789, "Kharif_Total_Rain_Lag1": 587.4300022125244, "Kharif_Total_Rain_Lag2": 551.4700088500977, "Kharif_Total_Rain_Lag3": 977.7600021362304, "Rabi_Avg_MaxTemp_Lag1": 25.462499618530277, "Rabi_Avg_MaxTemp_Lag2": 24.417499542236328, "Rabi_Avg_MaxTemp_Lag3": 25.40750026702881, "Kharif_Avg_MaxTemp_Delta1": 0.07860021362304792, "Kharif_Total_Rain_Delta1": 67.27800178747555, "NPK_Intensity_KgHa_Delta1": -38.779021495544924, "Kharif_Avg_MaxTemp_Roll3": 34.435333251953125, "Kharif_Total_Rain_Roll3": 705.5533377329508, "requested_year": 2025, "model_year": 2015}}, "data_type": "COMPUTATION"}
+2026-04-28 12:39:08 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:09:08.318442Z", "logger": "krishisarthi_api", "event": "yield_model_prediction", "source": "[PREDICTION] XGBoost", "severity": "INFO", "data": {"prediction": {"predicted_yield_kg_ha": 2848.9661311178343, "benchmark_yield_kg_ha": 2087.2}, "model": "XGBoost"}, "data_type": "PREDICTION"}
+2026-04-28 12:39:08 [INFO] services.health_score: Health score: final=73.85  risk=LOW  decision=ELIGIBLE
+2026-04-28 12:39:09 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:09:09.404351Z", "logger": "krishisarthi_api", "event": "prediction_cached", "source": "[DATABASE] INSERT", "severity": "INFO", "data": {"operation": "INSERT", "result": {"field_id": "13eee978-de31-4b68-bad9-5ced53c50e72", "crop_type": "WHEAT.YIELD.Kg.per.ha.", "year": 2025, "health_score": 73.85, "loan_decision": "ELIGIBLE"}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-28 12:39:09 [INFO] httpx: HTTP Request: POST http://testserver/predict "HTTP/1.1 200 OK"
+2026-04-28 12:39:16 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:09:16.478134Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "13eee978-de31-4b68-bad9-5ced53c50e72", "crop_type": "WHEAT.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-28 12:39:16 [INFO] services.agro_service: Using mock agro snapshot for polygon None
+2026-04-28 12:39:16 [WARNING] krishisarthi_api: {"timestamp": "2026-04-28T07:09:16.478870Z", "logger": "krishisarthi_api", "event": "year_clamped_for_model", "source": "[HARDCODED]", "severity": "WARNING", "data": {"hardcoded_value": {"requested_year": 2025, "model_year": 2015}}, "data_type": "HARDCODED", "reason": "Input year 2025 exceeds training cutoff 2015. Clamping to 2015 to prevent extrapolation. DB record will still show year=2025."}
+2026-04-28 12:39:17 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:09:17.217015Z", "logger": "krishisarthi_api", "event": "input_features_prepared", "source": "[COMPUTATION] feature_engineering", "severity": "INFO", "data": {"computed_value": {"year": 2015, "State_Encoded": 17, "Crop_Encoded": 22, "NPK_Intensity_KgHa": 150.0, "Irrigation_Intensity_Ratio": 0.8, "WDI": 0.022919, "Kharif_Avg_MaxTemp": 34.5026, "Kharif_Total_Rain": 654.708004, "Rabi_Avg_MaxTemp": 25.138, "District_Soil_Health_Score": 15.3642, "NPK_Intensity_KgHa_Lag1": 158.77902149554492, "NPK_Intensity_KgHa_Lag2": 161.93956291794402, "NPK_Intensity_KgHa_Lag3": 150.42751919394686, "Irrigation_Intensity_Ratio_Lag1": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag2": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag3": 0.6693548446878521, "WDI_Lag1": 0.0226055072669597, "WDI_Lag2": 0.0242269008189686, "WDI_Lag3": 0.0217401858969987, "Kharif_Avg_MaxTemp_Lag1": 34.42399978637695, "Kharif_Avg_MaxTemp_Lag2": 35.14199981689453, "Kharif_Avg_MaxTemp_Lag3": 33.74000015258789, "Kharif_Total_Rain_Lag1": 587.4300022125244, "Kharif_Total_Rain_Lag2": 551.4700088500977, "Kharif_Total_Rain_Lag3": 977.7600021362304, "Rabi_Avg_MaxTemp_Lag1": 25.462499618530277, "Rabi_Avg_MaxTemp_Lag2": 24.417499542236328, "Rabi_Avg_MaxTemp_Lag3": 25.40750026702881, "Kharif_Avg_MaxTemp_Delta1": 0.07860021362304792, "Kharif_Total_Rain_Delta1": 67.27800178747555, "NPK_Intensity_KgHa_Delta1": -8.779021495544924, "Kharif_Avg_MaxTemp_Roll3": 34.435333251953125, "Kharif_Total_Rain_Roll3": 705.5533377329508, "requested_year": 2025, "model_year": 2015}}, "data_type": "COMPUTATION"}
+2026-04-28 12:39:17 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:09:17.221301Z", "logger": "krishisarthi_api", "event": "yield_model_prediction", "source": "[PREDICTION] XGBoost", "severity": "INFO", "data": {"prediction": {"predicted_yield_kg_ha": 2984.754909618838, "benchmark_yield_kg_ha": 2087.2}, "model": "XGBoost"}, "data_type": "PREDICTION"}
+2026-04-28 12:39:17 [INFO] services.health_score: Health score: final=73.23  risk=LOW  decision=ELIGIBLE
+2026-04-28 12:39:17 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:09:17.934579Z", "logger": "krishisarthi_api", "event": "prediction_cached", "source": "[DATABASE] INSERT", "severity": "INFO", "data": {"operation": "INSERT", "result": {"field_id": "13eee978-de31-4b68-bad9-5ced53c50e72", "crop_type": "WHEAT.YIELD.Kg.per.ha.", "year": 2025, "health_score": 73.23, "loan_decision": "ELIGIBLE"}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-28 12:39:17 [INFO] httpx: HTTP Request: POST http://testserver/predict "HTTP/1.1 200 OK"
+2026-04-28 12:39:24 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:09:24.884413Z", "logger": "krishisarthi_api", "event": "cache_hit", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "13eee978-de31-4b68-bad9-5ced53c50e72", "crop_type": "WHEAT.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-28 12:39:24 [INFO] httpx: HTTP Request: POST http://testserver/predict "HTTP/1.1 200 OK"
+2026-04-28 12:39:25 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:09:25.238959Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 12:41:01 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:11:01.435777Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "ddd015f1-34d9-49a4-a74a-1fe7b7aa5653", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-28 12:41:03 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/image/search?polyid=69f0578063eb0c31f862aeea&start=1774748461&end=1777340461&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:41:05 [INFO] httpx: HTTP Request: GET http://api.agromonitoring.com/stats/1.0/12369ec0400/69f0578063eb0c31f862aeea?appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:41:05 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/soil?polyid=69f0578063eb0c31f862aeea&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:41:05 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/weather?polyid=69f0578063eb0c31f862aeea&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:41:05 [WARNING] krishisarthi_api: {"timestamp": "2026-04-28T07:11:05.727469Z", "logger": "krishisarthi_api", "event": "year_clamped_for_model", "source": "[HARDCODED]", "severity": "WARNING", "data": {"hardcoded_value": {"requested_year": 2025, "model_year": 2015}}, "data_type": "HARDCODED", "reason": "Input year 2025 exceeds training cutoff 2015. Clamping to 2015 to prevent extrapolation. DB record will still show year=2025."}
+2026-04-28 12:41:06 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:11:06.856242Z", "logger": "krishisarthi_api", "event": "input_features_prepared", "source": "[COMPUTATION] feature_engineering", "severity": "INFO", "data": {"computed_value": {"year": 2015, "State_Encoded": 17, "Crop_Encoded": 8, "NPK_Intensity_KgHa": 105.0, "Irrigation_Intensity_Ratio": 0.67, "WDI": 0.022919, "Kharif_Avg_MaxTemp": 34.5026, "Kharif_Total_Rain": 654.708004, "District_Soil_Health_Score": 15.3642, "NPK_Intensity_KgHa_Lag1": 158.77902149554492, "NPK_Intensity_KgHa_Lag2": 161.93956291794402, "NPK_Intensity_KgHa_Lag3": 150.42751919394686, "Irrigation_Intensity_Ratio_Lag1": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag2": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag3": 0.6693548446878521, "WDI_Lag1": 0.0226055072669597, "WDI_Lag2": 0.0242269008189686, "WDI_Lag3": 0.0217401858969987, "Kharif_Avg_MaxTemp_Lag1": 34.42399978637695, "Kharif_Avg_MaxTemp_Lag2": 35.14199981689453, "Kharif_Avg_MaxTemp_Lag3": 33.74000015258789, "Kharif_Total_Rain_Lag1": 587.4300022125244, "Kharif_Total_Rain_Lag2": 551.4700088500977, "Kharif_Total_Rain_Lag3": 977.7600021362304, "Rabi_Avg_MaxTemp_Lag1": 25.462499618530277, "Rabi_Avg_MaxTemp_Lag2": 24.417499542236328, "Rabi_Avg_MaxTemp_Lag3": 25.40750026702881, "Kharif_Avg_MaxTemp_Delta1": 0.07860021362304792, "Kharif_Total_Rain_Delta1": 67.27800178747555, "NPK_Intensity_KgHa_Delta1": -53.779021495544924, "Kharif_Avg_MaxTemp_Roll3": 34.435333251953125, "Kharif_Total_Rain_Roll3": 705.5533377329508, "requested_year": 2025, "model_year": 2015}}, "data_type": "COMPUTATION"}
+2026-04-28 12:41:06 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:11:06.861368Z", "logger": "krishisarthi_api", "event": "yield_model_prediction", "source": "[PREDICTION] XGBoost", "severity": "INFO", "data": {"prediction": {"predicted_yield_kg_ha": 810.8158967164071, "benchmark_yield_kg_ha": 1880.7}, "model": "XGBoost"}, "data_type": "PREDICTION"}
+2026-04-28 12:41:06 [INFO] services.health_score: Health score: final=51.57  risk=MEDIUM  decision=REVIEW
+2026-04-28 12:41:08 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:11:08.102137Z", "logger": "krishisarthi_api", "event": "prediction_cached", "source": "[DATABASE] INSERT", "severity": "INFO", "data": {"operation": "INSERT", "result": {"field_id": "ddd015f1-34d9-49a4-a74a-1fe7b7aa5653", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025, "health_score": 51.57, "loan_decision": "REVIEW"}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-28 12:41:33 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:11:33.108013Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "ddd015f1-34d9-49a4-a74a-1fe7b7aa5653", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-28 12:41:34 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/image/search?polyid=69f0578063eb0c31f862aeea&start=1774748493&end=1777340493&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:41:35 [INFO] httpx: HTTP Request: GET http://api.agromonitoring.com/stats/1.0/12369ec0400/69f0578063eb0c31f862aeea?appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:41:35 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/soil?polyid=69f0578063eb0c31f862aeea&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:41:36 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/weather?polyid=69f0578063eb0c31f862aeea&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 12:41:36 [WARNING] krishisarthi_api: {"timestamp": "2026-04-28T07:11:36.206869Z", "logger": "krishisarthi_api", "event": "year_clamped_for_model", "source": "[HARDCODED]", "severity": "WARNING", "data": {"hardcoded_value": {"requested_year": 2025, "model_year": 2015}}, "data_type": "HARDCODED", "reason": "Input year 2025 exceeds training cutoff 2015. Clamping to 2015 to prevent extrapolation. DB record will still show year=2025."}
+2026-04-28 12:41:36 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:11:36.961784Z", "logger": "krishisarthi_api", "event": "input_features_prepared", "source": "[COMPUTATION] feature_engineering", "severity": "INFO", "data": {"computed_value": {"year": 2015, "State_Encoded": 17, "Crop_Encoded": 8, "NPK_Intensity_KgHa": 105.0, "Irrigation_Intensity_Ratio": 0.44, "WDI": 0.022919, "Kharif_Avg_MaxTemp": 34.5026, "Kharif_Total_Rain": 654.708004, "District_Soil_Health_Score": 15.3642, "NPK_Intensity_KgHa_Lag1": 158.77902149554492, "NPK_Intensity_KgHa_Lag2": 161.93956291794402, "NPK_Intensity_KgHa_Lag3": 150.42751919394686, "Irrigation_Intensity_Ratio_Lag1": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag2": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag3": 0.6693548446878521, "WDI_Lag1": 0.0226055072669597, "WDI_Lag2": 0.0242269008189686, "WDI_Lag3": 0.0217401858969987, "Kharif_Avg_MaxTemp_Lag1": 34.42399978637695, "Kharif_Avg_MaxTemp_Lag2": 35.14199981689453, "Kharif_Avg_MaxTemp_Lag3": 33.74000015258789, "Kharif_Total_Rain_Lag1": 587.4300022125244, "Kharif_Total_Rain_Lag2": 551.4700088500977, "Kharif_Total_Rain_Lag3": 977.7600021362304, "Rabi_Avg_MaxTemp_Lag1": 25.462499618530277, "Rabi_Avg_MaxTemp_Lag2": 24.417499542236328, "Rabi_Avg_MaxTemp_Lag3": 25.40750026702881, "Kharif_Avg_MaxTemp_Delta1": 0.07860021362304792, "Kharif_Total_Rain_Delta1": 67.27800178747555, "NPK_Intensity_KgHa_Delta1": -53.779021495544924, "Kharif_Avg_MaxTemp_Roll3": 34.435333251953125, "Kharif_Total_Rain_Roll3": 705.5533377329508, "requested_year": 2025, "model_year": 2015}}, "data_type": "COMPUTATION"}
+2026-04-28 12:41:36 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:11:36.965848Z", "logger": "krishisarthi_api", "event": "yield_model_prediction", "source": "[PREDICTION] XGBoost", "severity": "INFO", "data": {"prediction": {"predicted_yield_kg_ha": 817.3160962918096, "benchmark_yield_kg_ha": 1880.7}, "model": "XGBoost"}, "data_type": "PREDICTION"}
+2026-04-28 12:41:36 [INFO] services.health_score: Health score: final=49.93  risk=MEDIUM  decision=REVIEW
+2026-04-28 12:41:37 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:11:37.792168Z", "logger": "krishisarthi_api", "event": "prediction_cached", "source": "[DATABASE] INSERT", "severity": "INFO", "data": {"operation": "INSERT", "result": {"field_id": "ddd015f1-34d9-49a4-a74a-1fe7b7aa5653", "crop_type": "MAIZE.YIELD.Kg.per.ha.", "year": 2025, "health_score": 49.93, "loan_decision": "REVIEW"}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-28 12:42:00 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T07:12:00.034262Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 13:54:15 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T08:24:15.791817Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 13:54:15 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T08:24:15.792770Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 13:54:35 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T08:24:35.016734Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 13:54:42 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T08:24:42.406876Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 13:55:39 [INFO] chatbot.db: {"timestamp": "2026-04-28T08:25:39.732879Z", "logger": "chatbot.db", "event": "pool_created", "source": "[DATABASE] POOL_INIT", "severity": "INFO", "data": {"operation": "POOL_INIT", "result": {"min_size": 1, "max_size": 5, "command_timeout": 15}, "table": "all"}, "data_type": "DATABASE"}
+2026-04-28 13:55:43 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 13:56:27 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 13:56:33 [INFO] httpx: HTTP Request: GET https://api.open-meteo.com/v1/forecast?latitude=27.175&longitude=78.005&daily=temperature_2m_max%2Ctemperature_2m_min%2Cprecipitation_sum%2Cwindspeed_10m_max&forecast_days=5&timezone=Asia%2FKolkata "HTTP/1.1 200 OK"
+2026-04-28 13:56:33 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 13:57:36 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 13:57:40 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 13:58:27 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-04-28 13:58:27 [ERROR] chatbot.agent: run_agent_streaming error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k4xhe4pqer7r115yy300xh65` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98710, Requested 1849. Please try again in 8m2.976s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+Traceback (most recent call last):
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\chatbot\agent.py", line 94, in run_agent_streaming
+    async for event in agrisage_graph.astream_events(
+    ...<40 lines>...
+                            yield text
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1516, in astream_events
+    async for event in event_stream:
+        yield event
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1100, in _astream_events_implementation_v2
+    await task
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1055, in consume_astream
+    async for _ in event_streamer.tap_output_aiter(run_id, stream):
+        # All the content will be picked up
+        pass
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\main.py", line 3181, in astream
+    async for _ in runner.atick(
+    ...<16 lines>...
+            yield o
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\_runner.py", line 304, in atick
+    await arun_with_retry(
+    ...<15 lines>...
+    )
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\pregel\_retry.py", line 237, in arun_with_retry
+    async for _ in task.proc.astream(task.input, config):
+        pass
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 839, in astream
+    output = await asyncio.create_task(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        _consume_aiter(aiterator), context=context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 904, in _consume_aiter
+    async for chunk in it:
+    ...<8 lines>...
+            output = chunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+    ...<14 lines>...
+                final = ichunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+    ...<14 lines>...
+                final = ichunk
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1170, in astream
+    yield await self.ainvoke(input, config, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\chatbot\graph.py", line 67, in call_model
+    response = await llm_model.ainvoke(messages)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 5708, in ainvoke
+    return await self.bound.ainvoke(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 478, in ainvoke
+    llm_result = await self.agenerate_prompt(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<8 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1209, in agenerate_prompt
+    return await self.agenerate(
+           ^^^^^^^^^^^^^^^^^^^^^
+        prompt_messages, stop=stop, callbacks=callbacks, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1167, in agenerate
+    raise exceptions[0]
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1393, in _agenerate_with_cache
+    async for chunk in self._astream(messages, stop=stop, **kwargs):
+    ...<21 lines>...
+        yielded = True
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\langchain_groq\chat_models.py", line 709, in _astream
+    async for chunk in await self.async_client.create(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        messages=message_dicts, **params
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\resources\chat\completions.py", line 941, in create
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+    ...<47 lines>...
+    )
+    ^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\_base_client.py", line 1762, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\groq\_base_client.py", line 1576, in request
+    raise self._make_status_error_from_response(err.response) from None
+groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k4xhe4pqer7r115yy300xh65` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98710, Requested 1849. Please try again in 8m2.976s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+During task with name 'agent' and id '4ae5a0d6-8823-bf9a-be32-93c0367e7221'
+2026-04-28 13:58:34 [INFO] chatbot.db: chatbot asyncpg pool closed
+2026-04-28 13:58:34 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T08:28:34.971059Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 14:01:19 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T08:31:19.621743Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 14:01:19 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T08:31:19.622381Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 14:01:22 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T08:31:22.046419Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "D:\\CA_content\\Python\\KissanSathi\\krishisarthi-api\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 14:01:28 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T08:31:28.690462Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 14:02:20 [INFO] chatbot.db: {"timestamp": "2026-04-28T08:32:20.803970Z", "logger": "chatbot.db", "event": "pool_created", "source": "[DATABASE] POOL_INIT", "severity": "INFO", "data": {"operation": "POOL_INIT", "result": {"min_size": 1, "max_size": 5, "command_timeout": 15}, "table": "all"}, "data_type": "DATABASE"}
+2026-04-28 14:02:24 [INFO] chatbot.memory: Memory pressure: thread='thread-740e8268-730f-4bf6-bc2d-540e7d3325e5' has 21 messages — summarising oldest 16
+2026-04-28 14:02:26 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 14:02:31 [INFO] chatbot.memory: Memory pressure resolved: stored new summary (1429 chars)
+2026-04-28 14:02:32 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 14:02:36 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 14:03:15 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 14:03:19 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 14:03:25 [INFO] httpx: HTTP Request: GET https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd000001cfccd5ce2b5a46fe72b1c4458a6a3613&format=json&filters%5Bstate%5D=uttar+pradesh&filters%5Bmarket%5D=Achnera&filters%5Bcommodity%5D=wheat "HTTP/1.1 200 OK"
+2026-04-28 14:03:25 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 14:03:58 [INFO] chatbot.db: chatbot asyncpg pool closed
+2026-04-28 14:03:58 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T08:33:58.563776Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}

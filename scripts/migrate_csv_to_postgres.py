@@ -29,7 +29,7 @@ logger = logging.getLogger("migrate")
 
 from dotenv import load_dotenv
 from pathlib import Path
-load_dotenv(dotenv_path=Path(__file__).resolve().parent / ".env")
+load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Config — override via environment variables
@@ -259,8 +259,12 @@ async def migrate():
             _safe_float(row.get("COTTON.YIELD.Kg.per.ha.")),
         ))
 
-    # Use executemany for bulk insert performance
-    await conn.executemany(INSERT_SQL, records)
+    # Use executemany for bulk insert performance, batched
+    batch_size = 500
+    for i in range(0, len(records), batch_size):
+        batch = records[i:i + batch_size]
+        await conn.executemany(INSERT_SQL, batch)
+        logger.info(f"Inserted {i + len(batch)} / {len(records)} rows...")
 
     # ── Report ────────────────────────────────────────────────────────────────
     count = await conn.fetchval("SELECT COUNT(*) FROM district_climate_history")
