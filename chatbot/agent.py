@@ -77,11 +77,11 @@ async def run_agent_streaming(
 
     pool = await get_pool()
     await ensure_thread_exists(thread_id, farmer_id, pool)
-    
+
     recent_messages, _ = await apply_memory_pressure(thread_id, pool, llm_model)
-    
+
     messages = recent_messages + [HumanMessage(content=message)]
-    
+
     initial_state = {
         "messages": messages,
         "farmer_id": farmer_id
@@ -91,48 +91,34 @@ async def run_agent_streaming(
         full_reply = ""
         tool_messages = []
 
-        async for event in agrisage_graph.astream_events(
+        # astream yields one dict per node execution: {"node_name": state_update}
+        async for node_output in agrisage_graph.astream(
             initial_state,
             config={"recursion_limit": 50},
-            version="v2",
         ):
-            event_name = event.get("event", "")
-            event_data = event.get("data", {})
+            for node_name, state_update in node_output.items():
+                updated_msgs = state_update.get("messages", [])
 
-            # When a tool finishes, emit its result with a special marker
-            # so the frontend can render mandi lists, advice, etc. explicitly
-            if event_name == "on_tool_end":
-                output = event_data.get("output", "")
-                tool_name = event.get("name", "tool")
-                content_str = ""
-                if isinstance(output, ToolMessage):
-                    content_str = output.content
-                    tool_messages.append({"name": tool_name, "content": content_str})
-                elif isinstance(output, str):
-                    content_str = output
-                    tool_messages.append({"name": tool_name, "content": content_str})
-                if content_str:
-                    # Emit as a parseable marker for the frontend
-                    yield f"\x00TOOL:{tool_name}\x00{content_str}\x00/TOOL\x00"
+                if node_name == "tools":
+                    # Emit tool results with markers for the frontend
+                    for msg in updated_msgs:
+                        if isinstance(msg, ToolMessage):
+                            tool_name = msg.name or "tool"
+                            content_str = msg.content or ""
+                            tool_messages.append({"name": tool_name, "content": content_str})
+                            if content_str:
+                                yield f"\x00TOOL:{tool_name}\x00{content_str}\x00/TOOL\x00"
 
-            # Stream LLM tokens
-            if event_name == "on_chat_model_stream":
-                chunk = event_data.get("chunk")
-                if chunk is None:
-                    continue
-                if hasattr(chunk, "tool_call_chunks") and chunk.tool_call_chunks:
-                    continue
-                content = chunk.content if hasattr(chunk, "content") else ""
-                if isinstance(content, str) and content:
-                    full_reply += content
-                    yield content
-                elif isinstance(content, list):
-                    for part in content:
-                        if isinstance(part, dict) and part.get("type") == "text":
-                            text = part.get("text", "")
-                            if text:
-                                full_reply += text
-                                yield text
+                elif node_name == "agent":
+                    # Emit the AI's final text response
+                    for msg in updated_msgs:
+                        if (
+                            isinstance(msg, AIMessage)
+                            and msg.content
+                            and not getattr(msg, "tool_calls", None)
+                        ):
+                            full_reply = msg.content
+                            yield msg.content
 
         if full_reply or tool_messages:
             await save_turn(thread_id, message, full_reply, tool_messages, pool)

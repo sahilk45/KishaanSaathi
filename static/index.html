@@ -246,56 +246,58 @@ async function sendChat() {
 
       buffer += decoder.decode(value, {stream: true});
 
-      // Parse tool result markers: \x00TOOL:name\x00content\x00/TOOL\x00
-      let processed = '';
-      let i = 0;
-      while (i < buffer.length) {
-        const toolStart = buffer.indexOf('\x00TOOL:', i);
+      // Process buffer: extract TOOL blocks and plain text chunks
+      while (buffer.length > 0) {
+        const toolStart = buffer.indexOf('\x00TOOL:');
+
         if (toolStart === -1) {
-          // No more tool markers — rest is normal text
-          processed += buffer.slice(i);
-          i = buffer.length;
-        } else {
-          // Normal text before tool marker
-          processed += buffer.slice(i, toolStart);
-          const nameEnd = buffer.indexOf('\x00', toolStart + 5);
-          if (nameEnd === -1) { buffer = buffer.slice(toolStart); break; } // incomplete, wait
-          const toolEnd = buffer.indexOf('\x00/TOOL\x00', nameEnd + 1);
-          if (toolEnd === -1) { buffer = buffer.slice(toolStart); break; } // incomplete, wait
-
-          const toolName = buffer.slice(toolStart + 5, nameEnd);
-          const toolContent = buffer.slice(nameEnd + 1, toolEnd);
-
-          // Flush any pending bot text
-          if (processed.trim()) {
+          // No tool marker — flush entire buffer as plain text
+          if (buffer) {
             if (!botEl) { botEl = appendMsg('', 'bot'); }
-            botText += processed;
+            botText += buffer;
             botEl.textContent = botText;
             chatBox.scrollTop = chatBox.scrollHeight;
-            processed = '';
           }
-          appendToolBlock(toolName, toolContent);
-          botEl = null; botText = '';
-          i = toolEnd + 7; // skip past \x00/TOOL\x00
-          buffer = buffer.slice(i);
-          i = 0;
+          buffer = '';
+          break;
         }
-      }
 
-      if (i >= buffer.length) buffer = '';
+        if (toolStart > 0) {
+          // Flush plain text that appears before the tool marker
+          const textBefore = buffer.slice(0, toolStart);
+          if (textBefore) {
+            if (!botEl) { botEl = appendMsg('', 'bot'); }
+            botText += textBefore;
+            botEl.textContent = botText;
+            chatBox.scrollTop = chatBox.scrollHeight;
+          }
+          buffer = buffer.slice(toolStart);
+        }
 
-      if (processed) {
-        if (!botEl) { botEl = appendMsg('', 'bot'); }
-        botText += processed;
-        botEl.textContent = botText;
-        chatBox.scrollTop = chatBox.scrollHeight;
+        // Try to parse the full TOOL block (need both delimiters present)
+        const nameEnd = buffer.indexOf('\x00', 6); // after '\x00TOOL:'
+        if (nameEnd === -1) break; // incomplete — wait for more data
+
+        const toolEnd = buffer.indexOf('\x00/TOOL\x00', nameEnd + 1);
+        if (toolEnd === -1) break; // incomplete — wait for more data
+
+        const toolName    = buffer.slice(6, nameEnd);
+        const toolContent = buffer.slice(nameEnd + 1, toolEnd);
+
+        // Emit the tool block and reset bot bubble for next AI text
+        appendToolBlock(toolName, toolContent);
+        botEl = null;
+        botText = '';
+
+        buffer = buffer.slice(toolEnd + 7); // skip past '\x00/TOOL\x00'
       }
     }
 
-    // Flush remaining buffer
+    // Flush any remaining plain text after stream ends
     if (buffer && !buffer.startsWith('\x00')) {
       if (!botEl) botEl = appendMsg('', 'bot');
       botEl.textContent = botText + buffer;
+      chatBox.scrollTop = chatBox.scrollHeight;
     }
 
   } catch(e) {

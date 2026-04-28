@@ -1315,3 +1315,483 @@ During task with name 'agent' and id '4ae5a0d6-8823-bf9a-be32-93c0367e7221'
 2026-04-28 16:28:47 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T10:58:47.022668Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
 2026-04-28 16:28:47 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T10:58:47.024900Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "E:\\democopypast\\Kisaan_backend\\Encoder_and_model"}}, "data_type": "COMPUTATION"}
 2026-04-28 16:29:00 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T10:59:00.664741Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "E:\\democopypast\\Kisaan_backend\\Encoder_and_model\\krishi_kharif_xgb_final.pkl", "xgb_rabi": "E:\\democopypast\\Kisaan_backend\\Encoder_and_model\\krishi_rabi_xgb_final.pkl", "crop_encoder": "E:\\democopypast\\Kisaan_backend\\Encoder_and_model\\crop_encoder.pkl", "state_encoder": "E:\\democopypast\\Kisaan_backend\\Encoder_and_model\\state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 16:34:52 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T11:04:52.161624Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 16:34:52 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T11:04:52.162113Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 16:34:53 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T11:04:53.152162Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_kharif_xgb_final.pkl", "xgb_rabi": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_rabi_xgb_final.pkl", "crop_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/crop_encoder.pkl", "state_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 16:34:56 [INFO] database: ✅ asyncpg pool created
+2026-04-28 16:34:57 [INFO] database: ✅ All tables ensured
+2026-04-28 16:34:57 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T11:04:57.783088Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 16:35:17 [INFO] chatbot.db: {"timestamp": "2026-04-28T11:05:17.166424Z", "logger": "chatbot.db", "event": "pool_created", "source": "[DATABASE] POOL_INIT", "severity": "INFO", "data": {"operation": "POOL_INIT", "result": {"min_size": 1, "max_size": 5, "command_timeout": 15}, "table": "all"}, "data_type": "DATABASE"}
+2026-04-28 16:35:20 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 16:35:58 [INFO] chatbot.db: chatbot asyncpg pool closed
+2026-04-28 16:35:58 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T11:05:58.443724Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 16:36:29 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T11:06:29.292310Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 16:36:29 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T11:06:29.292722Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 16:36:30 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T11:06:30.073352Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_kharif_xgb_final.pkl", "xgb_rabi": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_rabi_xgb_final.pkl", "crop_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/crop_encoder.pkl", "state_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 16:36:35 [INFO] database: ✅ asyncpg pool created
+2026-04-28 16:36:36 [INFO] database: ✅ All tables ensured
+2026-04-28 16:36:36 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T11:06:36.794723Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 16:36:52 [INFO] chatbot.db: {"timestamp": "2026-04-28T11:06:52.174143Z", "logger": "chatbot.db", "event": "pool_created", "source": "[DATABASE] POOL_INIT", "severity": "INFO", "data": {"operation": "POOL_INIT", "result": {"min_size": 1, "max_size": 5, "command_timeout": 15}, "table": "all"}, "data_type": "DATABASE"}
+2026-04-28 16:36:56 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 16:36:59 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 16:43:10 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 16:44:57 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 16:46:26 [INFO] chatbot.db: chatbot asyncpg pool closed
+2026-04-28 16:46:26 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T11:16:26.606722Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 16:46:27 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T11:16:27.857562Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 16:46:27 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T11:16:27.857969Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 16:46:28 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T11:16:28.662367Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_kharif_xgb_final.pkl", "xgb_rabi": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_rabi_xgb_final.pkl", "crop_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/crop_encoder.pkl", "state_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 16:46:33 [INFO] database: ✅ asyncpg pool created
+2026-04-28 16:46:34 [INFO] database: ✅ All tables ensured
+2026-04-28 16:46:34 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T11:16:34.155933Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 16:48:01 [INFO] chatbot.db: {"timestamp": "2026-04-28T11:18:01.745882Z", "logger": "chatbot.db", "event": "pool_created", "source": "[DATABASE] POOL_INIT", "severity": "INFO", "data": {"operation": "POOL_INIT", "result": {"min_size": 1, "max_size": 5, "command_timeout": 15}, "table": "all"}, "data_type": "DATABASE"}
+2026-04-28 16:48:06 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 16:50:02 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2026-04-28 16:50:02 [ERROR] chatbot.agent: run_agent_streaming error: Error code: 400 - {'error': {'message': 'tool call validation failed: parameters for tool get_weather did not match schema: errors: [`/days`: expected integer, but got string]', 'type': 'invalid_request_error', 'code': 'tool_use_failed', 'failed_generation': '<function=get_weather>{"days": "3"}</function>'}}
+Traceback (most recent call last):
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/agent.py", line 95, in run_agent_streaming
+    async for node_output in agrisage_graph.astream(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/main.py", line 3181, in astream
+    async for _ in runner.atick(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/_runner.py", line 304, in atick
+    await arun_with_retry(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/_retry.py", line 242, in arun_with_retry
+    return await task.proc.ainvoke(task.input, config)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/_internal/_runnable.py", line 709, in ainvoke
+    input = await step.ainvoke(input, config, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/_internal/_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/graph.py", line 67, in call_model
+    response = await llm_model.ainvoke(messages)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 5752, in ainvoke
+    return await self.bound.ainvoke(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 494, in ainvoke
+    llm_result = await self.agenerate_prompt(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 1760, in agenerate_prompt
+    return await self.agenerate(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 1718, in agenerate
+    raise exceptions[0]
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 2053, in _agenerate_with_cache
+    result = await self._agenerate(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_groq/chat_models.py", line 642, in _agenerate
+    response = await self.async_client.create(messages=message_dicts, **params)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/groq/resources/chat/completions.py", line 941, in create
+    return await self._post(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/groq/_base_client.py", line 1762, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/groq/_base_client.py", line 1576, in request
+    raise self._make_status_error_from_response(err.response) from None
+groq.BadRequestError: Error code: 400 - {'error': {'message': 'tool call validation failed: parameters for tool get_weather did not match schema: errors: [`/days`: expected integer, but got string]', 'type': 'invalid_request_error', 'code': 'tool_use_failed', 'failed_generation': '<function=get_weather>{"days": "3"}</function>'}}
+2026-04-28 16:50:40 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 16:50:45 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 16:50:54 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 16:51:01 [INFO] httpx: HTTP Request: GET https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd000001cfccd5ce2b5a46fe72b1c4458a6a3613&format=json&filters%5Bstate%5D=uttar+pradesh&filters%5Bmarket%5D=Achnera&filters%5Bcommodity%5D=wheat "HTTP/1.1 200 OK"
+2026-04-28 16:51:02 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 16:51:31 [INFO] chatbot.memory: Memory pressure: thread='thread-e557832a-cbde-45df-9708-dad86a0c995a' has 22 messages — summarising oldest 17
+2026-04-28 16:51:33 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 16:51:39 [INFO] chatbot.memory: Memory pressure resolved: stored new summary (1419 chars)
+2026-04-28 16:51:40 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2026-04-28 16:51:40 [ERROR] chatbot.agent: run_agent_streaming error: Error code: 400 - {'error': {'message': 'tool call validation failed: parameters for tool get_weather did not match schema: errors: [`/days`: expected integer, but got string]', 'type': 'invalid_request_error', 'code': 'tool_use_failed', 'failed_generation': '<function=get_weather>{"days": "3"}</function>'}}
+Traceback (most recent call last):
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/agent.py", line 95, in run_agent_streaming
+    async for node_output in agrisage_graph.astream(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/main.py", line 3181, in astream
+    async for _ in runner.atick(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/_runner.py", line 304, in atick
+    await arun_with_retry(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/_retry.py", line 242, in arun_with_retry
+    return await task.proc.ainvoke(task.input, config)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/_internal/_runnable.py", line 709, in ainvoke
+    input = await step.ainvoke(input, config, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/_internal/_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/graph.py", line 67, in call_model
+    response = await llm_model.ainvoke(messages)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 5752, in ainvoke
+    return await self.bound.ainvoke(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 494, in ainvoke
+    llm_result = await self.agenerate_prompt(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 1760, in agenerate_prompt
+    return await self.agenerate(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 1718, in agenerate
+    raise exceptions[0]
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 2053, in _agenerate_with_cache
+    result = await self._agenerate(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_groq/chat_models.py", line 642, in _agenerate
+    response = await self.async_client.create(messages=message_dicts, **params)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/groq/resources/chat/completions.py", line 941, in create
+    return await self._post(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/groq/_base_client.py", line 1762, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/groq/_base_client.py", line 1576, in request
+    raise self._make_status_error_from_response(err.response) from None
+groq.BadRequestError: Error code: 400 - {'error': {'message': 'tool call validation failed: parameters for tool get_weather did not match schema: errors: [`/days`: expected integer, but got string]', 'type': 'invalid_request_error', 'code': 'tool_use_failed', 'failed_generation': '<function=get_weather>{"days": "3"}</function>'}}
+2026-04-28 16:52:16 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 16:52:16 [ERROR] chatbot.agent: run_agent_streaming error: 'NoneType' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/agent.py", line 95, in run_agent_streaming
+    async for node_output in agrisage_graph.astream(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/main.py", line 3181, in astream
+    async for _ in runner.atick(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/_runner.py", line 304, in atick
+    await arun_with_retry(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/_retry.py", line 242, in arun_with_retry
+    return await task.proc.ainvoke(task.input, config)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/_internal/_runnable.py", line 709, in ainvoke
+    input = await step.ainvoke(input, config, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/_internal/_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/graph.py", line 86, in call_tool
+    elif name == "get_crop_advice":   res = await get_crop_advice.ainvoke(args, config=conf)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/tools/structured.py", line 70, in ainvoke
+    return await super().ainvoke(input, config, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/tools/base.py", line 652, in ainvoke
+    return await self.arun(tool_input, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/tools/base.py", line 1131, in arun
+    raise error_to_raise
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/tools/base.py", line 1097, in arun
+    response = await coro_with_context(coro, context)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/tools/structured.py", line 124, in _arun
+    return await self.coroutine(*args, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/tools.py", line 242, in get_crop_advice
+    farmer_id = config.get("configurable", {}).get("farmer_id")
+AttributeError: 'NoneType' object has no attribute 'get'
+2026-04-28 16:52:34 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 16:52:34 [ERROR] chatbot.agent: run_agent_streaming error: 'NoneType' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/agent.py", line 95, in run_agent_streaming
+    async for node_output in agrisage_graph.astream(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/main.py", line 3181, in astream
+    async for _ in runner.atick(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/_runner.py", line 304, in atick
+    await arun_with_retry(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/_retry.py", line 242, in arun_with_retry
+    return await task.proc.ainvoke(task.input, config)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/_internal/_runnable.py", line 709, in ainvoke
+    input = await step.ainvoke(input, config, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/_internal/_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/graph.py", line 86, in call_tool
+    elif name == "get_crop_advice":   res = await get_crop_advice.ainvoke(args, config=conf)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/tools/structured.py", line 70, in ainvoke
+    return await super().ainvoke(input, config, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/tools/base.py", line 652, in ainvoke
+    return await self.arun(tool_input, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/tools/base.py", line 1131, in arun
+    raise error_to_raise
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/tools/base.py", line 1097, in arun
+    response = await coro_with_context(coro, context)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/tools/structured.py", line 124, in _arun
+    return await self.coroutine(*args, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/tools.py", line 242, in get_crop_advice
+    farmer_id = config.get("configurable", {}).get("farmer_id")
+AttributeError: 'NoneType' object has no attribute 'get'
+2026-04-28 16:53:29 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2026-04-28 16:53:29 [ERROR] chatbot.agent: run_agent_streaming error: Error code: 400 - {'error': {'message': 'tool call validation failed: parameters for tool get_weather did not match schema: errors: [`/days`: expected integer, but got string]', 'type': 'invalid_request_error', 'code': 'tool_use_failed', 'failed_generation': '<function=get_weather>{"days": "1"}</function>'}}
+Traceback (most recent call last):
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/agent.py", line 95, in run_agent_streaming
+    async for node_output in agrisage_graph.astream(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/main.py", line 3181, in astream
+    async for _ in runner.atick(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/_runner.py", line 304, in atick
+    await arun_with_retry(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/_retry.py", line 242, in arun_with_retry
+    return await task.proc.ainvoke(task.input, config)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/_internal/_runnable.py", line 709, in ainvoke
+    input = await step.ainvoke(input, config, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/_internal/_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/graph.py", line 67, in call_model
+    response = await llm_model.ainvoke(messages)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 5752, in ainvoke
+    return await self.bound.ainvoke(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 494, in ainvoke
+    llm_result = await self.agenerate_prompt(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 1760, in agenerate_prompt
+    return await self.agenerate(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 1718, in agenerate
+    raise exceptions[0]
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 2053, in _agenerate_with_cache
+    result = await self._agenerate(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_groq/chat_models.py", line 642, in _agenerate
+    response = await self.async_client.create(messages=message_dicts, **params)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/groq/resources/chat/completions.py", line 941, in create
+    return await self._post(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/groq/_base_client.py", line 1762, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/groq/_base_client.py", line 1576, in request
+    raise self._make_status_error_from_response(err.response) from None
+groq.BadRequestError: Error code: 400 - {'error': {'message': 'tool call validation failed: parameters for tool get_weather did not match schema: errors: [`/days`: expected integer, but got string]', 'type': 'invalid_request_error', 'code': 'tool_use_failed', 'failed_generation': '<function=get_weather>{"days": "1"}</function>'}}
+2026-04-28 16:55:06 [INFO] services.imputation: Imputation: district='agra' target_year=2025 → using years [2015, 2014, 2013] with weights [0.5, 0.3, 0.2]
+2026-04-28 16:55:15 [INFO] services.imputation: Imputation complete | district='agra' target_year=2025 years_used=[2015, 2014, 2013] → kharif_temp=34.5 kharif_rain=655 rabi_temp=25.1 wdi=0.023 soil=15.4
+2026-04-28 16:55:17 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T11:25:17.143857Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "ddd015f1-34d9-49a4-a74a-1fe7b7aa5653", "crop_type": "RICE YIELD (Kg per ha)", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-28 16:55:19 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/image/search?polyid=69f0578063eb0c31f862aeea&start=1774763717&end=1777355717&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 16:55:20 [INFO] httpx: HTTP Request: GET http://api.agromonitoring.com/stats/1.0/12369ec0400/69f0578063eb0c31f862aeea?appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 16:55:21 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/soil?polyid=69f0578063eb0c31f862aeea&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 16:55:21 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/weather?polyid=69f0578063eb0c31f862aeea&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 16:55:21 [WARNING] krishisarthi_api: {"timestamp": "2026-04-28T11:25:21.346220Z", "logger": "krishisarthi_api", "event": "year_clamped_for_model", "source": "[HARDCODED]", "severity": "WARNING", "data": {"hardcoded_value": {"requested_year": 2025, "model_year": 2015}}, "data_type": "HARDCODED", "reason": "Input year 2025 exceeds training cutoff 2015. Clamping to 2015 to prevent extrapolation. DB record will still show year=2025."}
+2026-04-28 16:55:22 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T11:25:22.421383Z", "logger": "krishisarthi_api", "event": "input_features_prepared", "source": "[COMPUTATION] feature_engineering", "severity": "INFO", "data": {"computed_value": {"year": 2015, "State_Encoded": 17, "Crop_Encoded": 15, "NPK_Intensity_KgHa": 117.0, "Irrigation_Intensity_Ratio": 0.45, "WDI": 0.022919, "Kharif_Avg_MaxTemp": 34.5026, "Kharif_Total_Rain": 654.708004, "District_Soil_Health_Score": 15.3642, "NPK_Intensity_KgHa_Lag1": 158.77902149554492, "NPK_Intensity_KgHa_Lag2": 161.93956291794402, "NPK_Intensity_KgHa_Lag3": 150.42751919394686, "Irrigation_Intensity_Ratio_Lag1": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag2": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag3": 0.6693548446878521, "WDI_Lag1": 0.0226055072669597, "WDI_Lag2": 0.0242269008189686, "WDI_Lag3": 0.0217401858969987, "Kharif_Avg_MaxTemp_Lag1": 34.42399978637695, "Kharif_Avg_MaxTemp_Lag2": 35.14199981689453, "Kharif_Avg_MaxTemp_Lag3": 33.74000015258789, "Kharif_Total_Rain_Lag1": 587.4300022125244, "Kharif_Total_Rain_Lag2": 551.4700088500977, "Kharif_Total_Rain_Lag3": 977.7600021362304, "Rabi_Avg_MaxTemp_Lag1": 25.462499618530277, "Rabi_Avg_MaxTemp_Lag2": 24.417499542236328, "Rabi_Avg_MaxTemp_Lag3": 25.40750026702881, "Kharif_Avg_MaxTemp_Delta1": 0.07860021362304792, "Kharif_Total_Rain_Delta1": 67.27800178747555, "NPK_Intensity_KgHa_Delta1": -41.779021495544924, "Kharif_Avg_MaxTemp_Roll3": 34.435333251953125, "Kharif_Total_Rain_Roll3": 705.5533377329508, "requested_year": 2025, "model_year": 2015}}, "data_type": "COMPUTATION"}
+2026-04-28 16:55:22 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T11:25:22.431122Z", "logger": "krishisarthi_api", "event": "yield_model_prediction", "source": "[PREDICTION] XGBoost", "severity": "INFO", "data": {"prediction": {"predicted_yield_kg_ha": 2012.1188631260409, "benchmark_yield_kg_ha": 1872.1}, "model": "XGBoost"}, "data_type": "PREDICTION"}
+2026-04-28 16:55:22 [INFO] services.health_score: Health score: final=64.74  risk=MEDIUM  decision=REVIEW
+2026-04-28 16:55:24 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T11:25:24.073328Z", "logger": "krishisarthi_api", "event": "prediction_cached", "source": "[DATABASE] INSERT", "severity": "INFO", "data": {"operation": "INSERT", "result": {"field_id": "ddd015f1-34d9-49a4-a74a-1fe7b7aa5653", "crop_type": "RICE YIELD (Kg per ha)", "year": 2025, "health_score": 64.74, "loan_decision": "REVIEW"}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-28 16:56:05 [INFO] services.imputation: Imputation: district='agra' target_year=2025 → using years [2015, 2014, 2013] with weights [0.5, 0.3, 0.2]
+2026-04-28 16:56:11 [INFO] services.imputation: Imputation complete | district='agra' target_year=2025 years_used=[2015, 2014, 2013] → kharif_temp=34.5 kharif_rain=655 rabi_temp=25.1 wdi=0.023 soil=15.4
+2026-04-28 16:56:12 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T11:26:12.234037Z", "logger": "krishisarthi_api", "event": "cache_miss", "source": "[DATABASE] SELECT", "severity": "INFO", "data": {"operation": "SELECT", "result": {"field_id": "ddd015f1-34d9-49a4-a74a-1fe7b7aa5653", "crop_type": "RICE YIELD (Kg per ha)", "year": 2025}, "table": "field_predictions", "rows_affected": 0}, "data_type": "DATABASE"}
+2026-04-28 16:56:13 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/image/search?polyid=69f0578063eb0c31f862aeea&start=1774763772&end=1777355772&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 16:56:14 [INFO] httpx: HTTP Request: GET http://api.agromonitoring.com/stats/1.0/12369ec0400/69f0578063eb0c31f862aeea?appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 16:56:15 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/soil?polyid=69f0578063eb0c31f862aeea&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 16:56:15 [INFO] httpx: HTTP Request: GET https://api.agromonitoring.com/agro/1.0/weather?polyid=69f0578063eb0c31f862aeea&appid=0066c812acba0ad5e5d09da90be80b0c "HTTP/1.1 200 OK"
+2026-04-28 16:56:15 [WARNING] krishisarthi_api: {"timestamp": "2026-04-28T11:26:15.516799Z", "logger": "krishisarthi_api", "event": "year_clamped_for_model", "source": "[HARDCODED]", "severity": "WARNING", "data": {"hardcoded_value": {"requested_year": 2025, "model_year": 2015}}, "data_type": "HARDCODED", "reason": "Input year 2025 exceeds training cutoff 2015. Clamping to 2015 to prevent extrapolation. DB record will still show year=2025."}
+2026-04-28 16:56:16 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T11:26:16.441561Z", "logger": "krishisarthi_api", "event": "input_features_prepared", "source": "[COMPUTATION] feature_engineering", "severity": "INFO", "data": {"computed_value": {"year": 2015, "State_Encoded": 17, "Crop_Encoded": 15, "NPK_Intensity_KgHa": 111.0, "Irrigation_Intensity_Ratio": 0.52, "WDI": 0.022919, "Kharif_Avg_MaxTemp": 34.5026, "Kharif_Total_Rain": 654.708004, "District_Soil_Health_Score": 15.3642, "NPK_Intensity_KgHa_Lag1": 158.77902149554492, "NPK_Intensity_KgHa_Lag2": 161.93956291794402, "NPK_Intensity_KgHa_Lag3": 150.42751919394686, "Irrigation_Intensity_Ratio_Lag1": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag2": 0.6695648183007942, "Irrigation_Intensity_Ratio_Lag3": 0.6693548446878521, "WDI_Lag1": 0.0226055072669597, "WDI_Lag2": 0.0242269008189686, "WDI_Lag3": 0.0217401858969987, "Kharif_Avg_MaxTemp_Lag1": 34.42399978637695, "Kharif_Avg_MaxTemp_Lag2": 35.14199981689453, "Kharif_Avg_MaxTemp_Lag3": 33.74000015258789, "Kharif_Total_Rain_Lag1": 587.4300022125244, "Kharif_Total_Rain_Lag2": 551.4700088500977, "Kharif_Total_Rain_Lag3": 977.7600021362304, "Rabi_Avg_MaxTemp_Lag1": 25.462499618530277, "Rabi_Avg_MaxTemp_Lag2": 24.417499542236328, "Rabi_Avg_MaxTemp_Lag3": 25.40750026702881, "Kharif_Avg_MaxTemp_Delta1": 0.07860021362304792, "Kharif_Total_Rain_Delta1": 67.27800178747555, "NPK_Intensity_KgHa_Delta1": -47.779021495544924, "Kharif_Avg_MaxTemp_Roll3": 34.435333251953125, "Kharif_Total_Rain_Roll3": 705.5533377329508, "requested_year": 2025, "model_year": 2015}}, "data_type": "COMPUTATION"}
+2026-04-28 16:56:16 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T11:26:16.447071Z", "logger": "krishisarthi_api", "event": "yield_model_prediction", "source": "[PREDICTION] XGBoost", "severity": "INFO", "data": {"prediction": {"predicted_yield_kg_ha": 1995.6794003198002, "benchmark_yield_kg_ha": 1872.1}, "model": "XGBoost"}, "data_type": "PREDICTION"}
+2026-04-28 16:56:16 [INFO] services.health_score: Health score: final=64.97  risk=MEDIUM  decision=REVIEW
+2026-04-28 16:56:17 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T11:26:17.133770Z", "logger": "krishisarthi_api", "event": "prediction_cached", "source": "[DATABASE] INSERT", "severity": "INFO", "data": {"operation": "INSERT", "result": {"field_id": "ddd015f1-34d9-49a4-a74a-1fe7b7aa5653", "crop_type": "RICE YIELD (Kg per ha)", "year": 2025, "health_score": 64.97, "loan_decision": "REVIEW"}, "table": "field_predictions", "rows_affected": 1}, "data_type": "DATABASE"}
+2026-04-28 20:43:03 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:13:03.890844Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 20:43:03 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:13:03.891424Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 20:43:05 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:13:05.092066Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_kharif_xgb_final.pkl", "xgb_rabi": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_rabi_xgb_final.pkl", "crop_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/crop_encoder.pkl", "state_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 20:43:13 [INFO] database: ✅ asyncpg pool created
+2026-04-28 20:43:14 [INFO] database: ✅ All tables ensured
+2026-04-28 20:43:14 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:13:14.302858Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 20:44:00 [INFO] chatbot.db: {"timestamp": "2026-04-28T15:14:00.872529Z", "logger": "chatbot.db", "event": "pool_created", "source": "[DATABASE] POOL_INIT", "severity": "INFO", "data": {"operation": "POOL_INIT", "result": {"min_size": 1, "max_size": 5, "command_timeout": 15}, "table": "all"}, "data_type": "DATABASE"}
+2026-04-28 20:44:05 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 20:44:43 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2026-04-28 20:44:43 [ERROR] chatbot.agent: run_agent_streaming error: Error code: 400 - {'error': {'message': "Failed to call a function. Please adjust your prompt. See 'failed_generation' for more details.", 'type': 'invalid_request_error', 'code': 'tool_use_failed', 'failed_generation': '<function=get_weather{"days": "1"}</function>'}}
+Traceback (most recent call last):
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/agent.py", line 95, in run_agent_streaming
+    async for node_output in agrisage_graph.astream(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/main.py", line 3181, in astream
+    async for _ in runner.atick(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/_runner.py", line 304, in atick
+    await arun_with_retry(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/_retry.py", line 242, in arun_with_retry
+    return await task.proc.ainvoke(task.input, config)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/_internal/_runnable.py", line 709, in ainvoke
+    input = await step.ainvoke(input, config, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/_internal/_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/graph.py", line 67, in call_model
+    response = await llm_model.ainvoke(messages)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 5752, in ainvoke
+    return await self.bound.ainvoke(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 494, in ainvoke
+    llm_result = await self.agenerate_prompt(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 1760, in agenerate_prompt
+    return await self.agenerate(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 1718, in agenerate
+    raise exceptions[0]
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 2053, in _agenerate_with_cache
+    result = await self._agenerate(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_groq/chat_models.py", line 642, in _agenerate
+    response = await self.async_client.create(messages=message_dicts, **params)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/groq/resources/chat/completions.py", line 941, in create
+    return await self._post(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/groq/_base_client.py", line 1762, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/groq/_base_client.py", line 1576, in request
+    raise self._make_status_error_from_response(err.response) from None
+groq.BadRequestError: Error code: 400 - {'error': {'message': "Failed to call a function. Please adjust your prompt. See 'failed_generation' for more details.", 'type': 'invalid_request_error', 'code': 'tool_use_failed', 'failed_generation': '<function=get_weather{"days": "1"}</function>'}}
+2026-04-28 20:47:04 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 20:47:08 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 20:48:08 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 20:48:17 [INFO] httpx: HTTP Request: GET https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd000001cfccd5ce2b5a46fe72b1c4458a6a3613&format=json&filters%5Bstate%5D=uttar+pradesh&filters%5Bmarket%5D=Achnera&filters%5Bcommodity%5D=wheat "HTTP/1.1 200 OK"
+2026-04-28 20:48:18 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 20:56:36 [INFO] chatbot.db: chatbot asyncpg pool closed
+2026-04-28 20:56:36 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:26:36.600011Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 20:56:38 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:26:38.010284Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 20:56:38 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:26:38.010609Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 20:56:38 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:26:38.847682Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_kharif_xgb_final.pkl", "xgb_rabi": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_rabi_xgb_final.pkl", "crop_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/crop_encoder.pkl", "state_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 20:56:43 [INFO] database: ✅ asyncpg pool created
+2026-04-28 20:56:44 [INFO] database: ✅ All tables ensured
+2026-04-28 20:56:44 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:26:44.721722Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 20:58:23 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:28:23.443867Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 20:58:28 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:28:28.511355Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 20:58:28 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:28:28.511859Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 20:58:29 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:28:29.333248Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_kharif_xgb_final.pkl", "xgb_rabi": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_rabi_xgb_final.pkl", "crop_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/crop_encoder.pkl", "state_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 20:58:34 [INFO] database: ✅ asyncpg pool created
+2026-04-28 20:58:35 [INFO] database: ✅ All tables ensured
+2026-04-28 20:58:35 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:28:35.936965Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 20:59:01 [INFO] chatbot.db: {"timestamp": "2026-04-28T15:29:01.022139Z", "logger": "chatbot.db", "event": "pool_created", "source": "[DATABASE] POOL_INIT", "severity": "INFO", "data": {"operation": "POOL_INIT", "result": {"min_size": 1, "max_size": 5, "command_timeout": 15}, "table": "all"}, "data_type": "DATABASE"}
+2026-04-28 20:59:05 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 20:59:12 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2026-04-28 20:59:12 [ERROR] chatbot.agent: run_agent_streaming error: Error code: 400 - {'error': {'message': "Failed to call a function. Please adjust your prompt. See 'failed_generation' for more details.", 'type': 'invalid_request_error', 'code': 'tool_use_failed', 'failed_generation': '<function=get_weather{"days": "1"}</function>'}}
+Traceback (most recent call last):
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/agent.py", line 95, in run_agent_streaming
+    async for node_output in agrisage_graph.astream(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/main.py", line 3181, in astream
+    async for _ in runner.atick(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/_runner.py", line 304, in atick
+    await arun_with_retry(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/_retry.py", line 242, in arun_with_retry
+    return await task.proc.ainvoke(task.input, config)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/_internal/_runnable.py", line 709, in ainvoke
+    input = await step.ainvoke(input, config, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/_internal/_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/graph.py", line 67, in call_model
+    response = await llm_model.ainvoke(messages)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 5752, in ainvoke
+    return await self.bound.ainvoke(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 494, in ainvoke
+    llm_result = await self.agenerate_prompt(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 1760, in agenerate_prompt
+    return await self.agenerate(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 1718, in agenerate
+    raise exceptions[0]
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 2053, in _agenerate_with_cache
+    result = await self._agenerate(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_groq/chat_models.py", line 642, in _agenerate
+    response = await self.async_client.create(messages=message_dicts, **params)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/groq/resources/chat/completions.py", line 941, in create
+    return await self._post(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/groq/_base_client.py", line 1762, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/groq/_base_client.py", line 1576, in request
+    raise self._make_status_error_from_response(err.response) from None
+groq.BadRequestError: Error code: 400 - {'error': {'message': "Failed to call a function. Please adjust your prompt. See 'failed_generation' for more details.", 'type': 'invalid_request_error', 'code': 'tool_use_failed', 'failed_generation': '<function=get_weather{"days": "1"}</function>'}}
+2026-04-28 21:02:11 [INFO] chatbot.db: chatbot asyncpg pool closed
+2026-04-28 21:02:11 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:32:11.896571Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:02:13 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:32:13.284313Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:02:13 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:32:13.284768Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:02:14 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:32:14.143132Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_kharif_xgb_final.pkl", "xgb_rabi": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_rabi_xgb_final.pkl", "crop_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/crop_encoder.pkl", "state_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 21:02:18 [INFO] database: ✅ asyncpg pool created
+2026-04-28 21:02:20 [INFO] database: ✅ All tables ensured
+2026-04-28 21:02:20 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:32:20.151746Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:03:42 [INFO] chatbot.db: {"timestamp": "2026-04-28T15:33:42.008590Z", "logger": "chatbot.db", "event": "pool_created", "source": "[DATABASE] POOL_INIT", "severity": "INFO", "data": {"operation": "POOL_INIT", "result": {"min_size": 1, "max_size": 5, "command_timeout": 15}, "table": "all"}, "data_type": "DATABASE"}
+2026-04-28 21:03:46 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 21:04:01 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2026-04-28 21:04:01 [ERROR] chatbot.agent: run_agent_streaming error: 'NoneType' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/agent.py", line 95, in run_agent_streaming
+    async for node_output in agrisage_graph.astream(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/main.py", line 3181, in astream
+    async for _ in runner.atick(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/_runner.py", line 304, in atick
+    await arun_with_retry(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/_retry.py", line 242, in arun_with_retry
+    return await task.proc.ainvoke(task.input, config)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/_internal/_runnable.py", line 709, in ainvoke
+    input = await step.ainvoke(input, config, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/_internal/_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/graph.py", line 142, in call_tool
+    elif name == "get_weather":       res = await get_weather.ainvoke(args, config=conf)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/tools/structured.py", line 70, in ainvoke
+    return await super().ainvoke(input, config, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/tools/base.py", line 652, in ainvoke
+    return await self.arun(tool_input, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/tools/base.py", line 1131, in arun
+    raise error_to_raise
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/tools/base.py", line 1097, in arun
+    response = await coro_with_context(coro, context)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/tools/structured.py", line 124, in _arun
+    return await self.coroutine(*args, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/tools.py", line 198, in get_weather
+    farmer_id = config.get("configurable", {}).get("farmer_id")
+AttributeError: 'NoneType' object has no attribute 'get'
+2026-04-28 21:06:56 [INFO] chatbot.db: chatbot asyncpg pool closed
+2026-04-28 21:06:56 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:36:56.397428Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:06:57 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:36:57.831070Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:06:57 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:36:57.831391Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:06:58 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:36:58.667883Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_kharif_xgb_final.pkl", "xgb_rabi": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_rabi_xgb_final.pkl", "crop_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/crop_encoder.pkl", "state_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 21:07:03 [INFO] database: ✅ asyncpg pool created
+2026-04-28 21:07:04 [INFO] database: ✅ All tables ensured
+2026-04-28 21:07:04 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:37:04.730138Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:07:32 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:37:32.033662Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:07:44 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:37:44.752775Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:07:44 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:37:44.753199Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:07:45 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:37:45.500454Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_kharif_xgb_final.pkl", "xgb_rabi": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_rabi_xgb_final.pkl", "crop_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/crop_encoder.pkl", "state_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 21:07:50 [INFO] database: ✅ asyncpg pool created
+2026-04-28 21:07:51 [INFO] database: ✅ All tables ensured
+2026-04-28 21:07:51 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:37:51.912003Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:08:18 [INFO] chatbot.db: {"timestamp": "2026-04-28T15:38:18.236847Z", "logger": "chatbot.db", "event": "pool_created", "source": "[DATABASE] POOL_INIT", "severity": "INFO", "data": {"operation": "POOL_INIT", "result": {"min_size": 1, "max_size": 5, "command_timeout": 15}, "table": "all"}, "data_type": "DATABASE"}
+2026-04-28 21:08:22 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 21:08:37 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 21:08:41 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 21:11:29 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 21:11:34 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 21:11:55 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 21:11:59 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 21:12:17 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 21:12:22 [INFO] httpx: HTTP Request: GET https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd000001cfccd5ce2b5a46fe72b1c4458a6a3613&format=json&filters%5Bstate%5D=Punjab&filters%5Bmarket%5D=Ludhiana&filters%5Bcommodity%5D=wheat "HTTP/1.1 200 OK"
+2026-04-28 21:12:23 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 21:13:44 [INFO] chatbot.db: chatbot asyncpg pool closed
+2026-04-28 21:13:44 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:43:44.431659Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:13:45 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:43:45.953685Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:13:45 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:43:45.954078Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:13:46 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:43:46.814451Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_kharif_xgb_final.pkl", "xgb_rabi": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_rabi_xgb_final.pkl", "crop_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/crop_encoder.pkl", "state_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 21:13:51 [INFO] database: ✅ asyncpg pool created
+2026-04-28 21:13:52 [INFO] database: ✅ All tables ensured
+2026-04-28 21:13:52 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:43:52.692746Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:13:53 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:43:53.159872Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:13:54 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:43:54.706361Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:13:54 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:43:54.706778Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:13:55 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:43:55.525770Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_kharif_xgb_final.pkl", "xgb_rabi": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_rabi_xgb_final.pkl", "crop_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/crop_encoder.pkl", "state_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 21:13:59 [INFO] database: ✅ asyncpg pool created
+2026-04-28 21:14:01 [INFO] database: ✅ All tables ensured
+2026-04-28 21:14:01 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:44:01.810611Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:16:59 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:46:59.535478Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:17:00 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:47:00.937442Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:17:00 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:47:00.937776Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:17:01 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:47:01.828252Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_kharif_xgb_final.pkl", "xgb_rabi": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_rabi_xgb_final.pkl", "crop_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/crop_encoder.pkl", "state_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 21:17:06 [INFO] database: ✅ asyncpg pool created
+2026-04-28 21:17:07 [INFO] database: ✅ All tables ensured
+2026-04-28 21:17:07 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:47:07.522191Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:17:18 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:47:18.595393Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:17:19 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:47:19.903883Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:17:19 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:47:19.904242Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:17:20 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:47:20.744633Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_kharif_xgb_final.pkl", "xgb_rabi": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_rabi_xgb_final.pkl", "crop_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/crop_encoder.pkl", "state_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 21:17:25 [INFO] database: ✅ asyncpg pool created
+2026-04-28 21:17:26 [INFO] database: ✅ All tables ensured
+2026-04-28 21:17:26 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:47:26.507237Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:18:47 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:48:47.739860Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:18:51 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:48:51.278339Z", "logger": "krishisarthi_api", "event": "api_startup_initiated", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "initializing"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:18:51 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:48:51.279158Z", "logger": "chatbot.models_loader", "event": "model_loading_started", "source": "[COMPUTATION] model_initialization", "severity": "INFO", "data": {"computed_value": {"model_dir": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:18:52 [INFO] chatbot.models_loader: {"timestamp": "2026-04-28T15:48:52.170797Z", "logger": "chatbot.models_loader", "event": "models_loaded_from_disk", "source": "[REAL] FILE_SYSTEM", "severity": "INFO", "data": {"actual_data": {"xgb_kharif": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_kharif_xgb_final.pkl", "xgb_rabi": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/krishi_rabi_xgb_final.pkl", "crop_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/crop_encoder.pkl", "state_encoder": "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/Encoder_and_model/state_encoder.pkl", "crop_classes_count": 23, "state_classes_count": 20}}, "data_type": "REAL"}
+2026-04-28 21:18:56 [INFO] database: ✅ asyncpg pool created
+2026-04-28 21:18:57 [INFO] database: ✅ All tables ensured
+2026-04-28 21:18:57 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:48:57.996813Z", "logger": "krishisarthi_api", "event": "api_startup_complete", "source": "[COMPUTATION] application_startup", "severity": "INFO", "data": {"computed_value": {"status": "ready"}}, "data_type": "COMPUTATION"}
+2026-04-28 21:19:10 [INFO] chatbot.db: {"timestamp": "2026-04-28T15:49:10.304351Z", "logger": "chatbot.db", "event": "pool_created", "source": "[DATABASE] POOL_INIT", "severity": "INFO", "data": {"operation": "POOL_INIT", "result": {"min_size": 1, "max_size": 5, "command_timeout": 15}, "table": "all"}, "data_type": "DATABASE"}
+2026-04-28 21:19:13 [INFO] chatbot.memory: Memory pressure: thread='thread-e557832a-cbde-45df-9708-dad86a0c995a' has 22 messages — summarising oldest 17
+2026-04-28 21:19:15 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 21:19:20 [INFO] chatbot.memory: Memory pressure resolved: stored new summary (1214 chars)
+2026-04-28 21:19:20 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 21:19:24 [INFO] httpx: HTTP Request: GET https://api.open-meteo.com/v1/forecast?latitude=27.175&longitude=78.005&daily=temperature_2m_max%2Ctemperature_2m_min%2Cprecipitation_sum%2Cwindspeed_10m_max&forecast_days=2&timezone=Asia%2FKolkata "HTTP/1.1 200 OK"
+2026-04-28 21:19:25 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 21:20:11 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-04-28 21:20:11 [ERROR] chatbot.agent: run_agent_streaming error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kq9pz5mmf6trvxnjwqs637jy` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99703, Requested 2659. Please try again in 34m0.767999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+Traceback (most recent call last):
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/agent.py", line 95, in run_agent_streaming
+    async for node_output in agrisage_graph.astream(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/main.py", line 3181, in astream
+    async for _ in runner.atick(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/_runner.py", line 304, in atick
+    await arun_with_retry(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/pregel/_retry.py", line 242, in arun_with_retry
+    return await task.proc.ainvoke(task.input, config)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/_internal/_runnable.py", line 709, in ainvoke
+    input = await step.ainvoke(input, config, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langgraph/_internal/_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/chatbot/graph.py", line 116, in call_model
+    response = await llm_model.ainvoke(messages)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 5752, in ainvoke
+    return await self.bound.ainvoke(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 494, in ainvoke
+    llm_result = await self.agenerate_prompt(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 1760, in agenerate_prompt
+    return await self.agenerate(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 1718, in agenerate
+    raise exceptions[0]
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py", line 2053, in _agenerate_with_cache
+    result = await self._agenerate(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/langchain_groq/chat_models.py", line 642, in _agenerate
+    response = await self.async_client.create(messages=message_dicts, **params)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/groq/resources/chat/completions.py", line 941, in create
+    return await self._post(
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/groq/_base_client.py", line 1762, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+  File "/Users/priyanshu/Desktop/Krishi-Sarthii/krishisarthi-api/.venv/lib/python3.10/site-packages/groq/_base_client.py", line 1576, in request
+    raise self._make_status_error_from_response(err.response) from None
+groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kq9pz5mmf6trvxnjwqs637jy` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99703, Requested 2659. Please try again in 34m0.767999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-04-28 21:20:32 [INFO] chatbot.db: chatbot asyncpg pool closed
+2026-04-28 21:20:32 [INFO] krishisarthi_api: {"timestamp": "2026-04-28T15:50:32.993941Z", "logger": "krishisarthi_api", "event": "api_shutdown_complete", "source": "[COMPUTATION] application_shutdown", "severity": "INFO", "data": {"computed_value": {"status": "closed"}}, "data_type": "COMPUTATION"}

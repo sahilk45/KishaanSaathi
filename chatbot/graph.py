@@ -60,11 +60,68 @@ llm_model = ChatGroq(
     tool_choice="auto",
 )
 
+import re as _re
+import json as _json
+import uuid as _uuid
+
+# Known int fields per tool — coerce strings to correct type before invoking
+_TOOL_INT_FIELDS = {"get_weather": ["days"]}
+
+def _recover_tool_call(exc) -> AIMessage | None:
+    """
+    When Groq returns 400 tool_use_failed, the model generated a malformed
+    XML-style call like: <function=get_weather{"days": "1"}</function>
+    We parse that string and synthesize a proper AIMessage with tool_calls
+    so the graph can route to call_tool and run the tool normally.
+    """
+    err_str = str(exc)
+    if "tool_use_failed" not in err_str:
+        return None
+
+    # Extract tool name and raw JSON args from failed_generation
+    match = _re.search(r"<function=(\w+)(\{[^}]*\})", err_str)
+    if not match:
+        return None
+
+    tool_name = match.group(1)
+    try:
+        raw_args = _json.loads(match.group(2))
+    except Exception:
+        raw_args = {}
+
+    # Coerce known fields to correct types
+    for field in _TOOL_INT_FIELDS.get(tool_name, []):
+        if field in raw_args:
+            try:
+                raw_args[field] = int(raw_args[field])
+            except (ValueError, TypeError):
+                raw_args[field] = 3  # safe default
+
+    tool_call_id = f"call_{_uuid.uuid4().hex[:12]}"
+    return AIMessage(
+        content="",
+        tool_calls=[{
+            "id": tool_call_id,
+            "name": tool_name,
+            "args": raw_args,
+            "type": "tool_call",
+        }],
+    )
+
 async def call_model(state: AgentState) -> dict:
     sys_msg = SystemMessage(content=SYSTEM_INSTRUCTIONS.format(farmer_id=state.get("farmer_id", "unknown")))
     messages = [sys_msg] + state["messages"]
-    
-    response = await llm_model.ainvoke(messages)
+
+    try:
+        response = await llm_model.ainvoke(messages)
+    except Exception as exc:
+        recovered = _recover_tool_call(exc)
+        if recovered is not None:
+            # Recovered a valid tool_calls message — let the graph run the tool
+            response = recovered
+        else:
+            raise
+
     return {"messages": [response]}
 
 from langchain_core.runnables import RunnableConfig
@@ -72,14 +129,19 @@ from langchain_core.runnables import RunnableConfig
 async def call_tool(state: AgentState, config: RunnableConfig) -> dict:
     last_msg = state["messages"][-1]
     results  = []
+    farmer_id = state.get("farmer_id", "")
     for tc in getattr(last_msg, 'tool_calls', []):
-        name, args = tc["name"], tc["args"]
+        name, args = tc["name"], dict(tc["args"])  # copy so we don't mutate
         if name == "get_weather" and "days" in args:
             args["days"] = int(args["days"])
-        
-        # We pass farmer_id via RunnableConfig
-        conf = {"configurable": {"farmer_id": state.get("farmer_id")}}
-        
+
+        # We pass farmer_id via RunnableConfig AND directly as InjectedToolArg
+        conf = {"configurable": {"farmer_id": farmer_id}}
+
+        # Inject farmer_id directly for tools that use InjectedToolArg
+        if name in ("get_weather", "get_crop_advice"):
+            args["farmer_id"] = farmer_id
+
         if   name == "list_mandis":       res = await list_mandis.ainvoke(args, config=conf)
         elif name == "fetch_crop_price":  res = await fetch_crop_price.ainvoke(args, config=conf)
         elif name == "get_weather":       res = await get_weather.ainvoke(args, config=conf)
@@ -87,6 +149,7 @@ async def call_tool(state: AgentState, config: RunnableConfig) -> dict:
         else:                             res = f"❌ Unknown tool: {name}"
         results.append(ToolMessage(tool_call_id=tc["id"], content=str(res)))
     return {"messages": results}
+
 
 def router(state: AgentState) -> str:
     last = state["messages"][-1]

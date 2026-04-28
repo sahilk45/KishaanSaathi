@@ -1,4 +1,5 @@
 import os
+from typing import Union, Annotated
 import json
 import httpx
 import asyncpg
@@ -6,13 +7,27 @@ import asyncio
 import time
 import numpy as np
 import pandas as pd
-from langchain_core.tools import tool
+from langchain_core.tools import tool, InjectedToolArg
 from langchain_core.runnables import RunnableConfig
+from langchain_core.runnables.config import var_child_runnable_config
 from dotenv import load_dotenv
 
 from chatbot.models_loader import get_models, _is_kharif, _current_season, KHARIF_ALT_CROPS, RABI_ALT_CROPS, BENCHMARK_YIELDS
 
 load_dotenv()
+
+def _resolve_config(config: RunnableConfig | None) -> dict:
+    """Return config dict, falling back to LangChain's context variable when config is None.
+    LangChain sets var_child_runnable_config when ainvoke is called with a config,
+    even if the config isn't injected into the tool function parameter directly.
+    """
+    if config is not None:
+        return config
+    try:
+        ctx = var_child_runnable_config.get()
+        return ctx if ctx is not None else {}
+    except LookupError:
+        return {}
 
 DB_URL = os.getenv("DATABASE_URL")
 MANDI_JSON_PATH = os.getenv("MANDI_JSON_PATH")
@@ -191,10 +206,13 @@ async def fetch_crop_price(mandi_name: str, crop: str, config: RunnableConfig) -
             f"   Date   : {r['arrival_date']}")
 
 @tool
-async def get_weather(days: int = 3, config: RunnableConfig = None) -> str:
-    """Fetches weather forecast for farmer's field. days must be an integer."""
+async def get_weather(days: Union[int, str] = 3, farmer_id: Annotated[str, InjectedToolArg] = "", config: RunnableConfig = None) -> str:
+    """Fetches weather forecast for farmer's field for the next N days (1-16). days should be a number like 1, 3, or 7."""
     days = int(days)
-    farmer_id = config.get("configurable", {}).get("farmer_id")
+    # farmer_id is injected by call_tool; fall back to config for safety
+    if not farmer_id:
+        cfg = _resolve_config(config)
+        farmer_id = cfg.get("configurable", {}).get("farmer_id", "")
     try:
         conn = await asyncpg.connect(DB_URL)
         row  = await conn.fetchrow(
@@ -230,7 +248,7 @@ async def get_weather(days: int = 3, config: RunnableConfig = None) -> str:
     return "\n".join(lines)
 
 @tool
-async def get_crop_advice(mode: str = "advice", target_crop: str = "", config: RunnableConfig = None) -> str:
+async def get_crop_advice(mode: str = "advice", target_crop: str = "", farmer_id: Annotated[str, InjectedToolArg] = "", config: RunnableConfig = None) -> str:
     """
     mode='score'    → current health score only.
     mode='advice'   → NPK + Irrigation what-if simulation.
@@ -239,7 +257,10 @@ async def get_crop_advice(mode: str = "advice", target_crop: str = "", config: R
                       Requires target_crop e.g. target_crop='RICE YIELD (Kg per ha)'
     """
     start_time = time.perf_counter()
-    farmer_id = config.get("configurable", {}).get("farmer_id")
+    # farmer_id is injected by call_tool; fall back to config for safety
+    if not farmer_id:
+        cfg = _resolve_config(config)
+        farmer_id = cfg.get("configurable", {}).get("farmer_id", "")
 
     try:
         conn   = await asyncpg.connect(DB_URL)
