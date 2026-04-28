@@ -10,9 +10,9 @@ asyncpg==0.31.0
 
 # ── ML / Data ─────────────────────────────────────────────────────────────────
 xgboost==3.2.0
-scikit-learn==1.8.0
-pandas==3.0.2
-numpy==2.4.4
+scikit-learn==1.7.2
+pandas==2.2.3
+numpy==1.26.4
 joblib==1.4.2
 
 # ── HTTP clients ───────────────────────────────────────────────────────────────
@@ -24,11 +24,11 @@ pydantic==2.13.3
 python-dotenv==1.0.1
 
 # ── LangGraph / LangChain chatbot stack ───────────────────────────────────────
-langgraph==0.2.73
-langchain==0.3.19
-langchain-core==0.3.40
-langchain-groq==0.2.5
-langsmith==0.7.33
+langgraph>=0.2.73
+langchain>=0.3.19
+langchain-core>=0.3.40
+langchain-groq>=0.2.5
+langsmith>=0.1.125
 
 # ── Helpers for sync-inside-async (get_market_price tool) ─────────────────────
 nest-asyncio==1.6.0
