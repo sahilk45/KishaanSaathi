@@ -2,6 +2,17 @@
   "meta": {
     "title": "KishanSaathi – Your farm, understood by science"
   },
+  "errors": {
+    "network": "Network error. Please check your connection.",
+    "unknown": "Something went wrong. Please try again.",
+    "validation": "Please check the input values and try again.",
+    "notFound": "We couldn't find that data yet.",
+    "conflict": "This entry already exists. Try a different value.",
+    "unauthorized": "You are not authorized. Please sign in again.",
+    "chatbot": "Chat service is having trouble. Please retry.",
+    "cropType": "Selected crop is not supported yet.",
+    "fieldId": "Field information is missing or invalid."
+  },
   "navbar": {
     "brandName": "KishanSaathi",
     "logoAlt": "KishanSaathi",

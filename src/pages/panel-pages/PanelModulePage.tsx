@@ -1,7 +1,16 @@
 import { Bot, Search } from 'lucide-react'
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import { defaultPanelRoute, isPanelRoute, panelItemsByRoute, type VisualKind } from './panelConfig'
 import MyFarmWorkspace from './MyFarmWorkspace'
+import OverviewPanel from './modules/OverviewPanel'
+import CropHealthPanel from './modules/CropHealthPanel'
+import WeatherAlertsPanel from './modules/WeatherAlertsPanel'
+import RiskAnalysisPanel from './modules/RiskAnalysisPanel'
+import MarketInsightsPanel from './modules/MarketInsightsPanel'
+import CropTimelinePanel from './modules/CropTimelinePanel'
+import LoanEligibilityPanel from './modules/LoanEligibilityPanel'
+import WhatIfSimulatorPanel from './modules/WhatIfSimulatorPanel'
+import AiAssistantPanel from './modules/AiAssistantPanel'
 
 const renderVisual = (kind: VisualKind, metric?: string) => {
   switch (kind) {
@@ -111,6 +120,46 @@ const PanelModulePage = () => {
 
   const activeItem = panelItemsByRoute[panelSlug]
 
+  const renderPanelContent = () => {
+    switch (activeItem.route) {
+      case 'overview':
+        return <OverviewPanel />
+      case 'my-farm':
+        return <MyFarmWorkspace item={activeItem} />
+      case 'crop-health':
+        return <CropHealthPanel />
+      case 'weather-alerts':
+        return <WeatherAlertsPanel />
+      case 'risk-analysis':
+        return <RiskAnalysisPanel />
+      case 'market-insights':
+        return <MarketInsightsPanel />
+      case 'crop-timeline':
+        return <CropTimelinePanel />
+      case 'loan-eligibility':
+        return <LoanEligibilityPanel />
+      case 'what-if-simulator':
+        return <WhatIfSimulatorPanel />
+      case 'ai-assistant':
+        return <AiAssistantPanel />
+      default:
+        return (
+          <div className="panel-cards">
+            {activeItem.blocks.map((block) => (
+              <article key={block.id} id={block.id} className="panel-card">
+                <div className="panel-card__head">
+                  <h3>{block.title}</h3>
+                  {block.metric ? <span className="panel-card__metric">{block.metric}</span> : null}
+                </div>
+                <p>{block.description}</p>
+                {renderVisual(block.visual, block.metric)}
+              </article>
+            ))}
+          </div>
+        )
+    }
+  }
+
   return (
     <section className="panel-main">
       <header className="panel-main__topbar">
@@ -144,31 +193,7 @@ const PanelModulePage = () => {
           <h1>{activeItem.label}</h1>
           <p className="panel-content__summary">{activeItem.subtitle}</p>
 
-          {activeItem.route === 'market-insights' ? (
-            <div className="panel-inline-callout" role="note" aria-label="APMC explorer link">
-              <p>Need mandi min/max/modal table for APMC selection?</p>
-              <Link to="/apmc" className="panel-inline-callout__link">
-                Open APMC Explorer
-              </Link>
-            </div>
-          ) : null}
-
-          {activeItem.route === 'my-farm' ? (
-            <MyFarmWorkspace item={activeItem} />
-          ) : (
-            <div className="panel-cards">
-              {activeItem.blocks.map((block) => (
-                <article key={block.id} id={block.id} className="panel-card">
-                  <div className="panel-card__head">
-                    <h3>{block.title}</h3>
-                    {block.metric ? <span className="panel-card__metric">{block.metric}</span> : null}
-                  </div>
-                  <p>{block.description}</p>
-                  {renderVisual(block.visual, block.metric)}
-                </article>
-              ))}
-            </div>
-          )}
+          {renderPanelContent()}
         </section>
 
         <aside className="panel-right" aria-label="Secondary tools">

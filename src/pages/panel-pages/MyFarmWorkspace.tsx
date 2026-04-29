@@ -5,6 +5,12 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import type { PanelItem } from './panelConfig'
+import { apiClient } from '../../services/apiClient'
+import { getLocalizedApiError } from '../../services/apiErrors'
+import { useLanguage } from '../../context/LanguageContext'
+import { useSession } from '../../context/SessionContext'
+import { useToast } from '../../context/ToastContext'
+import type { AgroSnapshotResponse, DistrictItem } from '../../types/api'
 
 type Coordinates = number[][][]
 
@@ -21,60 +27,12 @@ type GeolocateEvent = {
   coords: GeolocationCoordinates
 }
 
-type FarmRegisterResponse = {
-  field_id: string
-  polygon_id: string
-  area?: number
-  source: string
-  city_name?: string | null
-  state_name?: string | null
-  center_lat: number
-  center_lon: number
-}
-
-type FarmerRegisterResponse = {
-  farmer_id: string
-  name: string
-  phone: string
-  state_name: string
-  dist_name: string
-}
-
-type AgroSnapshotResponse = {
-  field_id: string
-  polygon_id: string
-  city_name?: string | null
-  state_name?: string | null
-  start: number
-  end: number
-  source: string
-  latest_image_date?: string | null
-  images_count: number
-  ndvi_tile_url?: string | null
-  ndvi_stats_url?: string | null
-  ndvi_stats?: {
-    mean?: number
-    max?: number
-    std?: number
-    min?: number
-  }
-  weather?: {
-    air_temp?: number
-    humidity?: number
-    cloud_cover?: number
-  }
-  soil?: {
-    soil_moisture?: number
-    soil_temp_surface?: number
-  }
-}
-
 const DEFAULT_CENTER: [number, number] = [76.7794, 30.7333]
 const DEFAULT_ZOOM = 12
 const MAPBOX_STYLE = 'mapbox://styles/mapbox/satellite-streets-v12'
 const NDVI_SOURCE_ID = 'ks-ndvi-overlay-source'
 const NDVI_LAYER_ID = 'ks-ndvi-overlay-layer'
-const FARMER_ID_STORAGE_KEY = 'ks_last_farmer_id'
+const GOOGLE_USER_STORAGE_KEY = 'ks_google_user'
 
 const ensureClosedRing = (ring: number[][]): number[][] => {
   if (ring.length < 3) return ring
@@ -126,51 +84,31 @@ const localMockSnapshot = (fieldId: string, polygonId: string, start: number, en
   }
 }
 
-const buildQuickFarmerPhone = () => {
-  const seed = `${Date.now()}${Math.floor(Math.random() * 1000)
-    .toString()
-    .padStart(3, '0')}`
-  return `9${seed.slice(-9)}`
-}
-
-const parseErrorDetail = (detail: unknown, fallback: string) => {
-  if (Array.isArray(detail)) {
-    const joined = detail
-      .map((item) => {
-        if (typeof item === 'string') return item
-        if (item && typeof item === 'object' && 'msg' in item) {
-          const message = (item as { msg?: unknown }).msg
-          if (typeof message === 'string') return message
-        }
-        return 'Validation error'
-      })
-      .join('; ')
-
-    return joined || fallback
+const getStoredGoogleUser = () => {
+  if (typeof window === 'undefined') return null
+  const raw = window.localStorage.getItem(GOOGLE_USER_STORAGE_KEY)
+  if (!raw) return null
+  try {
+    return JSON.parse(raw) as { sub?: string; email?: string; name?: string; picture?: string; email_verified?: boolean }
+  } catch {
+    return null
   }
-
-  if (typeof detail === 'string' && detail.trim()) {
-    return detail
-  }
-
-  return fallback
 }
 
 const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
+  const { content } = useLanguage()
+  const { pushToast } = useToast()
+  const { farmerId, fieldId: storedFieldId, setFarmerId, setFieldId: storeFieldId } = useSession()
   const mapContainerRef = useRef<HTMLDivElement | null>(null)
   const mapRef = useRef<mapboxgl.Map | null>(null)
   const drawRef = useRef<MapboxDraw | null>(null)
   const polygonBoundsRef = useRef<[[number, number], [number, number]] | null>(null)
 
-  const [farmerId, setFarmerId] = useState(() => {
-    if (typeof window === 'undefined') return ''
-    return window.localStorage.getItem(FARMER_ID_STORAGE_KEY) ?? ''
-  })
+  const [fieldId, setFieldId] = useState<string | null>(storedFieldId || null)
   const [fieldName, setFieldName] = useState('My Field')
   const [areaHectares, setAreaHectares] = useState('')
 
   const [polygonCoordinates, setPolygonCoordinates] = useState<Coordinates | null>(null)
-  const [fieldId, setFieldId] = useState<string | null>(null)
   const [polygonId, setPolygonId] = useState<string | null>(null)
   const [polygonCity, setPolygonCity] = useState<string | null>(null)
   const [polygonState, setPolygonState] = useState<string | null>(null)
@@ -186,12 +124,17 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
   const [snapshotStatus, setSnapshotStatus] = useState<'idle' | 'loading' | 'loaded' | 'error'>('idle')
   const [snapshotMessage, setSnapshotMessage] = useState('NDVI overlay will appear after boundary save.')
 
-  const mapboxToken = (import.meta.env.VITE_MAPBOX_TOKEN as string | undefined) ?? 'pk.DUMMY_MAPBOX_TOKEN_REPLACE_ME'
-  const apiBaseUrl = ((import.meta.env.VITE_API_BASE_URL as string | undefined) ?? 'http://127.0.0.1:8000').replace(
-    /\/+$/,
-    '',
-  )
+  const [districts, setDistricts] = useState<DistrictItem[]>([])
+  const [districtsLoading, setDistrictsLoading] = useState(false)
+  const [districtError, setDistrictError] = useState('')
+  const [fullName, setFullName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [stateName, setStateName] = useState('')
+  const [districtName, setDistrictName] = useState('')
+  const [farmerStatus, setFarmerStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
+  const [farmerMessage, setFarmerMessage] = useState('')
 
+  const mapboxToken = (import.meta.env.VITE_MAPBOX_TOKEN as string | undefined) ?? 'pk.DUMMY_MAPBOX_TOKEN_REPLACE_ME'
   const usingDummyToken = mapboxToken.includes('DUMMY') || mapboxToken.includes('dummy')
 
   const mapBlock = item.blocks.find((block) => block.id === 'mapbox-canvas')
@@ -204,47 +147,110 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
     [location],
   )
 
-  const setFarmerIdWithCache = useCallback((value: string) => {
-    setFarmerId(value)
+  const googleUser = useMemo(() => getStoredGoogleUser(), [])
 
-    if (typeof window === 'undefined') return
+  const states = useMemo(() => {
+    const unique = new Set(districts.map((item) => item.state_name))
+    return Array.from(unique).sort((a, b) => a.localeCompare(b))
+  }, [districts])
 
-    const normalized = value.trim()
-    if (normalized) {
-      window.localStorage.setItem(FARMER_ID_STORAGE_KEY, normalized)
-    } else {
-      window.localStorage.removeItem(FARMER_ID_STORAGE_KEY)
+  const districtsForState = useMemo(() => {
+    return districts
+      .filter((item) => item.state_name === stateName)
+      .map((item) => item.dist_name)
+      .sort((a, b) => a.localeCompare(b))
+  }, [districts, stateName])
+
+  useEffect(() => {
+    if (!googleUser?.name) return
+    setFullName((prev) => prev || googleUser.name || '')
+  }, [googleUser])
+
+  useEffect(() => {
+    if (farmerId) {
+      setFarmerStatus('saved')
+      setFarmerMessage('Farmer profile active.')
     }
-  }, [])
+  }, [farmerId])
 
-  const registerQuickFarmer = useCallback(async () => {
-    const response = await fetch(`${apiBaseUrl}/farmers/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: 'My Farm User',
-        phone: buildQuickFarmerPhone(),
-        state_name: 'Punjab',
-        dist_name: 'ludhiana',
-      }),
-    })
-
-    if (!response.ok) {
-      const payload = (await response.json().catch(() => null)) as { detail?: unknown } | null
-      const detailMessage = parseErrorDetail(payload?.detail, `Could not create Farmer ID (${response.status})`)
-      throw new Error(detailMessage)
+  useEffect(() => {
+    if (farmerId) return
+    let isActive = true
+    const loadDistricts = async () => {
+      setDistrictsLoading(true)
+      setDistrictError('')
+      try {
+        const payload = await apiClient.getDistricts()
+        if (!isActive) return
+        setDistricts(payload)
+      } catch (error) {
+        const message = getLocalizedApiError(error, content)
+        if (!isActive) return
+        setDistrictError(message)
+        pushToast(message, 'error')
+      } finally {
+        if (isActive) setDistrictsLoading(false)
+      }
     }
 
-    const payload = (await response.json()) as FarmerRegisterResponse
-    if (!payload.farmer_id) {
-      throw new Error('Farmer registration succeeded but no farmer_id was returned.')
+    loadDistricts()
+    return () => {
+      isActive = false
     }
+  }, [content, farmerId, pushToast])
 
-    setFarmerIdWithCache(payload.farmer_id)
-    return payload.farmer_id
-  }, [apiBaseUrl, setFarmerIdWithCache])
+  const handleRegisterFarmer = useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault()
+
+      if (!googleUser?.sub) {
+        const message = content.errors.unauthorized
+        setFarmerStatus('error')
+        setFarmerMessage(message)
+        pushToast(message, 'error')
+        return
+      }
+
+      if (!fullName.trim() || !phone.trim() || !stateName || !districtName) {
+        const message = content.errors.validation
+        setFarmerStatus('error')
+        setFarmerMessage(message)
+        return
+      }
+
+      setFarmerStatus('saving')
+      setFarmerMessage('Saving farmer profile...')
+
+      try {
+        const payload = await apiClient.registerFarmer({
+          google_sub: googleUser.sub,
+          name: fullName.trim(),
+          phone: phone.trim(),
+          state_name: stateName,
+          dist_name: districtName,
+          email: googleUser.email ?? undefined,
+          email_verified: googleUser.email_verified ?? undefined,
+          picture: googleUser.picture ?? undefined,
+        })
+        setFarmerId(payload.farmer_id)
+        setFarmerStatus('saved')
+        setFarmerMessage('Farmer profile saved. You can now register your field.')
+        pushToast('Farmer profile created.', 'success')
+      } catch (error) {
+        const message = getLocalizedApiError(error, content)
+        setFarmerStatus('error')
+        setFarmerMessage(message)
+        pushToast(message, 'error')
+      }
+    },
+    [content, districtName, fullName, googleUser, phone, pushToast, setFarmerId, stateName],
+  )
+
+  useEffect(() => {
+    if (storedFieldId && storedFieldId !== fieldId) {
+      setFieldId(storedFieldId)
+    }
+  }, [fieldId, storedFieldId])
 
   const updateNdviOverlayOnMap = useCallback((tileUrl?: string | null) => {
     const map = mapRef.current
@@ -287,25 +293,7 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
       setSnapshotMessage('Loading NDVI/weather/soil snapshot...')
 
       try {
-        const response = await fetch(`${apiBaseUrl}/field/${savedFieldId}/agro-snapshot?start=${start}&end=${end}`)
-        if (!response.ok) {
-          if (response.status === 404) {
-            const payload = (await response.json().catch(() => null)) as { detail?: unknown } | null
-            if (payload?.detail === 'Not Found') {
-              const fallback = localMockSnapshot(savedFieldId, savedPolygonId, start, end)
-              setSnapshot(fallback)
-              setSnapshotStatus('loaded')
-              setSnapshotMessage(
-                'Live snapshot endpoint is unavailable on this backend instance. Showing local mock NDVI metrics.',
-              )
-              updateNdviOverlayOnMap(null)
-              return
-            }
-          }
-          throw new Error(`Agro snapshot request failed (${response.status})`)
-        }
-
-        const payload = (await response.json()) as AgroSnapshotResponse
+        const payload = await apiClient.getAgroSnapshot(savedFieldId, start, end)
         setSnapshot(payload)
         setSnapshotStatus('loaded')
         setSnapshotMessage(
@@ -316,28 +304,35 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
 
         updateNdviOverlayOnMap(payload.ndvi_tile_url)
       } catch (error) {
+        const message = getLocalizedApiError(error, content)
         setSnapshotStatus('error')
-        setSnapshotMessage(error instanceof Error ? error.message : 'Failed to load agro snapshot.')
+        setSnapshotMessage(message)
+        pushToast(message, 'error')
+
+        if (error && typeof error === 'object' && 'status' in error) {
+          const status = (error as { status?: number }).status
+          if (status === 404) {
+            const fallback = localMockSnapshot(savedFieldId, savedPolygonId, start, end)
+            setSnapshot(fallback)
+            setSnapshotStatus('loaded')
+            setSnapshotMessage('Live snapshot unavailable. Showing local mock NDVI metrics.')
+          }
+        }
+        updateNdviOverlayOnMap(null)
       }
     },
-    [apiBaseUrl, updateNdviOverlayOnMap],
+    [content, pushToast, updateNdviOverlayOnMap],
   )
 
   const savePolygonToBackend = useCallback(
     async (coordinates: Coordinates) => {
-      let normalizedFarmerId = farmerId.trim()
+      const normalizedFarmerId = farmerId.trim()
       if (!normalizedFarmerId) {
-        setSaveStatus('saving')
-        setSaveMessage('No Farmer ID detected. Creating a quick farmer profile...')
-
-        try {
-          normalizedFarmerId = await registerQuickFarmer()
-          setSaveMessage('Farmer profile created. Saving polygon to backend...')
-        } catch (error) {
-          setSaveStatus('error')
-          setSaveMessage(error instanceof Error ? error.message : 'Unable to create Farmer ID automatically.')
-          return
-        }
+        const message = content.errors.validation
+        setSaveStatus('error')
+        setSaveMessage(message)
+        pushToast(message, 'error')
+        return
       }
 
       const ring = coordinates[0]
@@ -361,26 +356,14 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
       setSaveMessage('Saving polygon to backend...')
 
       try {
-        const response = await fetch(`${apiBaseUrl}/farm/register`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            farmer_id: normalizedFarmerId,
-            field_name: fieldName.trim() || 'My Field',
-            coordinates: ensureClosedRing(ring),
-            area_hectares: parsedArea,
-          }),
+        const payload = await apiClient.registerFarm({
+          farmer_id: normalizedFarmerId,
+          field_name: fieldName.trim() || 'My Field',
+          coordinates: ensureClosedRing(ring),
+          area_hectares: parsedArea,
         })
-
-        if (!response.ok) {
-          const payload = (await response.json().catch(() => null)) as { detail?: unknown } | null
-          throw new Error(parseErrorDetail(payload?.detail, `Request failed with status ${response.status}`))
-        }
-
-        const payload = (await response.json()) as FarmRegisterResponse
         setFieldId(payload.field_id)
+        storeFieldId(payload.field_id)
         setPolygonId(payload.polygon_id)
         setPolygonCity(payload.city_name ?? null)
         setPolygonState(payload.state_name ?? null)
@@ -389,12 +372,13 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
 
         await fetchAgroSnapshot(payload.field_id, payload.polygon_id)
       } catch (error) {
+        const message = getLocalizedApiError(error, content)
         setSaveStatus('error')
-        setSaveMessage(error instanceof Error ? error.message : 'Could not save polygon to backend.')
-        console.error('Polygon save failed:', error)
+        setSaveMessage(message)
+        pushToast(message, 'error')
       }
     },
-    [apiBaseUrl, areaHectares, farmerId, fieldName, fetchAgroSnapshot, registerQuickFarmer],
+    [areaHectares, content, farmerId, fieldName, fetchAgroSnapshot, pushToast, storeFieldId],
   )
 
   const syncFromDraw = useCallback(() => {
@@ -597,6 +581,94 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
 
   return (
     <div className="panel-cards panel-cards--my-farm">
+      <article className="panel-card panel-card--farmer">
+        <div className="panel-card__head">
+          <h3>Farmer Profile</h3>
+          <span className={`panel-status-badge panel-status-badge--${farmerStatus}`}>{farmerStatus}</span>
+        </div>
+        <p>Register your farmer profile before drawing the field boundary.</p>
+
+        {farmerId ? (
+          <div className="panel-myfarm-grid">
+            <div className="panel-myfarm-stat">
+              <span>Farmer ID</span>
+              <strong>{farmerId}</strong>
+            </div>
+            <div className="panel-myfarm-stat">
+              <span>Status</span>
+              <strong>Active</strong>
+            </div>
+          </div>
+        ) : (
+          <form className="panel-farmer-form" onSubmit={handleRegisterFarmer}>
+            <label className="panel-myfarm-field">
+              Full name
+              <input
+                type="text"
+                value={fullName}
+                onChange={(event) => setFullName(event.target.value)}
+                placeholder="Ramesh Kumar"
+                required
+              />
+            </label>
+            <label className="panel-myfarm-field">
+              Phone number
+              <input
+                type="tel"
+                value={phone}
+                onChange={(event) => setPhone(event.target.value)}
+                placeholder="9876543210"
+                required
+              />
+            </label>
+            <label className="panel-myfarm-field">
+              State
+              <select
+                value={stateName}
+                onChange={(event) => {
+                  setStateName(event.target.value)
+                  setDistrictName('')
+                }}
+                disabled={districtsLoading}
+                required
+              >
+                <option value="">Select state</option>
+                {states.map((state) => (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="panel-myfarm-field">
+              District
+              <select
+                value={districtName}
+                onChange={(event) => setDistrictName(event.target.value)}
+                disabled={!stateName || districtsLoading}
+                required
+              >
+                <option value="">Select district</option>
+                {districtsForState.map((district) => (
+                  <option key={district} value={district}>
+                    {district}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <div className="panel-farmer-actions">
+              <button type="submit" className="panel-mapbox__button" disabled={farmerStatus === 'saving'}>
+                {farmerStatus === 'saving' ? 'Saving...' : 'Create farmer profile'}
+              </button>
+            </div>
+          </form>
+        )}
+
+        {districtsLoading ? <p className="panel-myfarm-feedback">Loading districts…</p> : null}
+        {districtError ? <p className="panel-myfarm-feedback panel-myfarm-feedback--muted">{districtError}</p> : null}
+        {farmerMessage ? <p className="panel-myfarm-feedback">{farmerMessage}</p> : null}
+      </article>
+
       <article id={mapBlock?.id ?? 'mapbox-canvas'} className="panel-card panel-card--mapbox">
         <div className="panel-card__head">
           <h3>{mapBlock?.title ?? 'Mapbox Canvas'}</h3>
@@ -610,8 +682,9 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
             <input
               type="text"
               value={farmerId}
-              onChange={(event) => setFarmerIdWithCache(event.target.value)}
+              onChange={(event) => setFarmerId(event.target.value)}
               placeholder="Paste farmer_id from /farmers/register"
+              readOnly={Boolean(farmerId)}
             />
           </label>
           <label className="panel-myfarm-field">
@@ -631,7 +704,7 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
           </label>
         </div>
         <p className="panel-myfarm-feedback panel-myfarm-feedback--muted">
-          Tip: you can leave Farmer ID empty — it will be auto-created on Save boundary.
+          Tip: complete farmer registration first, then save your field boundary.
         </p>
 
         <div className="panel-mapbox">

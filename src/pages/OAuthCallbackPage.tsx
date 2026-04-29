@@ -1,5 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { useSession } from '../context/SessionContext'
+import { useToast } from '../context/ToastContext'
+import { getLocalizedApiError } from '../services/apiErrors'
+import { apiClient } from '../services/apiClient'
+import { useLanguage } from '../context/LanguageContext'
 
 type DistrictItem = {
   state_name: string
@@ -14,23 +19,11 @@ type GoogleUser = {
   email_verified?: boolean
 }
 
-type FarmerRegisterResponse = {
-  farmer_id: string
-  name: string
-  phone: string
-  state_name: string
-  dist_name: string
-}
-
 const FARMER_ID_STORAGE_KEY = 'ks_farmer_id'
 const LEGACY_FARMER_ID_STORAGE_KEY = 'ks_last_farmer_id'
 const FARMER_PROFILE_STORAGE_KEY = 'ks_farmer_profile'
 const GOOGLE_USER_STORAGE_KEY = 'ks_google_user'
 
-const apiBaseUrl = ((import.meta.env.VITE_API_BASE_URL as string | undefined) ?? 'http://127.0.0.1:8000').replace(
-  /\/+$/,
-  '',
-)
 
 const decodeBase64Url = (value: string) => {
   const padded = value.replace(/-/g, '+').replace(/_/g, '/')
@@ -57,6 +50,9 @@ const decodeUserPayload = (value: string | null): GoogleUser | null => {
 const OAuthCallbackPage = () => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+  const { setFarmerId } = useSession()
+  const { pushToast } = useToast()
+  const { content } = useLanguage()
 
   const [googleUser, setGoogleUser] = useState<GoogleUser | null>(null)
   const [districts, setDistricts] = useState<DistrictItem[]>([])
@@ -82,6 +78,7 @@ const OAuthCallbackPage = () => {
         window.localStorage.setItem(FARMER_ID_STORAGE_KEY, queryFarmerId)
         window.localStorage.setItem(LEGACY_FARMER_ID_STORAGE_KEY, queryFarmerId)
       }
+      setFarmerId(queryFarmerId)
       navigate('/panel/overview', { replace: true })
       return
     }
@@ -89,28 +86,26 @@ const OAuthCallbackPage = () => {
     if (typeof window !== 'undefined') {
       window.localStorage.setItem(GOOGLE_USER_STORAGE_KEY, JSON.stringify(decoded))
     }
-  }, [navigate, searchParams])
+  }, [navigate, searchParams, setFarmerId])
 
   useEffect(() => {
     const fetchDistricts = async () => {
       setIsLoadingDistricts(true)
       setDistrictError('')
       try {
-        const response = await fetch(`${apiBaseUrl}/districts`)
-        if (!response.ok) {
-          throw new Error(`Failed to load districts (${response.status})`)
-        }
-        const payload = (await response.json()) as DistrictItem[]
+        const payload = await apiClient.getDistricts()
         setDistricts(payload)
       } catch (error) {
-        setDistrictError(error instanceof Error ? error.message : 'Unable to load district list.')
+        const message = getLocalizedApiError(error, content)
+        setDistrictError(message)
+        pushToast(message, 'error')
       } finally {
         setIsLoadingDistricts(false)
       }
     }
 
     fetchDistricts()
-  }, [])
+  }, [content, pushToast])
 
   const states = useMemo(() => {
     const unique = new Set(districts.map((item) => item.state_name))
@@ -141,41 +136,29 @@ const OAuthCallbackPage = () => {
         throw new Error('Missing Google user info. Please log in again.')
       }
 
-      const response = await fetch(`${apiBaseUrl}/farmers/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          google_sub: googleUser.sub,
-          name: fullName.trim(),
-          phone: phone.trim(),
-          state_name: stateName,
-          dist_name: districtName,
-          email: googleUser.email ?? undefined,
-          email_verified: googleUser.email_verified ?? undefined,
-          picture: googleUser.picture ?? undefined,
-        }),
+      const farmer = await apiClient.registerFarmer({
+        google_sub: googleUser.sub,
+        name: fullName.trim(),
+        phone: phone.trim(),
+        state_name: stateName,
+        dist_name: districtName,
+        email: googleUser.email ?? undefined,
+        email_verified: googleUser.email_verified ?? undefined,
+        picture: googleUser.picture ?? undefined,
       })
-
-      if (!response.ok) {
-        const payload = (await response.json().catch(() => null)) as { detail?: unknown } | null
-        const detail = payload?.detail
-        const message = typeof detail === 'string' && detail.trim() ? detail : `Registration failed (${response.status})`
-        throw new Error(message)
-      }
-
-      const farmer = (await response.json()) as FarmerRegisterResponse
       if (typeof window !== 'undefined') {
         window.localStorage.setItem(FARMER_ID_STORAGE_KEY, farmer.farmer_id)
         window.localStorage.setItem(LEGACY_FARMER_ID_STORAGE_KEY, farmer.farmer_id)
         window.localStorage.setItem(FARMER_PROFILE_STORAGE_KEY, JSON.stringify(farmer))
       }
+      setFarmerId(farmer.farmer_id)
 
       navigate('/panel/overview', { replace: true })
     } catch (error) {
+      const message = getLocalizedApiError(error, content)
       setSubmitStatus('error')
-      setSubmitMessage(error instanceof Error ? error.message : 'Registration failed.')
+      setSubmitMessage(message)
+      pushToast(message, 'error')
     }
   }
 
