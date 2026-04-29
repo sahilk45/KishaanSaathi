@@ -83,13 +83,33 @@ CREATE INDEX IF NOT EXISTS idx_dch_dist_name
 
 -- ── Table 2: farmers ──────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS farmers (
-    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name        VARCHAR(200) NOT NULL,
-    phone       VARCHAR(20)  UNIQUE NOT NULL,
-    state_name  VARCHAR(100) NOT NULL,
-    dist_name   VARCHAR(100) NOT NULL,
-    created_at  TIMESTAMP DEFAULT NOW()
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    google_sub      VARCHAR(64) UNIQUE NOT NULL,
+    email           VARCHAR(255),
+    email_verified  BOOLEAN DEFAULT FALSE,
+    name            VARCHAR(200),
+    picture         TEXT,
+    phone           VARCHAR(20) UNIQUE,
+    state_name      VARCHAR(100),
+    dist_name       VARCHAR(100),
+    created_at      TIMESTAMP DEFAULT NOW(),
+    updated_at      TIMESTAMP DEFAULT NOW()
 );
+
+CREATE INDEX IF NOT EXISTS idx_farmers_google_sub ON farmers(google_sub);
+CREATE INDEX IF NOT EXISTS idx_farmers_phone ON farmers(phone);
+
+-- Backward-compatible column upgrades for existing deployments
+ALTER TABLE farmers ADD COLUMN IF NOT EXISTS google_sub VARCHAR(64);
+ALTER TABLE farmers ADD COLUMN IF NOT EXISTS email VARCHAR(255);
+ALTER TABLE farmers ADD COLUMN IF NOT EXISTS email_verified BOOLEAN DEFAULT FALSE;
+ALTER TABLE farmers ADD COLUMN IF NOT EXISTS name VARCHAR(200);
+ALTER TABLE farmers ADD COLUMN IF NOT EXISTS picture TEXT;
+ALTER TABLE farmers ADD COLUMN IF NOT EXISTS phone VARCHAR(20);
+ALTER TABLE farmers ADD COLUMN IF NOT EXISTS state_name VARCHAR(100);
+ALTER TABLE farmers ADD COLUMN IF NOT EXISTS dist_name VARCHAR(100);
+ALTER TABLE farmers ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT NOW();
+ALTER TABLE farmers ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT NOW();
 
 
 -- ── Table 3: farm_fields ─────────────────────────────────────────────────────

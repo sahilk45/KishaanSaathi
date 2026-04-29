@@ -23,6 +23,9 @@ requests==2.33.1
 pydantic==2.13.3
 python-dotenv==1.0.1
 
+# ── Auth / OAuth ─────────────────────────────────────────────────────────────
+google-auth==2.35.0
+
 # ── LangGraph / LangChain chatbot stack ───────────────────────────────────────
 langgraph>=0.2.73
 langchain>=0.3.19

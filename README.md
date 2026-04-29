@@ -115,6 +115,27 @@ Interactive docs: **http://localhost:8000/docs**
 
 ---
 
+## Seed a new Neon database (district_climate_history)
+
+If you created a brand‑new Neon database, load the CSV into
+`district_climate_history` using the one‑time migration script.
+
+```bash
+# Ensure DATABASE_URL in .env points to your new Neon DB
+python scripts/migrate_csv_to_postgres.py
+```
+
+Optional overrides:
+
+```bash
+# Custom CSV path or DB URL
+CSV_PATH=/absolute/path/to/KrishiTwin_Final_Engineered.csv \
+DATABASE_URL=postgresql://user:pass@host:5432/dbname \
+python scripts/migrate_csv_to_postgres.py
+```
+
+---
+
 ## Key API Endpoints
 
 | Method | Endpoint | Description |

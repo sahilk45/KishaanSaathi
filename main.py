@@ -15,6 +15,10 @@ Run with:
 
 import os
 import sys
+import base64
+import json
+import secrets
+from urllib.parse import urlencode
 
 # ── Fix Windows asyncio loop policy for asyncpg SSL ────────────────────────────
 if sys.platform == "win32":
@@ -48,11 +52,14 @@ from typing import Optional, Any
 from uuid import UUID
 
 import asyncpg
+import httpx
 from fastapi import FastAPI, HTTPException, Depends, Request, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
+from google.oauth2 import id_token as google_id_token
+from google.auth.transport import requests as google_requests
 
 from database import create_pool, create_all_tables
 from services.imputation   import impute_weather_from_db
@@ -74,6 +81,10 @@ DATABASE_URL  = os.getenv(
     "postgresql://postgres:postgres@localhost:5432/kishandb"
 )
 MODEL_DIR          = os.getenv("MODEL_DIR", "Encoder_and_model")
+FRONTEND_BASE_URL  = os.getenv("FRONTEND_BASE_URL", "http://localhost:5173").rstrip("/")
+GOOGLE_CLIENT_ID   = os.getenv("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
+GOOGLE_OAUTH_REDIRECT_URI = os.getenv("GOOGLE_OAUTH_REDIRECT_URI")
 
 # ── XGBoost training data cutoff year ────────────────────────────────────────
 # The model was trained on KrishiTwin_Final_Engineered.csv which ends at 2015.
@@ -216,6 +227,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+def _build_google_redirect_uri(request: Request) -> str:
+    if GOOGLE_OAUTH_REDIRECT_URI:
+        return GOOGLE_OAUTH_REDIRECT_URI
+    base_url = str(request.base_url).rstrip("/")
+    return f"{base_url}/auth/google/callback"
+
+
+def _encode_user_payload(payload: dict) -> str:
+    raw = json.dumps(payload, separators=(",", ":")).encode("utf-8")
+    encoded = base64.urlsafe_b64encode(raw).decode("utf-8")
+    return encoded.rstrip("=")
+
 # Serve the static dashboard at /static and / 
 _static_dir = os.path.join(os.path.dirname(__file__), "static")
 if os.path.isdir(_static_dir):
@@ -265,10 +289,14 @@ async def get_pool(request: Request) -> asyncpg.Pool:
 # ─────────────────────────────────────────────────────────────────────────────
 
 class FarmerRegisterRequest(BaseModel):
+    google_sub: str  = Field(..., json_schema_extra={"example": "108365223456789012345"})
     name:       str  = Field(..., json_schema_extra={"example": "Ramesh Kumar"})
     phone:      str  = Field(..., json_schema_extra={"example": "9876543210"})
     state_name: str  = Field(..., json_schema_extra={"example": "Punjab"})
     dist_name:  str  = Field(..., json_schema_extra={"example": "ludhiana"})
+    email:      Optional[str] = Field(None, json_schema_extra={"example": "ramesh@gmail.com"})
+    email_verified: Optional[bool] = Field(None, json_schema_extra={"example": True})
+    picture:    Optional[str] = Field(None, json_schema_extra={"example": "https://..."})
 
 
 class FarmerRegisterResponse(BaseModel):
@@ -391,6 +419,140 @@ async def health_check():
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# OAuth: Google login (Option B)
+# ─────────────────────────────────────────────────────────────────────────────
+
+@app.get("/auth/google/login", tags=["Auth"])
+async def google_login(request: Request):
+    """Redirects the user to Google OAuth consent screen."""
+    if not GOOGLE_CLIENT_ID or not GOOGLE_CLIENT_SECRET:
+        raise HTTPException(status_code=500, detail="Google OAuth is not configured on the server.")
+
+    redirect_uri = _build_google_redirect_uri(request)
+    state = secrets.token_urlsafe(24)
+    params = {
+        "client_id": GOOGLE_CLIENT_ID,
+        "redirect_uri": redirect_uri,
+        "response_type": "code",
+        "scope": "openid email profile",
+        "access_type": "offline",
+        "prompt": "consent",
+        "state": state,
+        "include_granted_scopes": "true",
+    }
+
+    auth_url = f"https://accounts.google.com/o/oauth2/v2/auth?{urlencode(params)}"
+    response = RedirectResponse(auth_url, status_code=302)
+    response.set_cookie(
+        "oauth_state",
+        state,
+        httponly=True,
+        secure=False,
+        samesite="lax",
+        max_age=10 * 60,
+    )
+    return response
+
+
+@app.get("/auth/google/callback", tags=["Auth"])
+async def google_callback(
+    request: Request,
+    code: str = Query(...),
+    state: Optional[str] = Query(default=None),
+    pool: asyncpg.Pool = Depends(get_pool),
+):
+    """Handles Google OAuth callback, verifies ID token, and redirects to frontend."""
+    stored_state = request.cookies.get("oauth_state")
+    if not stored_state or not state or stored_state != state:
+        raise HTTPException(status_code=400, detail="OAuth state mismatch. Please try again.")
+
+    if not GOOGLE_CLIENT_ID or not GOOGLE_CLIENT_SECRET:
+        raise HTTPException(status_code=500, detail="Google OAuth is not configured on the server.")
+
+    redirect_uri = _build_google_redirect_uri(request)
+
+    async with httpx.AsyncClient(timeout=15) as client:
+        token_response = await client.post(
+            "https://oauth2.googleapis.com/token",
+            data={
+                "code": code,
+                "client_id": GOOGLE_CLIENT_ID,
+                "client_secret": GOOGLE_CLIENT_SECRET,
+                "redirect_uri": redirect_uri,
+                "grant_type": "authorization_code",
+            },
+        )
+
+    if token_response.status_code != 200:
+        logger.error(
+            "google_token_exchange_failed",
+            extra={
+                "status_code": token_response.status_code,
+                "response": token_response.text,
+            },
+        )
+        raise HTTPException(
+            status_code=400,
+            detail=f"Google token exchange failed ({token_response.status_code}). {token_response.text}",
+        )
+
+    token_payload = token_response.json()
+    id_token_value = token_payload.get("id_token")
+    if not id_token_value:
+        raise HTTPException(status_code=400, detail="No id_token returned from Google.")
+
+    try:
+        id_info = google_id_token.verify_oauth2_token(
+            id_token_value,
+            google_requests.Request(),
+            GOOGLE_CLIENT_ID,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=f"Invalid Google ID token: {exc}")
+
+    user_payload = {
+        "sub": id_info.get("sub"),
+        "email": id_info.get("email"),
+        "name": id_info.get("name"),
+        "picture": id_info.get("picture"),
+        "email_verified": id_info.get("email_verified"),
+    }
+
+    async with pool.acquire() as conn:
+        row = await conn.fetchrow(
+            """
+            INSERT INTO farmers (google_sub, email, email_verified, name, picture)
+            VALUES ($1, $2, $3, $4, $5)
+            ON CONFLICT (google_sub) DO UPDATE
+                SET email = EXCLUDED.email,
+                    email_verified = EXCLUDED.email_verified,
+                    name = EXCLUDED.name,
+                    picture = EXCLUDED.picture,
+                    updated_at = NOW()
+            RETURNING id, phone, state_name, dist_name
+            """,
+            user_payload["sub"],
+            user_payload["email"],
+            user_payload["email_verified"],
+            user_payload["name"],
+            user_payload["picture"],
+        )
+
+    farmer_id = ""
+    if row and row["phone"] and row["state_name"] and row["dist_name"]:
+        farmer_id = str(row["id"])
+
+    encoded_user = _encode_user_payload(user_payload)
+    redirect_url = f"{FRONTEND_BASE_URL}/oauth/callback?user={encoded_user}"
+    if farmer_id:
+        redirect_url = f"{redirect_url}&farmer_id={farmer_id}"
+
+    response = RedirectResponse(redirect_url, status_code=302)
+    response.delete_cookie("oauth_state")
+    return response
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # ENDPOINT 2: GET /districts
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -456,25 +618,64 @@ async def register_farmer(
     state_clean = body.state_name.strip()
 
     async with pool.acquire() as conn:
-        # Check if phone already registered
+        # Check for existing farmer by google_sub
         existing = await conn.fetchrow(
-            "SELECT id FROM farmers WHERE phone = $1", body.phone
+            "SELECT id, phone FROM farmers WHERE google_sub = $1",
+            body.google_sub,
         )
-        if existing:
+
+        # Phone must be unique across different farmers
+        phone_owner = await conn.fetchrow(
+            "SELECT id FROM farmers WHERE phone = $1",
+            body.phone,
+        )
+        if phone_owner and (not existing or phone_owner["id"] != existing["id"]):
             raise HTTPException(
                 status_code=409,
                 detail=f"Phone {body.phone} is already registered. "
-                       "Use GET /farmers/{phone} to retrieve your farmer_id."
+                       "Use a different phone number."
             )
 
-        row = await conn.fetchrow(
-            """
-            INSERT INTO farmers (name, phone, state_name, dist_name)
-            VALUES ($1, $2, $3, $4)
-            RETURNING id, name, phone, state_name, dist_name
-            """,
-            body.name, body.phone, state_clean, dist_clean,
-        )
+        if existing:
+            row = await conn.fetchrow(
+                """
+                UPDATE farmers
+                   SET name = $1,
+                       phone = $2,
+                       state_name = $3,
+                       dist_name = $4,
+                       email = COALESCE($5, email),
+                       email_verified = COALESCE($6, email_verified),
+                       picture = COALESCE($7, picture),
+                       updated_at = NOW()
+                 WHERE id = $8
+                RETURNING id, name, phone, state_name, dist_name
+                """,
+                body.name.strip(),
+                body.phone.strip(),
+                state_clean,
+                dist_clean,
+                body.email,
+                body.email_verified,
+                body.picture,
+                existing["id"],
+            )
+        else:
+            row = await conn.fetchrow(
+                """
+                INSERT INTO farmers (google_sub, email, email_verified, name, picture, phone, state_name, dist_name)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+                RETURNING id, name, phone, state_name, dist_name
+                """,
+                body.google_sub,
+                body.email,
+                body.email_verified,
+                body.name.strip(),
+                body.picture,
+                body.phone.strip(),
+                state_clean,
+                dist_clean,
+            )
 
     logger.log_db_operation(
         "farmer_registered",
