@@ -5,6 +5,7 @@ import './index.css'
 import { LanguageProvider } from './context/LanguageContext'
 import HomePage from './pages/HomePage'
 import ApmcPage from './pages/ApmcPage'
+import OAuthCallbackPage from './pages/OAuthCallbackPage'
 import PanelLayoutPage from './pages/panel-pages/PanelLayoutPage'
 import PanelModulePage from './pages/panel-pages/PanelModulePage'
 
@@ -15,6 +16,7 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/apmc" element={<ApmcPage />} />
+          <Route path="/oauth/callback" element={<OAuthCallbackPage />} />
           <Route path="/panel" element={<PanelLayoutPage />}>
             <Route index element={<Navigate to="overview" replace />} />
             <Route path=":panelSlug" element={<PanelModulePage />} />

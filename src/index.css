@@ -2131,3 +2131,140 @@ html.language-large-text .footer__copy {
 		flex: 1;
 	}
 }
+
+.auth-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(15, 23, 42, 0.4);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 2rem;
+	z-index: 60;
+}
+
+.auth-modal {
+	width: min(640px, 100%);
+	background: #ffffff;
+	border-radius: 1.25rem;
+	padding: 2rem;
+	box-shadow: 0 30px 80px rgba(15, 23, 42, 0.25);
+	border: 1px solid #e5e7eb;
+}
+
+.auth-modal__header {
+	display: flex;
+	justify-content: space-between;
+	gap: 1.5rem;
+	margin-bottom: 1.5rem;
+}
+
+.auth-modal__eyebrow {
+	font-size: 0.7rem;
+	text-transform: uppercase;
+	letter-spacing: 0.18em;
+	font-weight: 700;
+	color: #16a34a;
+	margin-bottom: 0.35rem;
+}
+
+.auth-modal__subtitle {
+	font-size: 0.95rem;
+	color: #6b7280;
+	line-height: 1.6;
+}
+
+.auth-modal__avatar {
+	width: 64px;
+	height: 64px;
+	border-radius: 9999px;
+	object-fit: cover;
+	border: 3px solid #ecfdf3;
+}
+
+.auth-modal__user {
+	background: #f8fafc;
+	border: 1px solid #e5e7eb;
+	border-radius: 0.9rem;
+	padding: 0.75rem 1rem;
+	margin-bottom: 1.5rem;
+	font-size: 0.9rem;
+	color: #374151;
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+}
+
+.auth-modal__form {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.auth-modal__field {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	font-weight: 700;
+	color: #6b7280;
+}
+
+.auth-modal__field input,
+.auth-modal__field select {
+	border: 1px solid #d1d5db;
+	border-radius: 0.7rem;
+	padding: 0.55rem 0.7rem;
+	font-family: inherit;
+	font-size: 0.9rem;
+	color: #111827;
+	background: #ffffff;
+}
+
+.auth-modal__field input:focus,
+.auth-modal__field select:focus {
+	outline: none;
+	border-color: #86efac;
+	box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.16);
+}
+
+.auth-modal__actions {
+	grid-column: 1 / -1;
+	display: flex;
+	gap: 0.75rem;
+	align-items: center;
+}
+
+.auth-modal__hint {
+	grid-column: 1 / -1;
+	font-size: 0.85rem;
+	color: #6b7280;
+}
+
+.auth-modal__error {
+	grid-column: 1 / -1;
+	font-size: 0.85rem;
+	color: #b91c1c;
+}
+
+.auth-fallback {
+	min-height: 100dvh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 2rem;
+}
+
+.auth-fallback__card {
+	background: #ffffff;
+	border: 1px solid #e5e7eb;
+	border-radius: 1rem;
+	padding: 2rem;
+	box-shadow: 0 20px 50px rgba(15, 23, 42, 0.18);
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}

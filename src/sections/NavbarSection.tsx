@@ -1,5 +1,12 @@
-import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
+
+const apiBaseUrl = ((import.meta.env.VITE_API_BASE_URL as string | undefined) ?? 'http://127.0.0.1:8000').replace(
+  /\/+$/,
+  '',
+)
+
+const oauthLoginUrl =
+  (import.meta.env.VITE_OAUTH_LOGIN_URL as string | undefined) ?? `${apiBaseUrl}/auth/google/login`
 
 const NavbarSection = () => {
   const { content, languageLabel, cycleLanguage } = useLanguage()
@@ -23,9 +30,15 @@ const NavbarSection = () => {
           <button type="button" className="btn-ghost" onClick={cycleLanguage}>
             {languageLabel}
           </button>
-          <Link to="/panel/overview" className="btn-primary">
+          <button
+            type="button"
+            className="btn-primary"
+            onClick={() => {
+              window.location.href = oauthLoginUrl
+            }}
+          >
             {content.navbar.getStarted}
-          </Link>
+          </button>
         </div>
       </div>
     </header>

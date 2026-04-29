@@ -1,10 +1,17 @@
 import { Leaf } from 'lucide-react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { Navigate, NavLink, Outlet } from 'react-router-dom'
 import { useLanguage } from '../../context/LanguageContext'
 import { panelGroups, panelItems } from './panelConfig'
 
+const FARMER_ID_STORAGE_KEY = 'ks_farmer_id'
+
 const PanelLayoutPage = () => {
   const { content } = useLanguage()
+  const farmerId = typeof window !== 'undefined' ? window.localStorage.getItem(FARMER_ID_STORAGE_KEY) : null
+
+  if (!farmerId) {
+    return <Navigate to="/" replace />
+  }
 
   return (
     <main className="panel-page" aria-label="Farm control panel">
