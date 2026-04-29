@@ -1,5 +1,5 @@
 import { Bot, Search } from 'lucide-react'
-import { Navigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useParams } from 'react-router-dom'
 import { defaultPanelRoute, isPanelRoute, panelItemsByRoute, type VisualKind } from './panelConfig'
 import MyFarmWorkspace from './MyFarmWorkspace'
 
@@ -143,6 +143,15 @@ const PanelModulePage = () => {
           <p className="panel-content__kicker">Control Console</p>
           <h1>{activeItem.label}</h1>
           <p className="panel-content__summary">{activeItem.subtitle}</p>
+
+          {activeItem.route === 'market-insights' ? (
+            <div className="panel-inline-callout" role="note" aria-label="APMC explorer link">
+              <p>Need mandi min/max/modal table for APMC selection?</p>
+              <Link to="/apmc" className="panel-inline-callout__link">
+                Open APMC Explorer
+              </Link>
+            </div>
+          ) : null}
 
           {activeItem.route === 'my-farm' ? (
             <MyFarmWorkspace item={activeItem} />
