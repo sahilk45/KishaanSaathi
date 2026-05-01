@@ -153,21 +153,6 @@ CROP_BENCHMARKS = {
     "OILSEEDS.YIELD.Kg.per.ha.":             899.1,
 }
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Tier 3 crop block list (R² < 0 in validation — do NOT predict these)
-# Root cause: sparse/regional crops with too many zero-yield training rows.
-# ─────────────────────────────────────────────────────────────────────────────
-TIER3_BLOCKED_CROPS: set = {
-    "KHARIF.SORGHUM.YIELD.Kg.per.ha.",
-    "COTTON.YIELD.Kg.per.ha.",
-    "SUNFLOWER.YIELD.Kg.per.ha.",
-    "CASTOR.YIELD.Kg.per.ha.",
-    "FINGER.MILLET.YIELD.Kg.per.ha.",
-    "LINSEED.YIELD.Kg.per.ha.",
-    "SOYABEAN.YIELD.Kg.per.ha.",
-    "RABI.SORGHUM.YIELD.Kg.per.ha.",
-    "SAFFLOWER.YIELD.Kg.per.ha.",
-}
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Lifespan: startup + shutdown
@@ -858,6 +843,7 @@ async def get_field_agro_snapshot(
 @app.post("/predict", response_model=PredictResponse, tags=["Prediction"])
 async def predict(
     body: PredictRequest,
+    dry_run: bool = Query(default=False, description="If true, skip cache and DB insert (for What-If simulations)"),
     pool: asyncpg.Pool = Depends(get_pool),
 ):
     """
@@ -928,38 +914,39 @@ async def predict(
     irr_source  = imputed["irr_source"]
 
     # ══════════════════════════════════════════════════════════════════════════
-    # STEP 2 — Cache check
+    # STEP 2 — Cache check (skipped for dry_run simulations)
     # ══════════════════════════════════════════════════════════════════════════
-    async with pool.acquire() as conn:
-        cached = await conn.fetchrow(
-            """
-            SELECT * FROM field_predictions
-            WHERE  field_id         = $1
-              AND  crop_type        = $2
-              AND  year             = $3
-              AND  npk_input        = $4
-              AND  irrigation_ratio = $5
-            """,
-            field_id, crop_type, year, body.npk_input, irr,
-        )
+    if not dry_run:
+        async with pool.acquire() as conn:
+            cached = await conn.fetchrow(
+                """
+                SELECT * FROM field_predictions
+                WHERE  field_id         = $1
+                  AND  crop_type        = $2
+                  AND  year             = $3
+                  AND  npk_input        = $4
+                  AND  irrigation_ratio = $5
+                """,
+                field_id, crop_type, year, body.npk_input, irr,
+            )
 
-    if cached:
+        if cached:
+            logger.log_db_operation(
+                "cache_hit",
+                {"field_id": field_id, "crop_type": crop_type, "year": year},
+                operation="SELECT",
+                table="field_predictions",
+                rows_affected=1
+            )
+            return _row_to_predict_response(cached, cached=True)
+
         logger.log_db_operation(
-            "cache_hit",
+            "cache_miss",
             {"field_id": field_id, "crop_type": crop_type, "year": year},
             operation="SELECT",
             table="field_predictions",
-            rows_affected=1
+            rows_affected=0
         )
-        return _row_to_predict_response(cached, cached=True)
-
-    logger.log_db_operation(
-        "cache_miss",
-        {"field_id": field_id, "crop_type": crop_type, "year": year},
-        operation="SELECT",
-        table="field_predictions",
-        rows_affected=0
-    )
 
 
 
@@ -997,19 +984,6 @@ async def predict(
             detail=f"crop_type '{crop_type}' was not seen during model training."
         )
 
-    # ══════════════════════════════════════════════════════════════════════════
-    # STEP 4b — Tier 3 crop block guard
-    # These crops have R² < 0 in walk-forward validation due to sparse data.
-    # ══════════════════════════════════════════════════════════════════════════
-    if crop_type in TIER3_BLOCKED_CROPS:
-        raise HTTPException(
-            status_code=422,
-            detail=(
-                f"Crop '{crop_type}' is not supported for yield prediction in this model version. "
-                "This crop has insufficient training data for reliable district-level prediction. "
-                "Supported Tier 1 crops: WHEAT, RICE, MAIZE, RAPESEED, SUGARCANE."
-            )
-        )
 
     # ══════════════════════════════════════════════════════════════════════════
     # STEP 5 — Build the full 33-feature DataFrame (must match training order)
@@ -1183,8 +1157,57 @@ async def predict(
     )
 
     # ══════════════════════════════════════════════════════════════════════════
-    # STEP 8 — Insert into field_predictions cache table
+    # STEP 8 — Insert into field_predictions cache table (skipped for dry_run)
     # ══════════════════════════════════════════════════════════════════════════
+
+    # Build the response dict used for both dry_run and normal flow
+    _now_iso = datetime.datetime.utcnow().isoformat()
+    _dry_response = {
+        "field_id":         field_id,
+        "crop_type":        crop_type,
+        "year":             year,
+        "predicted_yield":  round(predicted_yield, 2),
+        "benchmark_yield":  round(benchmark_yield, 2),
+        "health": {
+            "final_health_score": health["final_health_score"],
+            "yield_score":        health["yield_score"],
+            "soil_score":         health["soil_score"],
+            "water_score":        health["water_score"],
+            "climate_score":      health["climate_score"],
+            "ndvi_score":         health["ndvi_score"],
+            "ndvi_source":        "satellite" if ndvi_mean else "yield proxy",
+            "risk_level":         health["risk_level"],
+            "loan_decision":      health["loan_decision"],
+        },
+        "kharif_temp_used":  kharif_temp,
+        "kharif_rain_used":  kharif_rain,
+        "rabi_temp_used":    rabi_temp,
+        "wdi_used":          wdi,
+        "soil_score_used":   soil_score,
+        "irr_source":        irr_source,
+        "irrigation_used":   irr,
+        "ndvi_mean":         ndvi_mean,
+        "ndvi_max":          ndvi_max,
+        "soil_moisture":     soil_moisture,
+        "soil_temp_surface": soil_temp_surf,
+        "air_temp":          air_temp,
+        "humidity":          humidity,
+        "cloud_cover":       cloud_cover,
+        "satellite_image_date": sat_date,
+        "satellite_source":  sat_source,
+        "cached":            False,
+        "calculated_at":     _now_iso,
+    }
+
+    if dry_run:
+        logger.log_computation(
+            "dry_run_prediction",
+            {"field_id": field_id, "crop_type": crop_type, "yield": predicted_yield},
+            computation_type="what_if_simulation"
+        )
+        return _dry_response
+
+    # ── Persist to DB (normal flow) ────────────────────────────────────────
     sat_date_obj = None
     if sat_date:
         try:
@@ -1513,6 +1536,120 @@ async def chat_stream(req: ChatRequest):
             "Cache-Control": "no-cache",
         },
     )
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ENDPOINT 10: APMC Market Insights
+# ─────────────────────────────────────────────────────────────────────────────
+
+_MANDI_CACHE: dict | None = None
+
+def _load_mandi_master() -> dict:
+    global _MANDI_CACHE
+    if _MANDI_CACHE is not None:
+        return _MANDI_CACHE
+    mandi_path = os.getenv(
+        "MANDI_MASTER_JSON_PATH",
+        os.path.join(os.path.dirname(__file__), "data", "mandi_master.json"),
+    )
+    with open(mandi_path, "r", encoding="utf-8") as f:
+        _MANDI_CACHE = json.load(f)
+    return _MANDI_CACHE
+
+
+@app.get("/apmc/master", tags=["Market"])
+async def get_apmc_master():
+    """Serves the mandi_master.json (State → District → APMC list)."""
+    try:
+        master = _load_mandi_master()
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Mandi master JSON not found.")
+    return {"master": master}
+
+
+@app.get("/apmc/prices", tags=["Market"])
+async def get_apmc_prices(
+    farmer_id: str = Query(..., description="Farmer UUID"),
+    commodity: str = Query(..., description="Crop/commodity name e.g. Wheat"),
+    pool: asyncpg.Pool = Depends(get_pool),
+):
+    """
+    Fetches live APMC prices for a commodity across all mandis in the
+    farmer's registered district.  Uses the Agmarknet data.gov.in API.
+    """
+    async with pool.acquire() as conn:
+        farmer = await conn.fetchrow(
+            "SELECT state_name, dist_name FROM farmers WHERE id = $1",
+            farmer_id,
+        )
+    if not farmer:
+        raise HTTPException(status_code=404, detail=f"Farmer '{farmer_id}' not found.")
+
+    state_name = (farmer["state_name"] or "").strip()
+    dist_name  = (farmer["dist_name"] or "").strip()
+
+    try:
+        master = _load_mandi_master()
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Mandi master JSON not found.")
+
+    # Find APMCs for farmer's state + district
+    mandis: list[str] = []
+    for s_key, districts_map in master.items():
+        if s_key.lower().strip() == state_name.lower():
+            for d_key, m_list in districts_map.items():
+                if d_key.lower().strip() == dist_name.lower():
+                    mandis = m_list
+                    break
+            # Partial match fallback
+            if not mandis:
+                for d_key, m_list in districts_map.items():
+                    if dist_name.lower() in d_key.lower() or d_key.lower() in dist_name.lower():
+                        mandis = m_list
+                        break
+            break
+
+    agmarknet_url = os.getenv("AGMARKNET_URL", "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070")
+    api_key = os.getenv("AGMARKNET_API_KEY", "")
+
+    prices: list[dict] = []
+    async with httpx.AsyncClient(timeout=15.0) as client:
+        for mandi in mandis:
+            clean_name = mandi.replace("APMC", "").strip()
+            params = {
+                "api-key": api_key,
+                "format": "json",
+                "limit": 10,
+                "filters[state]": state_name,
+                "filters[market]": clean_name,
+                "filters[commodity]": commodity,
+            }
+            try:
+                resp = await client.get(agmarknet_url, params=params)
+                records = resp.json().get("records", [])
+                for rec in records:
+                    prices.append({
+                        "market":       rec.get("market", clean_name),
+                        "commodity":    rec.get("commodity", commodity),
+                        "min_price":    float(rec.get("min_price", 0)),
+                        "max_price":    float(rec.get("max_price", 0)),
+                        "modal_price":  float(rec.get("modal_price", 0)),
+                        "arrival_date": rec.get("arrival_date", ""),
+                        "state":        rec.get("state", state_name),
+                        "district":     rec.get("district", dist_name),
+                    })
+            except Exception:
+                continue
+
+    return {
+        "farmer_id":       farmer_id,
+        "state":           state_name,
+        "district":        dist_name,
+        "commodity":       commodity,
+        "mandis_available": mandis,
+        "mandis_searched":  len(mandis),
+        "prices":          prices,
+    }
 
 
 if __name__ == "__main__":
