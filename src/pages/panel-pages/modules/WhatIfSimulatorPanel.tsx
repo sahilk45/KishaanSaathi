@@ -61,13 +61,14 @@ const WhatIfSimulatorPanel = () => {
 
     setLoading(true)
     try {
+      // dry_run = true — What-If is preview only, no DB persistence
       const payload = await apiClient.predict({
         field_id: fieldId,
         crop_type: cropType,
         npk_input: npk,
         year: yr,
         irrigation_ratio: irr,
-      })
+      }, true)
       setPrediction(payload)
     } catch (error) {
       const message = getLocalizedApiError(error, content)

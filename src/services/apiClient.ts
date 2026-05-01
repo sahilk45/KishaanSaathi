@@ -1,4 +1,4 @@
-import type { AgroSnapshotResponse, CropsResponse, DistrictItem, FieldHistoryResponse, FarmerRegisterResponse, FarmRegisterResponse, PredictResponse } from '../types/api'
+import type { AgroSnapshotResponse, ApmcMasterResponse, ApmcPricesResponse, CropsResponse, DistrictItem, FarmerFieldsResponse, FieldHistoryResponse, FarmerRegisterResponse, FarmRegisterResponse, PredictResponse } from '../types/api'
 
 export type ApiErrorDetail = {
   status: number
@@ -94,6 +94,8 @@ export const apiClient = {
       method: 'POST',
       body: JSON.stringify(payload),
     }),
+  getFarmerFields: (farmerId: string) =>
+    request<FarmerFieldsResponse>(`/farmer/${farmerId}/fields`),
   getAgroSnapshot: (fieldId: string, start?: number, end?: number) => {
     const query = new URLSearchParams()
     if (typeof start === 'number') query.set('start', `${start}`)
@@ -102,11 +104,19 @@ export const apiClient = {
     return request<AgroSnapshotResponse>(`/field/${fieldId}/agro-snapshot${suffix}`)
   },
   getFieldHistory: (fieldId: string) => request<FieldHistoryResponse>(`/field/${fieldId}/history`),
-  predict: (payload: PredictPayload) =>
-    request<PredictResponse>('/predict', {
+  predict: (payload: PredictPayload, dryRun = false) => {
+    const suffix = dryRun ? '?dry_run=true' : ''
+    return request<PredictResponse>(`/predict${suffix}`, {
       method: 'POST',
       body: JSON.stringify(payload),
-    }),
+    })
+  },
+  // ── APMC Market endpoints ──────────────────────────────────────────────
+  getApmcMaster: () => request<ApmcMasterResponse>('/apmc/master'),
+  getApmcPrices: (farmerId: string, commodity: string) => {
+    const query = new URLSearchParams({ farmer_id: farmerId, commodity })
+    return request<ApmcPricesResponse>(`/apmc/prices?${query.toString()}`)
+  },
 }
 
 export const streamChat = async (

@@ -6,6 +6,7 @@ import { LanguageProvider } from './context/LanguageContext'
 import { SessionProvider } from './context/SessionContext'
 import { ToastProvider } from './context/ToastContext'
 import { CropProvider } from './context/CropContext'
+import { FieldProvider } from './context/FieldContext'
 import HomePage from './pages/HomePage'
 import ApmcPage from './pages/ApmcPage'
 import OAuthCallbackPage from './pages/OAuthCallbackPage'
@@ -18,6 +19,7 @@ createRoot(document.getElementById('root')!).render(
       <SessionProvider>
         <ToastProvider>
           <CropProvider>
+            <FieldProvider>
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<HomePage />} />
@@ -30,6 +32,7 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </BrowserRouter>
+            </FieldProvider>
           </CropProvider>
         </ToastProvider>
       </SessionProvider>

@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Send } from 'lucide-react'
 import { streamChat } from '../../../services/apiClient'
 import { getLocalizedApiError } from '../../../services/apiErrors'
 import { useLanguage } from '../../../context/LanguageContext'
@@ -17,6 +18,11 @@ const AiAssistantPanel = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
   const [streaming, setStreaming] = useState(false)
+  const messagesEndRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
 
   const handleSend = async () => {
     const message = input.trim()
@@ -45,40 +51,55 @@ const AiAssistantPanel = () => {
     }
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      handleSend()
+    }
+  }
+
   if (!farmerId) {
     return <p className="panel-empty">Farmer profile not found. Complete registration to chat with the assistant.</p>
   }
 
   return (
-    <div className="panel-cards">
-      <article className="panel-card panel-card--chat">
-        <div className="panel-card__head">
-          <h3>Contextual Chat</h3>
-          <span className="panel-card__metric">Live</span>
-        </div>
-        <p>Ask about yield, health, weather, or market trends.</p>
-        <div className="panel-chat">
-          <div className="panel-chat__messages">
-            {messages.length === 0 ? <p className="panel-empty">Start the conversation…</p> : null}
-            {messages.map((msg, index) => (
-              <div key={`${msg.role}-${index}`} className={`panel-chat__bubble panel-chat__bubble--${msg.role}`}>
-                {msg.content || (msg.role === 'bot' && streaming ? '...' : '')}
-              </div>
-            ))}
+    <div className="panel-chat-fullscreen">
+      <div className="panel-chat-fullscreen__messages">
+        {messages.length === 0 ? (
+          <div className="panel-chat-fullscreen__welcome">
+            <h2>🌾 KisanSaathi AI</h2>
+            <p>Ask about your crop health, weather, market prices, or get farming advice.</p>
+            <div className="panel-chat-fullscreen__suggestions">
+              <button type="button" onClick={() => setInput('Mera health score kya hai?')}>My health score?</button>
+              <button type="button" onClick={() => setInput('Aaj mausam kaisa hai?')}>Today's weather?</button>
+              <button type="button" onClick={() => setInput('Wheat ka mandi price batao')}>Wheat market price?</button>
+              <button type="button" onClick={() => setInput('Suggest best crop for my field')}>Best crop suggestion?</button>
+            </div>
           </div>
-          <div className="panel-chat__input">
-            <input
-              type="text"
-              value={input}
-              onChange={(event) => setInput(event.target.value)}
-              placeholder="Ask KishanSaathi..."
-            />
-            <button type="button" className="panel-mapbox__button" onClick={handleSend} disabled={streaming}>
-              {streaming ? 'Streaming...' : 'Send'}
-            </button>
+        ) : null}
+        {messages.map((msg, index) => (
+          <div key={`${msg.role}-${index}`} className={`panel-chat-fullscreen__bubble panel-chat-fullscreen__bubble--${msg.role}`}>
+            <span className="panel-chat-fullscreen__role">{msg.role === 'user' ? 'You' : 'KisanSaathi'}</span>
+            <div className="panel-chat-fullscreen__text">
+              {msg.content || (msg.role === 'bot' && streaming ? '●●●' : '')}
+            </div>
           </div>
-        </div>
-      </article>
+        ))}
+        <div ref={messagesEndRef} />
+      </div>
+      <div className="panel-chat-fullscreen__input-bar">
+        <textarea
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Ask KisanSaathi anything..."
+          rows={1}
+          disabled={streaming}
+        />
+        <button type="button" className="panel-chat-fullscreen__send" onClick={handleSend} disabled={streaming || !input.trim()}>
+          <Send size={18} />
+        </button>
+      </div>
     </div>
   )
 }

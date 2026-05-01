@@ -105,3 +105,49 @@ export type AgroSnapshotResponse = {
     soil_temp_surface?: number
   }
 }
+
+// ── Farmer fields ──────────────────────────────────────────────────────────
+export type FarmerFieldItem = {
+  field_id: string
+  field_name: string
+  polygon_id: string
+  center_lat: number
+  center_lon: number
+  city_name?: string | null
+  state_name?: string | null
+  area_hectares?: number | null
+  created_at: string
+}
+
+export type FarmerFieldsResponse = {
+  farmer_id: string
+  fields: FarmerFieldItem[]
+}
+
+// ── APMC Market Insights ────────────────────────────────────────────────────
+export type MandiMaster = Record<string, Record<string, string[]>>
+
+export type ApmcMasterResponse = {
+  master: MandiMaster
+}
+
+export type ApmcPriceRecord = {
+  market: string
+  commodity: string
+  min_price: number
+  max_price: number
+  modal_price: number
+  arrival_date: string
+  state: string
+  district: string
+}
+
+export type ApmcPricesResponse = {
+  farmer_id: string
+  state: string
+  district: string
+  commodity: string
+  mandis_available: string[]
+  mandis_searched: number
+  prices: ApmcPriceRecord[]
+}
