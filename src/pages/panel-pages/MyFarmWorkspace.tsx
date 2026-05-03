@@ -170,7 +170,7 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
   useEffect(() => {
     if (farmerId) {
       setFarmerStatus('saved')
-      setFarmerMessage('Farmer profile active.')
+      // setFarmerMessage('Farmer profile active.')
     }
   }, [farmerId])
 
@@ -731,9 +731,9 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
             />
           </label>
         </div>
-        <p className="panel-myfarm-feedback panel-myfarm-feedback--muted">
+        {/* <p className="panel-myfarm-feedback panel-myfarm-feedback--muted">
           Tip: complete farmer registration first, then save your field boundary.
-        </p>
+        </p> */}
 
         <div className="panel-mapbox">
           <div ref={mapContainerRef} className="panel-mapbox__canvas" aria-label="My Farm map canvas" />

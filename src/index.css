@@ -14,11 +14,6 @@ html.language-large-text {
 	--language-text-scale: 1.03;
 }
 
-html, body {
-	height: 100%;
-	overflow: hidden;
-}
-
 body {
 	font-family: 'Inter', system-ui, -apple-system, sans-serif;
 	background-color: #ffffff;
@@ -1374,6 +1369,11 @@ html.language-large-text .footer__copy {
 
 /* Farmer profile card spans the full width */
 .panel-card--farmer {
+	grid-column: 1 / -1;
+}
+
+/* Polygon drawing tools card also spans the full width */
+.panel-card--my-farm-tools {
 	grid-column: 1 / -1;
 }
 

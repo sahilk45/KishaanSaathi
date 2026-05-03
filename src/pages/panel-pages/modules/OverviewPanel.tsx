@@ -1,4 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
+import {
+  Leaf, Thermometer, Droplets, TrendingUp, Map, Activity,
+  CloudRain, Bell, BrainCircuit, AlertTriangle,
+} from 'lucide-react'
 import { apiClient } from '../../../services/apiClient'
 import { getLocalizedApiError } from '../../../services/apiErrors'
 import { useLanguage } from '../../../context/LanguageContext'
@@ -11,7 +15,6 @@ import { formatNumber, formatScore, getCurrentYear, getDefaultCrop, getRiskLabel
 const DEFAULT_NPK = 120
 const DEFAULT_IRR = 0.8
 
-// Score bar component
 const ScoreBar = ({ score, tone }: { score: number | undefined; tone: string }) => {
   const val = Math.round(score ?? 0)
   const color = tone === 'green' ? '#16a34a' : tone === 'yellow' ? '#d97706' : '#dc2626'
@@ -25,11 +28,10 @@ const ScoreBar = ({ score, tone }: { score: number | undefined; tone: string }) 
   )
 }
 
-// Expandable block
 const OverviewBlock = ({
-  icon, title, badge, badgeTone, summary, children, defaultOpen = false,
+  icon: Icon, title, badge, badgeTone, summary, children, defaultOpen = false,
 }: {
-  icon: string
+  icon: React.ElementType
   title: string
   badge?: string
   badgeTone?: string
@@ -42,57 +44,45 @@ const OverviewBlock = ({
   const toneBg = badgeTone === 'green' ? '#dcfce7' : badgeTone === 'yellow' ? '#fef9c3' : badgeTone === 'red' ? '#fee2e2' : '#f3f4f6'
 
   return (
-    <article
-      className="panel-card"
-      style={{ cursor: 'pointer', transition: 'box-shadow 0.2s', padding: '0', overflow: 'hidden' }}
-    >
-      {/* Header row — always visible, clickable */}
+    <article className="panel-card" style={{ cursor: 'pointer', padding: 0, overflow: 'hidden' }}>
       <div
         onClick={() => setOpen(o => !o)}
         style={{
-          display: 'flex', alignItems: 'center', gap: 14, padding: '16px 20px',
+          display: 'flex', alignItems: 'center', gap: 14, padding: '14px 18px',
           borderBottom: open ? '1px solid var(--border-light)' : 'none',
           userSelect: 'none',
         }}
       >
-        <span style={{ fontSize: '1.5rem', lineHeight: 1 }}>{icon}</span>
+        <span style={{
+          width: 36, height: 36, borderRadius: 10, background: '#f0fdf4', color: '#16a34a',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+        }}>
+          <Icon size={18} />
+        </span>
         <div style={{ flex: 1 }}>
-          <p style={{ fontWeight: 700, fontSize: '0.97rem', color: 'var(--text-main)', margin: 0 }}>{title}</p>
-          <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', margin: 0, marginTop: 2 }}>{summary}</p>
+          <p style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text-main)', margin: 0 }}>{title}</p>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: '2px 0 0' }}>{summary}</p>
         </div>
         {badge && (
           <span style={{
             background: toneBg, color: toneColor, border: `1px solid ${toneColor}33`,
             borderRadius: 99, padding: '3px 10px', fontSize: '0.72rem', fontWeight: 700,
             textTransform: 'uppercase', letterSpacing: '0.06em', whiteSpace: 'nowrap',
-          }}>
-            {badge}
-          </span>
+          }}>{badge}</span>
         )}
-        <span style={{
-          fontSize: '0.9rem', color: 'var(--text-muted)', transition: 'transform 0.2s',
-          transform: open ? 'rotate(180deg)' : 'rotate(0)',
-          display: 'inline-block', lineHeight: 1,
-        }}>▾</span>
+        <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)', transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0)', display: 'inline-block' }}>▾</span>
       </div>
-
-      {/* Expandable content */}
       {open && (
-        <div style={{ padding: '16px 20px', background: 'var(--bg-body)' }}>
-          {children}
-        </div>
+        <div style={{ padding: '14px 18px', background: 'var(--bg-body)' }}>{children}</div>
       )}
     </article>
   )
 }
 
 const StatRow = ({ label, value, muted = false }: { label: string; value: string; muted?: boolean }) => (
-  <div style={{
-    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-    padding: '8px 0', borderBottom: '1px solid var(--border-light)',
-  }}>
+  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 0', borderBottom: '1px solid var(--border-light)' }}>
     <span style={{ fontSize: '0.83rem', color: 'var(--text-muted)' }}>{label}</span>
-    <span style={{ fontSize: '0.88rem', fontWeight: 600, color: muted ? 'var(--text-muted)' : 'var(--text-main)' }}>{value}</span>
+    <span style={{ fontSize: '0.85rem', fontWeight: 600, color: muted ? 'var(--text-muted)' : 'var(--text-main)' }}>{value}</span>
   </div>
 )
 
@@ -114,7 +104,6 @@ const OverviewPanel = () => {
 
   useEffect(() => {
     if (!fieldId || cropsLoading || !defaultCrop) return
-
     let active = true
     const loadOverview = async () => {
       setLoading(true)
@@ -126,15 +115,8 @@ const OverviewPanel = () => {
         if (!active) return
         setHistory(historyPayload)
         setSnapshot(snapshotPayload)
-
         if (!historyPayload.history.length) {
-          const predicted = await apiClient.predict({
-            field_id: fieldId,
-            crop_type: defaultCrop.crop_type,
-            npk_input: DEFAULT_NPK,
-            year,
-            irrigation_ratio: DEFAULT_IRR,
-          })
+          const predicted = await apiClient.predict({ field_id: fieldId, crop_type: defaultCrop.crop_type, npk_input: DEFAULT_NPK, year, irrigation_ratio: DEFAULT_IRR })
           if (!active) return
           setPrediction(predicted)
         } else {
@@ -148,42 +130,38 @@ const OverviewPanel = () => {
         if (active) setLoading(false)
       }
     }
-
     loadOverview()
     return () => { active = false }
   }, [content, cropsLoading, defaultCrop, fieldId, pushToast, year])
 
-  if (!fieldId) {
-    return <p className="panel-empty">{p.noData || 'Field not registered yet.'}</p>
-  }
+  if (!fieldId) return <p className="panel-empty">{p.noData || 'Field not registered yet.'}</p>
 
   const risk = getRiskLabel(prediction?.health.risk_level)
   const healthScore = prediction?.health.final_health_score ?? 0
 
+  const heroStats = [
+    { Icon: Leaf, label: p.healthScore, value: loading ? '…' : formatScore(healthScore), sub: risk.label, tone: risk.tone },
+    { Icon: Thermometer, label: p.weatherSnapshot, value: loading ? '…' : `${formatNumber(snapshot?.weather?.air_temp, 1)}°C`, sub: `Humidity ${formatNumber(snapshot?.weather?.humidity, 0)}%`, tone: 'neutral' },
+    { Icon: Droplets, label: 'Soil Moisture', value: loading ? '…' : formatNumber(snapshot?.soil?.soil_moisture, 2), sub: `Cloud ${formatNumber(snapshot?.weather?.cloud_cover, 0)}%`, tone: 'neutral' },
+    { Icon: TrendingUp, label: 'Predicted Yield', value: loading ? '…' : `${formatNumber(prediction?.predicted_yield, 0)} kg/ha`, sub: `Benchmark ${formatNumber(prediction?.benchmark_yield, 0)} kg/ha`, tone: 'neutral' },
+  ]
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
 
-      {/* ── Hero stats bar ───────────────────────────────────────── */}
-      <div style={{
-        display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.75rem',
-      }}>
-        {[
-          { icon: '🌱', label: 'Health Score', value: loading ? '…' : formatScore(healthScore), sub: risk.label, tone: risk.tone },
-          { icon: '🌡️', label: 'Temperature', value: loading ? '…' : `${formatNumber(snapshot?.weather?.air_temp, 1)}°C`, sub: `Humidity ${formatNumber(snapshot?.weather?.humidity, 0)}%`, tone: 'neutral' },
-          { icon: '💧', label: 'Soil Moisture', value: loading ? '…' : formatNumber(snapshot?.soil?.soil_moisture, 2), sub: `Cloud ${formatNumber(snapshot?.weather?.cloud_cover, 0)}%`, tone: 'neutral' },
-          { icon: '📈', label: 'Predicted Yield', value: loading ? '…' : `${formatNumber(prediction?.predicted_yield, 0)} kg/ha`, sub: `Benchmark ${formatNumber(prediction?.benchmark_yield, 0)} kg/ha`, tone: 'neutral' },
-        ].map(({ icon, label, value, sub, tone }) => (
+      {/* Hero stats */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.75rem' }}>
+        {heroStats.map(({ Icon, label, value, sub, tone }) => (
           <div key={label} className="panel-card" style={{ padding: '14px 16px', textAlign: 'center' }}>
-            <span style={{ fontSize: '1.4rem', display: 'block', marginBottom: 6 }}>{icon}</span>
+            <span style={{ width: 34, height: 34, borderRadius: 10, background: '#f0fdf4', color: '#16a34a', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 8px' }}>
+              <Icon size={17} />
+            </span>
             <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', margin: 0, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{label}</p>
             {loading ? (
               <div className="panel-skeleton" style={{ height: 28, marginTop: 6, borderRadius: 6 }} />
             ) : (
               <>
-                <p style={{
-                  fontSize: '1.35rem', fontWeight: 800, margin: '4px 0 2px',
-                  color: tone === 'green' ? '#16a34a' : tone === 'red' ? '#dc2626' : tone === 'yellow' ? '#d97706' : 'var(--text-main)',
-                }}>{value}</p>
+                <p style={{ fontSize: '1.3rem', fontWeight: 800, margin: '4px 0 2px', color: tone === 'green' ? '#16a34a' : tone === 'red' ? '#dc2626' : tone === 'yellow' ? '#d97706' : 'var(--text-main)' }}>{value}</p>
                 <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', margin: 0 }}>{sub}</p>
               </>
             )}
@@ -191,17 +169,8 @@ const OverviewPanel = () => {
         ))}
       </div>
 
-      {/* ── Expandable blocks ────────────────────────────────────── */}
-
-      {/* 1. Farm field info */}
-      <OverviewBlock
-        icon="🗺️"
-        title="Your Farm"
-        badge={activeField ? 'Active' : 'No field'}
-        badgeTone={activeField ? 'green' : 'red'}
-        summary={activeField ? `${activeField.field_name} · ${activeField.area_hectares ?? '—'} ha · ${activeField.state_name ?? ''}` : 'No field registered'}
-        defaultOpen
-      >
+      {/* Farm info */}
+      <OverviewBlock icon={Map} title="Your Farm" badge={activeField ? 'Active' : 'No field'} badgeTone={activeField ? 'green' : 'red'} summary={activeField ? `${activeField.field_name} · ${activeField.area_hectares ?? '—'} ha · ${activeField.state_name ?? ''}` : 'No field registered'} defaultOpen>
         <StatRow label="Field Name" value={activeField?.field_name ?? '—'} />
         <StatRow label="Field ID" value={fieldId} muted />
         <StatRow label="Area" value={activeField?.area_hectares ? `${activeField.area_hectares} ha` : '—'} />
@@ -210,30 +179,16 @@ const OverviewPanel = () => {
         <StatRow label="District" value={farmerProfile?.dist_name ?? '—'} />
       </OverviewBlock>
 
-      {/* 2. Health score with score bars */}
-      <OverviewBlock
-        icon="🌿"
-        title={p.healthScore}
-        badge={loading ? 'Loading…' : formatScore(healthScore)}
-        badgeTone={risk.tone}
-        summary={p.healthScoreDesc}
-      >
-        {loading ? (
-          <div className="panel-skeleton" style={{ height: 80 }} />
-        ) : prediction ? (
+      {/* Health score */}
+      <OverviewBlock icon={Activity} title={p.healthScore} badge={loading ? '…' : formatScore(healthScore)} badgeTone={risk.tone} summary={p.healthScoreDesc}>
+        {loading ? <div className="panel-skeleton" style={{ height: 80 }} /> : prediction ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {[
-              ['Yield Score', prediction.health.yield_score, risk.tone],
-              ['Soil Score', prediction.health.soil_score, risk.tone],
-              ['Water Score', prediction.health.water_score, risk.tone],
-              ['Climate Score', prediction.health.climate_score, risk.tone],
-              ['NDVI Score', prediction.health.ndvi_score, risk.tone],
-            ].map(([label, score, tone]) => (
-              <div key={label as string}>
+            {([['Yield Score', prediction.health.yield_score], ['Soil Score', prediction.health.soil_score], ['Water Score', prediction.health.water_score], ['Climate Score', prediction.health.climate_score], ['NDVI Score', prediction.health.ndvi_score]] as [string, number][]).map(([label, score]) => (
+              <div key={label}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                  <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>{label as string}</span>
+                  <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>{label}</span>
                 </div>
-                <ScoreBar score={score as number} tone={tone as string} />
+                <ScoreBar score={score} tone={risk.tone} />
               </div>
             ))}
             <div style={{ marginTop: 8, paddingTop: 8, borderTop: '1px solid var(--border-light)', display: 'flex', justifyContent: 'space-between' }}>
@@ -244,17 +199,9 @@ const OverviewPanel = () => {
         ) : <p className="panel-empty">Run a Crop Health prediction first.</p>}
       </OverviewBlock>
 
-      {/* 3. Weather snapshot */}
-      <OverviewBlock
-        icon="🌤️"
-        title={p.weatherSnapshot}
-        badge={snapshot ? `${formatNumber(snapshot.weather?.air_temp, 1)}°C` : loading ? '…' : 'N/A'}
-        badgeTone="neutral"
-        summary={p.weatherSnapshotDesc}
-      >
-        {loading ? (
-          <div className="panel-skeleton" style={{ height: 80 }} />
-        ) : snapshot ? (
+      {/* Weather */}
+      <OverviewBlock icon={CloudRain} title={p.weatherSnapshot} badge={snapshot ? `${formatNumber(snapshot.weather?.air_temp, 1)}°C` : loading ? '…' : 'N/A'} badgeTone="neutral" summary={p.weatherSnapshotDesc}>
+        {loading ? <div className="panel-skeleton" style={{ height: 80 }} /> : snapshot ? (
           <>
             <StatRow label="Air Temperature" value={`${formatNumber(snapshot.weather?.air_temp, 1)}°C`} />
             <StatRow label="Humidity" value={`${formatNumber(snapshot.weather?.humidity, 1)}%`} />
@@ -266,51 +213,31 @@ const OverviewPanel = () => {
         ) : <p className="panel-empty">Weather data not available yet.</p>}
       </OverviewBlock>
 
-      {/* 4. Alerts */}
-      <OverviewBlock
-        icon="🔔"
-        title={p.activeAlerts}
-        badge={p.signals}
-        badgeTone={risk.tone === 'red' ? 'red' : 'neutral'}
-        summary={p.activeAlertsDesc}
-      >
-        {loading ? (
-          <div className="panel-skeleton" style={{ height: 60 }} />
-        ) : (
+      {/* Alerts */}
+      <OverviewBlock icon={Bell} title={p.activeAlerts} badge={p.signals} badgeTone={risk.tone === 'red' ? 'red' : 'neutral'} summary={p.activeAlertsDesc}>
+        {loading ? <div className="panel-skeleton" style={{ height: 60 }} /> : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {[
-              { label: 'Risk Level', value: risk.label, urgent: risk.tone === 'red' || risk.tone === 'yellow' },
-              { label: 'Cloud Cover', value: `${formatNumber(snapshot?.weather?.cloud_cover, 0)}%`, urgent: (snapshot?.weather?.cloud_cover ?? 0) > 70 },
-              { label: 'Soil Moisture', value: formatNumber(snapshot?.soil?.soil_moisture, 3), urgent: false },
-              { label: 'Loan Decision', value: prediction?.health.loan_decision ?? 'N/A', urgent: prediction?.health.loan_decision === 'DECLINE' },
-            ].map(({ label, value, urgent }) => (
-              <div key={label} style={{
-                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                padding: '8px 12px', borderRadius: 8,
-                background: urgent ? '#fff7ed' : 'var(--bg-card)',
-                border: urgent ? '1px solid #fed7aa' : '1px solid var(--border-light)',
-              }}>
-                <span style={{ fontSize: '0.83rem', color: 'var(--text-muted)' }}>{label}</span>
-                <span style={{ fontSize: '0.85rem', fontWeight: 700, color: urgent ? '#c2410c' : 'var(--text-main)' }}>
-                  {urgent ? '⚠️ ' : ''}{value}
+              { label: 'Risk Level', value: risk.label, urgent: risk.tone === 'red' || risk.tone === 'yellow', Icon: AlertTriangle },
+              { label: 'Cloud Cover', value: `${formatNumber(snapshot?.weather?.cloud_cover, 0)}%`, urgent: (snapshot?.weather?.cloud_cover ?? 0) > 70, Icon: CloudRain },
+              { label: 'Soil Moisture', value: formatNumber(snapshot?.soil?.soil_moisture, 3), urgent: false, Icon: Droplets },
+              { label: 'Loan Decision', value: prediction?.health.loan_decision ?? 'N/A', urgent: prediction?.health.loan_decision === 'DECLINE', Icon: AlertTriangle },
+            ].map(({ label, value, urgent, Icon: AlertIcon }) => (
+              <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', borderRadius: 8, background: urgent ? '#fff7ed' : 'var(--bg-card)', border: urgent ? '1px solid #fed7aa' : '1px solid var(--border-light)' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: '0.83rem', color: 'var(--text-muted)' }}>
+                  <AlertIcon size={13} color={urgent ? '#c2410c' : 'currentColor'} />
+                  {label}
                 </span>
+                <span style={{ fontSize: '0.85rem', fontWeight: 700, color: urgent ? '#c2410c' : 'var(--text-main)' }}>{value}</span>
               </div>
             ))}
           </div>
         )}
       </OverviewBlock>
 
-      {/* 5. AI Insight */}
-      <OverviewBlock
-        icon="🤖"
-        title={p.aiInsight}
-        badge={p.summary}
-        badgeTone="neutral"
-        summary={p.aiInsightDesc}
-      >
-        {loading ? (
-          <div className="panel-skeleton" style={{ height: 60 }} />
-        ) : (
+      {/* AI Insight */}
+      <OverviewBlock icon={BrainCircuit} title={p.aiInsight} badge={p.summary} badgeTone="neutral" summary={p.aiInsightDesc}>
+        {loading ? <div className="panel-skeleton" style={{ height: 60 }} /> : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             <div style={{ background: 'var(--bg-card)', borderRadius: 10, padding: '12px 14px', border: '1px solid var(--border-light)' }}>
               <p style={{ fontSize: '0.83rem', color: 'var(--text-muted)', margin: '0 0 4px' }}>Recommended Crop</p>
@@ -326,7 +253,6 @@ const OverviewPanel = () => {
           </div>
         )}
       </OverviewBlock>
-
     </div>
   )
 }

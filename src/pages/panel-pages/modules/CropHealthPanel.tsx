@@ -200,24 +200,67 @@ const CropHealthPanel = () => {
           <span className={`panel-card__metric panel-risk panel-risk--${risk.tone}`}>{risk.label}</span>
         </div>
         <p>{p.latestPrediction}</p>
+
         {loading || historyLoading ? (
-          <div className="panel-skeleton" />
+          <div className="panel-skeleton" style={{ marginTop: 12 }} />
         ) : prediction ? (
-          <>
-            <div className="panel-metric">
-              <strong>{formatScore(prediction.health.final_health_score)}</strong>
-              <span>{p.yield}: {formatNumber(prediction.predicted_yield, 1)} kg/ha</span>
-              <span>{p.benchmark}: {formatNumber(prediction.benchmark_yield, 1)} kg/ha</span>
+          <div style={{ marginTop: 14 }}>
+            {/* Big score + yield hero row */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, marginBottom: 12 }}>
+              <div className="panel-farmer-info-cell" style={{ gridColumn: '1 / -1', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: '14px 18px' }}>
+                <div>
+                  <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Overall Health</span>
+                  <div style={{ fontSize: '2rem', fontWeight: 800, color: risk.tone === 'green' ? '#16a34a' : risk.tone === 'yellow' ? '#d97706' : '#dc2626', lineHeight: 1.1 }}>
+                    {formatScore(prediction.health.final_health_score)}
+                  </div>
+                </div>
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{p.yield}</div>
+                  <div style={{ fontWeight: 700, fontSize: '1rem' }}>{formatNumber(prediction.predicted_yield, 1)} kg/ha</div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 4 }}>{p.benchmark}</div>
+                  <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--text-muted)' }}>{formatNumber(prediction.benchmark_yield, 1)} kg/ha</div>
+                </div>
+              </div>
             </div>
-            <ul className="panel-list" style={{ marginTop: 12 }}>
-              <li>{p.yieldScore}: {formatScore(prediction.health.yield_score)}</li>
-              <li>{p.soilScore}: {formatScore(prediction.health.soil_score)}</li>
-              <li>{p.waterScore}: {formatScore(prediction.health.water_score)}</li>
-              <li>{p.climateScore}: {formatScore(prediction.health.climate_score)}</li>
-              <li>{p.ndviScore}: {formatScore(prediction.health.ndvi_score)}</li>
-              <li>{p.loan}: {prediction.health.loan_decision}</li>
-            </ul>
-          </>
+
+            {/* Sub-score tiles — 2 col grid with bar */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+              {([
+                [p.yieldScore, prediction.health.yield_score],
+                [p.soilScore, prediction.health.soil_score],
+                [p.waterScore, prediction.health.water_score],
+                [p.climateScore, prediction.health.climate_score],
+                [p.ndviScore, prediction.health.ndvi_score],
+              ] as [string, number][]).map(([label, score]) => {
+                const pct = Math.round(score)
+                const barColor = pct >= 70 ? '#16a34a' : pct >= 45 ? '#d97706' : '#dc2626'
+                return (
+                  <div key={label} className="panel-farmer-info-cell">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</span>
+                      <strong style={{ fontSize: '0.82rem', color: barColor }}>{pct}%</strong>
+                    </div>
+                    <div style={{ height: 5, background: '#e5e7eb', borderRadius: 99, overflow: 'hidden' }}>
+                      <div style={{ width: `${pct}%`, height: '100%', background: barColor, borderRadius: 99, transition: 'width 0.5s ease' }} />
+                    </div>
+                  </div>
+                )
+              })}
+
+              {/* Loan decision — full width */}
+              <div className="panel-farmer-info-cell" style={{ gridColumn: '1 / -1', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{p.loan}</span>
+                <strong style={{
+                  fontSize: '0.88rem',
+                  color: prediction.health.loan_decision === 'ELIGIBLE' ? '#16a34a' : prediction.health.loan_decision === 'REVIEW' ? '#d97706' : '#dc2626',
+                  background: prediction.health.loan_decision === 'ELIGIBLE' ? '#dcfce7' : prediction.health.loan_decision === 'REVIEW' ? '#fef9c3' : '#fee2e2',
+                  padding: '4px 12px', borderRadius: 99,
+                }}>
+                  {prediction.health.loan_decision}
+                </strong>
+              </div>
+            </div>
+          </div>
         ) : (
           <p className="panel-empty">{p.runFirstPrediction}</p>
         )}

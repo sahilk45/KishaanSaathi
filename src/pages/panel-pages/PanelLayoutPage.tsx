@@ -1,4 +1,3 @@
-import { Leaf } from 'lucide-react'
 import { Navigate, NavLink, Outlet } from 'react-router-dom'
 import { useLanguage } from '../../context/LanguageContext'
 import { panelGroups, panelItems } from './panelConfig'
@@ -19,13 +18,12 @@ const PanelLayoutPage = () => {
       <div className="panel-layout">
         <aside className="panel-sidebar">
           <div className="panel-brand">
-            <span className="panel-brand__logo" aria-hidden="true">
-              <Leaf size={18} />
-            </span>
-            <div>
-              <p className="panel-brand__title">{content.navbar?.brandName || 'KishanSaathi'}</p>
-              <p className="panel-brand__subtitle">{p.farmIntelligence}</p>
-            </div>
+            <img
+              src="/KrishiMitra.png"
+              alt="KishanSaathi logo"
+              style={{ width: 34, height: 34, borderRadius: 8, objectFit: 'cover', flexShrink: 0 }}
+            />
+            <p className="panel-brand__title">{content.navbar?.brandName || 'KishanSaathi'}</p>
           </div>
 
           <nav className="panel-nav" aria-label="Panel modules">

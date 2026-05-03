@@ -204,12 +204,27 @@
 
     "quickGuide": {
       "title": "Quick Guide",
-      "subtitle": "Fast onboarding workflow to get farm tracking, alerts, and insights configured quickly.",
-      "step1": "Register as a farmer with your name and phone.",
-      "step2": "Go to My Farm and draw your field boundary on the map.",
-      "step3": "Visit Crop Health and run your first prediction.",
-      "step4": "Check Market Insights for live mandi prices.",
-      "step5": "Use AI Assistant to ask questions about your farm."
+      "subtitle": "Complete step-by-step guide to getting the most out of Krishi-Sarthii — from setup to loan application.",
+      "step1Title": "Register Your Farmer Profile",
+      "step1": "Go to My Farm → Farmer Profile. Enter your full name, phone number, state, and district. Click 'Create farmer profile' to save your account in the database.",
+      "step2Title": "Draw Your Farm Boundary",
+      "step2": "In My Farm → Mapbox Canvas, click 'Track current location' to jump to your land. Use the polygon drawing tool on the map to trace your field boundary, then click 'Save boundary' to persist it.",
+      "step3Title": "Run Your First Crop Health Prediction",
+      "step3": "Navigate to Crop Health. Select your crop type (Kharif/Rabi), enter NPK and irrigation values, choose the year, and click 'Predict & Save'. Your health score, yield estimate, and loan decision are computed by our AI model and saved to the database.",
+      "step4Title": "Monitor Weather & Alerts",
+      "step4": "Visit Weather & Alerts to see live temperature, humidity, soil moisture, and cloud cover from the latest satellite snapshot. Auto-generated alerts flag high cloud cover, heat stress, or low soil moisture for immediate action.",
+      "step5Title": "Check Mandi Market Prices",
+      "step5": "Go to Market Insights. Your state and district are auto-filled. Select a crop commodity and click 'Fetch APMC Prices' to see min, modal, and max prices across nearby mandis, along with a comparison chart.",
+      "step6Title": "Simulate What-If Scenarios",
+      "step6": "Open the What-If Simulator and adjust crop type, NPK input, irrigation ratio, and year freely. Unlike Crop Health, these simulations are not saved — they are for exploring scenarios before committing to a real prediction.",
+      "step7Title": "Apply for Loan Eligibility",
+      "step7": "In Loan Eligibility, your latest crop health prediction is automatically loaded as read-only inputs. Enter your desired loan amount and click Submit. The AI assesses your farm score and gives an instant Approved / Review / Declined decision with a downloadable certificate.",
+      "step8Title": "Ask the AI Assistant",
+      "step8": "Use the AI Assistant to ask anything about your farm — 'What is my health score?', 'Which crop is best this season?', 'What is the wheat price in my district?'. The assistant has full context of your field and past predictions.",
+      "step9Title": "View Your Dashboard Overview",
+      "step9": "The Overview section gives you a live snapshot: health score with risk level, current weather, active alerts, and AI insights — all on one page. Each block is expandable. Check this daily for a quick farm status read.",
+      "step10Title": "Manage Settings",
+      "step10": "In Settings, you can see your full farmer profile synced from the database. Switch the dashboard language between English, Hindi, and Punjabi at any time."
     },
 
     "myFarm": {
