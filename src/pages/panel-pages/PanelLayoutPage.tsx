@@ -6,7 +6,8 @@ import { panelGroups, panelItems } from './panelConfig'
 const FARMER_ID_STORAGE_KEY = 'ks_farmer_id'
 
 const PanelLayoutPage = () => {
-  const { content } = useLanguage()
+  const { content, panel } = useLanguage()
+  const p = panel.panel
   const farmerId = typeof window !== 'undefined' ? window.localStorage.getItem(FARMER_ID_STORAGE_KEY) : null
 
   if (!farmerId) {
@@ -22,8 +23,8 @@ const PanelLayoutPage = () => {
               <Leaf size={18} />
             </span>
             <div>
-              <p className="panel-brand__title">{content.navbar.brandName}</p>
-              <p className="panel-brand__subtitle">Farm Intelligence Panel</p>
+              <p className="panel-brand__title">{content.navbar?.brandName || 'KishanSaathi'}</p>
+              <p className="panel-brand__subtitle">{p.farmIntelligence}</p>
             </div>
           </div>
 
@@ -43,7 +44,7 @@ const PanelLayoutPage = () => {
                       }
                     >
                       <Icon size={16} aria-hidden="true" />
-                      <span>{item.label}</span>
+                      <span>{p.sidebar[item.id as keyof typeof p.sidebar] || item.label}</span>
                     </NavLink>
                   )
                 })}

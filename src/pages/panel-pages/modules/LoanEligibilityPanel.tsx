@@ -43,7 +43,8 @@ const getStoredPhone = (): string => {
 }
 
 const LoanEligibilityPanel = () => {
-  const { content } = useLanguage()
+  const { content, panel } = useLanguage()
+  const p = panel.panel.loanEligibility
   const { pushToast } = useToast()
   const { fieldId: sessionFieldId } = useSession()
   const { fields, loading: fieldsLoading } = useFields()
@@ -122,7 +123,7 @@ const LoanEligibilityPanel = () => {
   }
 
   if (!fieldsLoading && fields.length === 0) {
-    return <p className="panel-empty">No fields registered yet. Register a field in My Farm to unlock loan eligibility.</p>
+    return <p className="panel-empty">{p.noFieldsAvailable}</p>
   }
 
   const healthScore = prediction?.health.final_health_score ?? 0
@@ -133,7 +134,7 @@ const LoanEligibilityPanel = () => {
       {!submitted ? (
         <article className="panel-card" style={{ padding: '32px' }}>
           <div className="panel-card__head" style={{ justifyContent: 'center', marginBottom: '24px' }}>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 600 }}>Loan Application Assessment</h2>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 600 }}>{p.formTitle}</h2>
           </div>
           <p style={{ textAlign: 'center', marginBottom: '32px', color: 'var(--text-muted)' }}>
             Fill out your farm details for an instant, AI-driven loan eligibility analysis.
@@ -142,32 +143,32 @@ const LoanEligibilityPanel = () => {
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
               <label className="panel-myfarm-field">
-                Farmer Name
+                {p.farmerName}
                 <input type="text" value={farmerName} onChange={(e) => setFarmerName(e.target.value)} required />
               </label>
               <label className="panel-myfarm-field">
-                Phone Number
+                {p.farmerPhone}
                 <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
               </label>
             </div>
             
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
               <label className="panel-myfarm-field">
-                Select Field
+                {p.selectField}
                 <select 
                   value={selectedFieldId} 
                   onChange={(e) => setSelectedFieldId(e.target.value)}
                   disabled={fieldsLoading}
                   required
                 >
-                  <option value="">-- Choose a field --</option>
+                  <option value="">-- {p.selectFieldPlaceholder} --</option>
                   {fields.map(f => (
                     <option key={f.field_id} value={f.field_id}>{f.field_name} {f.area_hectares ? `(${f.area_hectares} ha)` : ''}</option>
                   ))}
                 </select>
               </label>
               <label className="panel-myfarm-field">
-                Loan Amount Required (₹)
+                {p.loanAmount}
                 <input type="number" value={loanAmount} onChange={(e) => setLoanAmount(e.target.value)} placeholder="e.g. 50000" min="1" required />
               </label>
             </div>
@@ -177,7 +178,7 @@ const LoanEligibilityPanel = () => {
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 <label className="panel-myfarm-field">
-                  Target Crop Type
+                  {p.cropType}
                   <select
                     value={cropType}
                     onChange={(e) => setCropType(e.target.value)}
@@ -195,7 +196,7 @@ const LoanEligibilityPanel = () => {
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                   <label className="panel-myfarm-field">
-                    Expected NPK Input (kg/ha)
+                    {p.npkInput}
                     <input 
                       type="number" 
                       value={npkInput} 
@@ -206,7 +207,7 @@ const LoanEligibilityPanel = () => {
                     />
                   </label>
                   <label className="panel-myfarm-field">
-                    Irrigation Coverage (0.0 - 1.0)
+                    {p.irrigationRatio}
                     <input 
                       type="number" 
                       value={irrigationRatio} 
@@ -236,7 +237,7 @@ const LoanEligibilityPanel = () => {
                   justifyContent: 'center'
                 }}
               >
-                {loading ? 'Analyzing Application...' : 'Analyze & Submit Application'}
+                {loading ? p.analyzing : p.submitApplication}
               </button>
             </div>
           </form>
@@ -245,27 +246,28 @@ const LoanEligibilityPanel = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <article className="panel-card" style={{ padding: '32px' }}>
             <div className="panel-card__head" style={{ justifyContent: 'center', marginBottom: '24px' }}>
-              <h2 style={{ fontSize: '1.5rem', fontWeight: 600 }}>Eligibility Result</h2>
+              <h2 style={{ fontSize: '1.5rem', fontWeight: 600 }}>{p.eligibilityResult}</h2>
             </div>
             
             <div className={`panel-loan-result panel-loan-result--${loanResult}`} style={{ marginTop: '16px', padding: '24px', textAlign: 'center' }}>
               <h4 style={{ fontSize: '1.3rem', marginBottom: '12px' }}>
-                {loanResult === 'eligible' ? '✅ Loan Approved for Processing' : '❌ Application Rejected'}
+                {loanResult === 'eligible' ? p.loanApproved : p.loanRejected}
               </h4>
               <p style={{ fontSize: '1.05rem', color: 'var(--text-main)', opacity: 0.9 }}>
                 {loanResult === 'eligible'
-                  ? `Your loan of ₹${Number(loanAmount).toLocaleString()} is being processed. Your farm scored well above the minimum criteria.`
-                  : `Health Score is below the benchmark of ${HEALTH_BENCHMARK}%. Please improve your farm conditions and try again.`}
+                  ? p.loanApprovedDesc?.replace('{amount}', Number(loanAmount).toLocaleString())
+                  : p.loanRejectedDesc?.replace('{amount}', Number(loanAmount).toLocaleString())}
               </p>
               
               <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', marginTop: '32px', padding: '24px', background: 'var(--bg-card)', borderRadius: '12px' }}>
                 <div style={{ textAlign: 'center' }}>
-                  <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>Farm Health Score</span>
+                  <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>{p.healthScore}</span>
                   <strong style={{ fontSize: '2rem', color: 'var(--text-main)' }}>{formatScore(healthScore)}</strong>
-                  <div style={{ fontSize: '0.8rem', color: `var(--risk-${risk.tone})`, marginTop: '4px' }}>{risk.label} Risk</div>
+                  <div style={{ fontSize: '0.8rem', color: `var(--risk-${risk.tone})`, marginTop: '4px' }}>{risk.label}</div>
+
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                  <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>Predicted Yield</span>
+                  <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>{p.predictedYield}</span>
                   <strong style={{ fontSize: '1.5rem', color: 'var(--text-main)' }}>{Math.round(prediction?.predicted_yield || 0)} kg/ha</strong>
                 </div>
                 <div style={{ textAlign: 'center' }}>
@@ -278,25 +280,25 @@ const LoanEligibilityPanel = () => {
 
           <article className="panel-card" style={{ padding: '32px' }}>
             <div className="panel-card__head">
-              <h3>Score Factors</h3>
-              <span className="panel-card__metric">Assessment</span>
+              <h3>{p.scoreFactors}</h3>
+              <span className="panel-card__metric">{p.assessment}</span>
             </div>
-            <p>Key factors used in the automated credit assessment by our AI model.</p>
+            <p>{p.assessmentDesc}</p>
             <ul className="panel-list" style={{ marginTop: '20px', gap: '12px', display: 'flex', flexDirection: 'column' }}>
               <li style={{ padding: '12px', background: 'var(--bg-body)', borderRadius: '8px' }}>
-                <strong>Yield Score: {formatScore(prediction?.health.yield_score)}</strong> — <em>Based on estimated output</em>
+                <strong>{p.yieldScoreDesc?.replace('{score}', formatScore(prediction?.health.yield_score))}</strong>
               </li>
               <li style={{ padding: '12px', background: 'var(--bg-body)', borderRadius: '8px' }}>
-                <strong>Soil Score: {formatScore(prediction?.health.soil_score)}</strong> — <em>Based on district soil health</em>
+                <strong>{p.soilScoreDesc?.replace('{score}', formatScore(prediction?.health.soil_score))}</strong>
               </li>
               <li style={{ padding: '12px', background: 'var(--bg-body)', borderRadius: '8px' }}>
-                <strong>Water Score: {formatScore(prediction?.health.water_score)}</strong> — <em>Based on rainfall & irrigation</em>
+                <strong>{p.waterScoreDesc?.replace('{score}', formatScore(prediction?.health.water_score))}</strong>
               </li>
               <li style={{ padding: '12px', background: 'var(--bg-body)', borderRadius: '8px' }}>
-                <strong>Climate Score: {formatScore(prediction?.health.climate_score)}</strong> — <em>Based on historical weather</em>
+                <strong>{p.climateScoreDesc?.replace('{score}', formatScore(prediction?.health.climate_score))}</strong>
               </li>
               <li style={{ padding: '12px', background: 'var(--bg-body)', borderRadius: '8px' }}>
-                <strong>NDVI Score: {formatScore(prediction?.health.ndvi_score)}</strong> — <em>Based on satellite vegetation index</em>
+                <strong>{p.ndviScoreDesc?.replace('{score}', formatScore(prediction?.health.ndvi_score))}</strong>
               </li>
             </ul>
 

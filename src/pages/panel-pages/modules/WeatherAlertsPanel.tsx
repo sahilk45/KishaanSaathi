@@ -8,7 +8,8 @@ import type { PredictResponse } from '../../../types/api'
 import { formatNumber, formatScore, getRiskLabel } from './panelUtils'
 
 const WeatherAlertsPanel = () => {
-  const { content } = useLanguage()
+  const { content, panel } = useLanguage()
+  const p = panel.panel.weather
   const { pushToast } = useToast()
   const { fieldId } = useSession()
   const [latest, setLatest] = useState<PredictResponse | null>(null)
@@ -77,7 +78,7 @@ const WeatherAlertsPanel = () => {
     <div className="panel-cards">
       <article className="panel-card">
         <div className="panel-card__head">
-          <h3>Weather Data</h3>
+          <h3>{p.title}</h3>
           <span className="panel-card__metric">From prediction</span>
         </div>
         <p>Weather conditions captured during the latest prediction run.</p>
@@ -117,7 +118,7 @@ const WeatherAlertsPanel = () => {
 
       <article className="panel-card">
         <div className="panel-card__head">
-          <h3>Alerts</h3>
+          <h3>{p.alertsLog}</h3>
           <span className={`panel-card__metric panel-risk panel-risk--${risk.tone}`}>{risk.label}</span>
         </div>
         <p>Auto-generated alerts based on weather and soil conditions.</p>

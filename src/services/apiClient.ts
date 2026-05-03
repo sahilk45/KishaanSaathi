@@ -122,6 +122,7 @@ export const apiClient = {
 export const streamChat = async (
   farmerId: string,
   message: string,
+  threadId: string,
   onToken: (token: string) => void,
 ) => {
   const response = await fetch(`${apiBaseUrl}/chat/stream`, {
@@ -132,7 +133,7 @@ export const streamChat = async (
     body: JSON.stringify({
       farmer_id: farmerId,
       message,
-      thread_id: `thread-${farmerId}`,
+      thread_id: threadId,
     }),
   })
 

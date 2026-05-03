@@ -12,7 +12,8 @@ const DEFAULT_NPK = 120
 const DEFAULT_IRR = 0.8
 
 const OverviewPanel = () => {
-  const { content } = useLanguage()
+  const { content, panel } = useLanguage()
+  const p = panel.panel.overview
   const { pushToast } = useToast()
   const { fieldId } = useSession()
   const { crops, loading: cropsLoading } = useCrops()
@@ -70,7 +71,7 @@ const OverviewPanel = () => {
   }, [content, cropsLoading, defaultCrop, fieldId, pushToast, year])
 
   if (!fieldId) {
-    return <p className="panel-empty">Field not registered yet. Register your field in My Farm to unlock insights.</p>
+    return <p className="panel-empty">{p.noData || 'Field not registered yet.'}</p>
   }
 
   const currentPrediction = prediction
@@ -80,10 +81,10 @@ const OverviewPanel = () => {
     <div className="panel-cards">
       <article className="panel-card">
         <div className="panel-card__head">
-          <h3>Health Score</h3>
-          <span className="panel-card__metric">Latest</span>
+          <h3>{p.healthScore}</h3>
+          <span className="panel-card__metric">{p.latest}</span>
         </div>
-        <p>Composite crop vitality score based on the latest prediction and NDVI.</p>
+        <p>{p.healthScoreDesc}</p>
         {loading ? (
           <div className="panel-skeleton" />
         ) : (
@@ -96,10 +97,10 @@ const OverviewPanel = () => {
 
       <article className="panel-card">
         <div className="panel-card__head">
-          <h3>Weather Snapshot</h3>
-          <span className="panel-card__metric">Live</span>
+          <h3>{p.weatherSnapshot}</h3>
+          <span className="panel-card__metric">{p.live}</span>
         </div>
-        <p>Latest satellite-aligned weather signals for your field.</p>
+        <p>{p.weatherSnapshotDesc}</p>
         {loading ? (
           <div className="panel-skeleton" />
         ) : (
@@ -112,10 +113,10 @@ const OverviewPanel = () => {
 
       <article className="panel-card">
         <div className="panel-card__head">
-          <h3>Active Alerts</h3>
-          <span className="panel-card__metric">Signals</span>
+          <h3>{p.activeAlerts}</h3>
+          <span className="panel-card__metric">{p.signals}</span>
         </div>
-        <p>Latest alerts based on risk level and weather anomalies.</p>
+        <p>{p.activeAlertsDesc}</p>
         {loading ? (
           <div className="panel-skeleton" />
         ) : (
@@ -129,10 +130,10 @@ const OverviewPanel = () => {
 
       <article className="panel-card">
         <div className="panel-card__head">
-          <h3>AI Insight</h3>
-          <span className="panel-card__metric">Summary</span>
+          <h3>{p.aiInsight}</h3>
+          <span className="panel-card__metric">{p.summary}</span>
         </div>
-        <p>Actionable summary prepared for your next farm decision.</p>
+        <p>{p.aiInsightDesc}</p>
         {loading ? (
           <div className="panel-skeleton" />
         ) : (

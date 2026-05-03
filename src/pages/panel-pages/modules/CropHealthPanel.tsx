@@ -19,7 +19,8 @@ const isSeasonMatch = (cropType: string, season: 'kharif' | 'rabi' | 'all') => {
 }
 
 const CropHealthPanel = () => {
-  const { content } = useLanguage()
+  const { content, panel } = useLanguage()
+  const p = panel.panel.cropHealth
   const { pushToast } = useToast()
   const { fieldId } = useSession()
   const { crops, loading: cropsLoading } = useCrops()
@@ -104,7 +105,7 @@ const CropHealthPanel = () => {
   }
 
   if (!fieldId) {
-    return <p className="panel-empty">Field not registered yet. Register your field in My Farm to unlock crop health.</p>
+    return <p className="panel-empty">{p.fieldNotRegistered}</p>
   }
 
   const risk = getRiskLabel(prediction?.health.risk_level)
@@ -114,42 +115,42 @@ const CropHealthPanel = () => {
       {/* ── Input form ──────────────────────────────────── */}
       <article className="panel-card">
         <div className="panel-card__head">
-          <h3>My Crop — Predict & Save</h3>
-          <span className="panel-card__metric">Inputs</span>
+          <h3>{p.formTitle}</h3>
+          <span className="panel-card__metric">{p.formInputs}</span>
         </div>
-        <p>Select the crop you want to grow and get a real, persisted prediction.</p>
+        <p>{p.formDescription}</p>
         {cropsLoading ? (
           <div className="panel-skeleton" />
         ) : (
           <div className="panel-simulator">
             <div className="panel-toggle">
-              <button type="button" className={season === 'kharif' ? 'active' : ''} onClick={() => setSeason('kharif')}>Kharif</button>
-              <button type="button" className={season === 'rabi' ? 'active' : ''} onClick={() => setSeason('rabi')}>Rabi</button>
-              <button type="button" className={season === 'all' ? 'active' : ''} onClick={() => setSeason('all')}>All</button>
+              <button type="button" className={season === 'kharif' ? 'active' : ''} onClick={() => setSeason('kharif')}>{p.kharif}</button>
+              <button type="button" className={season === 'rabi' ? 'active' : ''} onClick={() => setSeason('rabi')}>{p.rabi}</button>
+              <button type="button" className={season === 'all' ? 'active' : ''} onClick={() => setSeason('all')}>{p.all}</button>
             </div>
             <label className="panel-myfarm-field">
-              Crop type
+              {p.cropType}
               <select value={selectedCrop} onChange={(e) => setSelectedCrop(e.target.value)}>
-                <option value="">Select crop</option>
+                <option value="">{p.cropTypePlaceholder}</option>
                 {cropOptions.map((crop: CropItem) => (
                   <option key={crop.crop_type} value={crop.crop_type}>{crop.display_name}</option>
                 ))}
               </select>
             </label>
             <label className="panel-myfarm-field">
-              NPK input (kg/ha)
+              {p.npkInput}
               <input type="number" value={npkInput} onChange={(e) => setNpkInput(e.target.value)} />
             </label>
             <label className="panel-myfarm-field">
-              Irrigation ratio (0-1)
+              {p.irrigationRatio}
               <input type="number" step="0.01" value={irrigationRatio} onChange={(e) => setIrrigationRatio(e.target.value)} />
             </label>
             <label className="panel-myfarm-field">
-              Year
+              {p.year}
               <input type="number" value={year} onChange={(e) => setYear(e.target.value)} />
             </label>
             <button type="button" className="panel-mapbox__button" onClick={handlePredict} disabled={loading}>
-              {loading ? 'Predicting…' : 'Predict & Save'}
+              {loading ? p.predicting : p.predictAndSave}
             </button>
           </div>
         )}
@@ -158,44 +159,44 @@ const CropHealthPanel = () => {
       {/* ── Health Score Results ─────────────────────────── */}
       <article className="panel-card">
         <div className="panel-card__head">
-          <h3>Health Score</h3>
+          <h3>{p.healthScore}</h3>
           <span className={`panel-card__metric panel-risk panel-risk--${risk.tone}`}>{risk.label}</span>
         </div>
-        <p>Latest prediction results for your crop.</p>
+        <p>{p.latestPrediction}</p>
         {loading || historyLoading ? (
           <div className="panel-skeleton" />
         ) : prediction ? (
           <>
             <div className="panel-metric">
               <strong>{formatScore(prediction.health.final_health_score)}</strong>
-              <span>Yield: {formatNumber(prediction.predicted_yield, 1)} kg/ha</span>
-              <span>Benchmark: {formatNumber(prediction.benchmark_yield, 1)} kg/ha</span>
+              <span>{p.yield}: {formatNumber(prediction.predicted_yield, 1)} kg/ha</span>
+              <span>{p.benchmark}: {formatNumber(prediction.benchmark_yield, 1)} kg/ha</span>
             </div>
             <ul className="panel-list" style={{ marginTop: 12 }}>
-              <li>Yield score: {formatScore(prediction.health.yield_score)}</li>
-              <li>Soil score: {formatScore(prediction.health.soil_score)}</li>
-              <li>Water score: {formatScore(prediction.health.water_score)}</li>
-              <li>Climate score: {formatScore(prediction.health.climate_score)}</li>
-              <li>NDVI score: {formatScore(prediction.health.ndvi_score)}</li>
-              <li>Loan: {prediction.health.loan_decision}</li>
+              <li>{p.yieldScore}: {formatScore(prediction.health.yield_score)}</li>
+              <li>{p.soilScore}: {formatScore(prediction.health.soil_score)}</li>
+              <li>{p.waterScore}: {formatScore(prediction.health.water_score)}</li>
+              <li>{p.climateScore}: {formatScore(prediction.health.climate_score)}</li>
+              <li>{p.ndviScore}: {formatScore(prediction.health.ndvi_score)}</li>
+              <li>{p.loan}: {prediction.health.loan_decision}</li>
             </ul>
           </>
         ) : (
-          <p className="panel-empty">Run your first prediction above to see health score.</p>
+          <p className="panel-empty">{p.runFirstPrediction}</p>
         )}
       </article>
 
       {/* ── History ─────────────────────────────────────── */}
       <article className="panel-card">
         <div className="panel-card__head">
-          <h3>Prediction History</h3>
-          <span className="panel-card__metric">{history.length} records</span>
+          <h3>{p.predictionHistory}</h3>
+          <span className="panel-card__metric">{history.length} {p.records}</span>
         </div>
-        <p>All saved predictions for this field.</p>
+        <p>{p.allSavedPredictions}</p>
         {historyLoading ? (
           <div className="panel-skeleton" />
         ) : history.length === 0 ? (
-          <p className="panel-empty">No predictions yet.</p>
+          <p className="panel-empty">{p.noPredictionsYet}</p>
         ) : (
           <ul className="panel-list">
             {history.slice(0, 8).map((item, i) => (

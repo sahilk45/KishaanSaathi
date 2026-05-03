@@ -19,7 +19,9 @@ const isSeasonMatch = (cropType: string, season: 'kharif' | 'rabi' | 'all') => {
 }
 
 const WhatIfSimulatorPanel = () => {
-  const { content } = useLanguage()
+  const { content, panel } = useLanguage()
+  const p = panel.panel.whatIfSimulator
+  const c = panel.panel.cropHealth
   const { pushToast } = useToast()
   const { fieldId } = useSession()
   const { crops, loading: cropsLoading } = useCrops()
@@ -86,7 +88,7 @@ const WhatIfSimulatorPanel = () => {
     <div className="panel-cards">
       <article className="panel-card">
         <div className="panel-card__head">
-          <h3>Scenario Controls</h3>
+          <h3>{p.formTitle}</h3>
           <span className="panel-card__metric">Inputs</span>
         </div>
         <p>Adjust crop, irrigation, and input values to simulate outcomes.</p>
@@ -96,21 +98,21 @@ const WhatIfSimulatorPanel = () => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '16px' }}>
             <div className="panel-toggle" style={{ justifyContent: 'flex-start', marginBottom: '8px' }}>
               <button type="button" className={season === 'kharif' ? 'active' : ''} onClick={() => setSeason('kharif')}>
-                Kharif
+                {c.kharif}
               </button>
               <button type="button" className={season === 'rabi' ? 'active' : ''} onClick={() => setSeason('rabi')}>
-                Rabi
+                {c.rabi}
               </button>
               <button type="button" className={season === 'all' ? 'active' : ''} onClick={() => setSeason('all')}>
-                All
+                {c.all}
               </button>
             </div>
             
             <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }}>
               <label className="panel-myfarm-field">
-                Crop type
+                {p.cropType}
                 <select value={selectedCrop} onChange={(event) => setSelectedCrop(event.target.value)}>
-                  <option value="">Select crop</option>
+                  <option value="">{c.cropTypePlaceholder}</option>
                   {cropOptions.map((crop: CropItem) => (
                     <option key={crop.crop_type} value={crop.crop_type}>
                       {crop.display_name}
@@ -122,18 +124,18 @@ const WhatIfSimulatorPanel = () => {
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
               <label className="panel-myfarm-field">
-                NPK input (kg/ha)
+                {p.npkInput}
                 <input type="number" value={npkInput} onChange={(event) => setNpkInput(event.target.value)} />
               </label>
               <label className="panel-myfarm-field">
-                Irrigation ratio (0-1)
+                {p.irrigationRatio}
                 <input type="number" step="0.01" value={irrigationRatio} onChange={(event) => setIrrigationRatio(event.target.value)} />
               </label>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
               <label className="panel-myfarm-field">
-                Year
+                {p.year}
                 <input type="number" value={year} onChange={(event) => setYear(event.target.value)} />
               </label>
             </div>
@@ -154,7 +156,7 @@ const WhatIfSimulatorPanel = () => {
                   justifyContent: 'center'
                 }}
               >
-                {loading ? 'Simulating…' : 'Run simulation'}
+                {loading ? p.simulating : p.runSimulation}
               </button>
             </div>
           </div>
@@ -163,7 +165,7 @@ const WhatIfSimulatorPanel = () => {
 
       <article className="panel-card">
         <div className="panel-card__head">
-          <h3>Live Output</h3>
+          <h3>{p.simulationResult}</h3>
           <span className="panel-card__metric">Result</span>
         </div>
         <p>Projected yield and health impact for the selected scenario.</p>
@@ -172,11 +174,11 @@ const WhatIfSimulatorPanel = () => {
         ) : prediction ? (
           <div className="panel-metric">
             <strong>{formatNumber(prediction.predicted_yield, 1)} kg/ha</strong>
-            <span>Health score {formatScore(prediction.health.final_health_score)}</span>
-            <span>Loan: {prediction.health.loan_decision}</span>
+            <span>{p.healthScore} {formatScore(prediction.health.final_health_score)}</span>
+            <span>{p.loanDecision}: {prediction.health.loan_decision}</span>
           </div>
         ) : (
-          <p className="panel-empty">Run a simulation to see output.</p>
+          <p className="panel-empty">{p.noResult}</p>
         )}
       </article>
     </div>

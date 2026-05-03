@@ -26,7 +26,8 @@ const COMMODITIES = [
 ]
 
 const MarketInsightsPanel = () => {
-  const { content } = useLanguage()
+  const { content, panel } = useLanguage()
+  const p = panel.panel.marketInsights
   const { pushToast } = useToast()
   const { farmerId } = useSession()
   const [commodity, setCommodity] = useState(COMMODITIES[0])
@@ -129,13 +130,13 @@ const MarketInsightsPanel = () => {
       {/* ── Selection ────────────────────────────────── */}
       <article className="panel-card">
         <div className="panel-card__head">
-          <h3>Market Selection</h3>
+          <h3>{p.marketSelection}</h3>
           <span className="panel-card__metric">{state || 'Auto-detect'}</span>
         </div>
-        <p>Your state & district are auto-detected from registration. Select a crop to fetch APMC prices.</p>
+        <p>{p.autoDetected}</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '16px' }}>
           <label className="panel-myfarm-field">
-            Commodity / Crop
+            {p.commodity}
             <select value={commodity} onChange={(e) => setCommodity(e.target.value)}>
               {COMMODITIES.map((c) => (
                 <option key={c} value={c}>{c}</option>
@@ -144,7 +145,7 @@ const MarketInsightsPanel = () => {
           </label>
           {fetched ? (
             <p className="panel-myfarm-feedback" style={{ fontSize: '0.9rem', color: 'var(--text-main)' }}>
-              Showing APMCs in <strong>{district}, {state}</strong> — {mandis.length} mandis found, {prices.length} price records.
+              Showing APMCs in <strong>{district}, {state}</strong> — {mandis.length} {p.mandisFound}, {prices.length} {p.priceRecords}.
             </p>
           ) : null}
           <div style={{ marginTop: '8px' }}>
@@ -155,7 +156,7 @@ const MarketInsightsPanel = () => {
               disabled={loading}
               style={{ width: '100%', padding: '12px', borderRadius: '12px', fontSize: '1.05rem', fontWeight: 600, display: 'flex', justifyContent: 'center' }}
             >
-              {loading ? 'Fetching prices...' : 'Fetch APMC Prices'}
+              {loading ? p.fetching : p.fetchPrices}
             </button>
           </div>
         </div>
@@ -164,10 +165,10 @@ const MarketInsightsPanel = () => {
       {/* ── Chart ────────────────────────────────────── */}
       <article className="panel-card">
         <div className="panel-card__head">
-          <h3>Price Comparison Chart</h3>
+          <h3>{p.priceComparison}</h3>
           <span className="panel-card__metric">{prices.length} records</span>
         </div>
-        <p>Min, modal, and max prices across APMCs near your location.</p>
+        <p>{p.priceDesc}</p>
         {loading ? (
           <div className="panel-skeleton" style={{ height: 300 }} />
         ) : chartData ? (
@@ -175,7 +176,7 @@ const MarketInsightsPanel = () => {
             <Bar data={chartData} options={chartOptions} />
           </div>
         ) : (
-          <p className="panel-empty">{fetched ? 'No price data available for this crop.' : 'Fetch prices to see the chart.'}</p>
+          <p className="panel-empty">{fetched ? p.noPriceData : 'Fetch prices to see the chart.'}</p>
         )}
       </article>
 
@@ -217,7 +218,7 @@ const MarketInsightsPanel = () => {
       {mandis.length > 0 ? (
         <article className="panel-card">
           <div className="panel-card__head">
-            <h3>Nearby APMCs</h3>
+            <h3>{p.nearbyApmcs}</h3>
             <span className="panel-card__metric">{mandis.length} mandis</span>
           </div>
           <p>APMCs in {district}, {state} from mandi_master.json</p>

@@ -2738,6 +2738,40 @@ html.language-large-text .footer__copy {
 	cursor: not-allowed;
 }
 
+/* ── Mic / Voice-to-text button ─────────────────────────────────────────────── */
+.panel-chat-fullscreen__mic {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 42px;
+	height: 42px;
+	border: 1px solid #d1d5db;
+	border-radius: 0.7rem;
+	background: #f9fafb;
+	color: #6b7280;
+	cursor: pointer;
+	flex-shrink: 0;
+	transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.panel-chat-fullscreen__mic:hover {
+	background: #f3f4f6;
+	color: #374151;
+}
+
+.panel-chat-fullscreen__mic--active {
+	background: #fef2f2;
+	border-color: #fca5a5;
+	color: #dc2626;
+	animation: mic-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes mic-pulse {
+	0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.3); }
+	50%       { box-shadow: 0 0 0 6px rgba(220, 38, 38, 0); }
+}
+
+
 /* ── Loan result card ─────────────────────────────────────────────────────── */
 .panel-loan-result {
 	border-radius: 0.85rem;
@@ -2792,4 +2826,18 @@ html.language-large-text .footer__copy {
 
 .panel-alert--info {
 	color: #166534;
+}
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-report, #printable-report * {
+    visibility: visible;
+  }
+  #printable-report {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
 }

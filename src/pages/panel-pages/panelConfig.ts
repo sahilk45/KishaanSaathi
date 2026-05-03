@@ -2,16 +2,13 @@ import {
   BookOpen,
   Bot,
   CloudSun,
-  Clock3,
   Landmark,
-  Languages,
   LayoutDashboard,
   Leaf,
   LineChart,
   MapPinned,
   RefreshCw,
   Settings,
-  ShieldAlert,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -25,7 +22,6 @@ export type PanelItemId =
   | 'loanEligibility'
   | 'whatIfSimulator'
   | 'aiAssistant'
-  | 'language'
   | 'settings'
 
 export type PanelRouteSlug =
@@ -38,7 +34,6 @@ export type PanelRouteSlug =
   | 'loan-eligibility'
   | 'what-if-simulator'
   | 'ai-assistant'
-  | 'language'
   | 'settings'
 
 export type VisualKind =
@@ -76,7 +71,7 @@ export const defaultPanelRoute: PanelRouteSlug = 'overview'
 export const panelGroups: PanelItemId[][] = [
   ['overview', 'myFarm', 'quickGuide'],
   ['cropHealth', 'weatherAlerts', 'marketInsights'],
-  ['loanEligibility', 'whatIfSimulator', 'aiAssistant', 'language', 'settings'],
+  ['loanEligibility', 'whatIfSimulator', 'aiAssistant', 'settings'],
 ]
 
 export const panelItems: Record<PanelItemId, PanelItem> = {
@@ -304,45 +299,24 @@ export const panelItems: Record<PanelItemId, PanelItem> = {
       },
     ],
   },
-  language: {
-    id: 'language',
-    route: 'language',
-    label: 'Language',
-    icon: Languages,
-    subtitle: 'Language preferences and terminology profile for localized advisory delivery.',
-    blocks: [
-      {
-        id: 'language-choice',
-        title: 'Language Selection',
-        description: 'Switch between English, Hindi, and Punjabi for dashboard content.',
-        visual: 'controls',
-      },
-      {
-        id: 'terminology-profile',
-        title: 'Terminology Profile',
-        description: 'Choose simplified or technical wording style for recommendations.',
-        visual: 'log',
-      },
-    ],
-  },
   settings: {
     id: 'settings',
     route: 'settings',
     label: 'Settings',
     icon: Settings,
-    subtitle: 'Control notifications, preferences, and operational defaults for your workspace.',
+    subtitle: 'Account information, language preferences, and workspace configuration.',
     blocks: [
       {
-        id: 'notification-settings',
-        title: 'Notifications',
-        description: 'Configure alert channels, frequency, and severity thresholds.',
-        visual: 'controls',
+        id: 'account-info',
+        title: 'Account Information',
+        description: 'Your registered farmer profile details.',
+        visual: 'report',
       },
       {
-        id: 'account-preferences',
-        title: 'Account & Preferences',
-        description: 'Manage profile defaults, region setup, and workspace policy options.',
-        visual: 'report',
+        id: 'language-choice',
+        title: 'Language',
+        description: 'Switch between English, Hindi, and Punjabi.',
+        visual: 'controls',
       },
     ],
   },

@@ -96,7 +96,8 @@ const getStoredGoogleUser = () => {
 }
 
 const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
-  const { content } = useLanguage()
+  const { content, panel } = useLanguage()
+  const p = panel.panel.myFarm
   const { pushToast } = useToast()
   const { farmerId, fieldId: storedFieldId, setFarmerId, setFieldId: storeFieldId } = useSession()
   const mapContainerRef = useRef<HTMLDivElement | null>(null)
@@ -583,10 +584,10 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
     <div className="panel-cards panel-cards--my-farm">
       <article className="panel-card panel-card--farmer">
         <div className="panel-card__head">
-          <h3>Farmer Profile</h3>
+          <h3>{p.farmerProfile}</h3>
           <span className={`panel-status-badge panel-status-badge--${farmerStatus}`}>{farmerStatus}</span>
         </div>
-        <p>Register your farmer profile before drawing the field boundary.</p>
+        <p>{p.farmerProfileDesc}</p>
 
         {farmerId ? (
           <div className="panel-myfarm-grid">
@@ -602,7 +603,7 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
         ) : (
           <form className="panel-farmer-form" onSubmit={handleRegisterFarmer}>
             <label className="panel-myfarm-field">
-              Full name
+              {p.fullName}
               <input
                 type="text"
                 value={fullName}
@@ -612,7 +613,7 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
               />
             </label>
             <label className="panel-myfarm-field">
-              Phone number
+              {p.phoneNumber}
               <input
                 type="tel"
                 value={phone}
@@ -622,7 +623,7 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
               />
             </label>
             <label className="panel-myfarm-field">
-              State
+              {p.state}
               <select
                 value={stateName}
                 onChange={(event) => {
@@ -641,7 +642,7 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
               </select>
             </label>
             <label className="panel-myfarm-field">
-              District
+              {p.district}
               <select
                 value={districtName}
                 onChange={(event) => setDistrictName(event.target.value)}
@@ -658,7 +659,7 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
             </label>
             <div className="panel-farmer-actions">
               <button type="submit" className="panel-mapbox__button" disabled={farmerStatus === 'saving'}>
-                {farmerStatus === 'saving' ? 'Saving...' : 'Create farmer profile'}
+                {farmerStatus === 'saving' ? p.saving : p.createProfile}
               </button>
             </div>
           </form>
@@ -671,14 +672,14 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
 
       <article id={mapBlock?.id ?? 'mapbox-canvas'} className="panel-card panel-card--mapbox">
         <div className="panel-card__head">
-          <h3>{mapBlock?.title ?? 'Mapbox Canvas'}</h3>
+          <h3>{p.mapCanvas}</h3>
           <span className="panel-card__metric">Live map</span>
         </div>
-        <p>{mapBlock?.description ?? 'Interactive map for location and farm boundary drawing.'}</p>
+        <p>{p.mapCanvasDesc}</p>
 
         <div className="panel-myfarm-form">
           <label className="panel-myfarm-field">
-            Farmer ID (UUID)
+            {p.farmerId}
             <input
               type="text"
               value={farmerId}
@@ -688,11 +689,11 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
             />
           </label>
           <label className="panel-myfarm-field">
-            Field name
+            {p.fieldName}
             <input type="text" value={fieldName} onChange={(event) => setFieldName(event.target.value)} />
           </label>
           <label className="panel-myfarm-field">
-            Area (hectares, optional)
+            {p.areaOptional}
             <input
               type="number"
               min="0"
@@ -713,15 +714,15 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
           <div className="panel-mapbox__actions">
             <button type="button" className="panel-mapbox__button" onClick={handleLocateUser}>
               <LocateFixed size={15} aria-hidden="true" />
-              Track current location
+              {p.trackLocation}
             </button>
             <button type="button" className="panel-mapbox__button" onClick={handleSaveCurrentPolygon}>
               <Save size={15} aria-hidden="true" />
-              Save boundary
+              {p.saveBoundary}
             </button>
             <button type="button" className="panel-mapbox__button panel-mapbox__button--ghost" onClick={clearPolygon}>
               <Trash2 size={15} aria-hidden="true" />
-              Clear polygon
+              {p.clearPolygon}
             </button>
           </div>
 
@@ -735,45 +736,45 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
 
       <article id={polygonToolsBlock?.id ?? 'polygon-tools'} className="panel-card panel-card--my-farm-tools">
         <div className="panel-card__head">
-          <h3>{polygonToolsBlock?.title ?? 'Polygon Drawing Tools'}</h3>
+          <h3>{p.drawingTools}</h3>
           <span className={`panel-status-badge panel-status-badge--${saveStatus}`}>{saveStatus}</span>
         </div>
-        <p>{polygonToolsBlock?.description ?? 'Draw, update, and persist polygon boundaries.'}</p>
+        <p>{p.drawingToolsDesc}</p>
 
         <div className="panel-myfarm-grid">
           <div className="panel-myfarm-stat">
-            <span>Field ID</span>
-            <strong>{fieldId ?? 'Not saved yet'}</strong>
+            <span>{p.fieldId || 'Field ID'}</span>
+            <strong>{fieldId ?? p.notSavedYet}</strong>
           </div>
           <div className="panel-myfarm-stat">
-            <span>Polygon ID</span>
-            <strong>{polygonId ?? 'Not saved yet'}</strong>
+            <span>{p.polygonId}</span>
+            <strong>{polygonId ?? p.notSavedYet}</strong>
           </div>
           <div className="panel-myfarm-stat">
-            <span>City</span>
-            <strong>{polygonCity ?? 'Unknown'}</strong>
+            <span>{p.city}</span>
+            <strong>{polygonCity ?? p.unknown}</strong>
           </div>
           <div className="panel-myfarm-stat">
-            <span>State</span>
-            <strong>{polygonState ?? 'Unknown'}</strong>
+            <span>{p.stateText || 'State'}</span>
+            <strong>{polygonState ?? p.unknown}</strong>
           </div>
           <div className="panel-myfarm-stat">
-            <span>Current location</span>
+            <span>{p.currentLocation}</span>
             <strong>
-              {location ? `${location.latitude.toFixed(5)}, ${location.longitude.toFixed(5)}` : 'Not detected'}
+              {location ? `${location.latitude.toFixed(5)}, ${location.longitude.toFixed(5)}` : p.notDetected}
             </strong>
           </div>
           <div className="panel-myfarm-stat">
-            <span>Current location ID</span>
-            <strong>{currentLocationId}</strong>
+            <span>{p.currentLocationId}</span>
+            <strong>{currentLocationId ?? p.notApplicable}</strong>
           </div>
           <div className="panel-myfarm-stat">
-            <span>Boundary points</span>
+            <span>{p.boundaryPoints}</span>
             <strong>{Math.max(0, coordinateRing.length - 1)}</strong>
           </div>
           <div className="panel-myfarm-stat">
-            <span>Location status</span>
-            <strong>{locationStatus}</strong>
+            <span>{p.locationStatus}</span>
+            <strong>{locationStatus === 'idle' ? p.idle : locationStatus}</strong>
           </div>
         </div>
 
@@ -783,35 +784,35 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
 
       <article id={ndviOverlayBlock?.id ?? 'ndvi-overlay'} className="panel-card panel-card--ndvi">
         <div className="panel-card__head">
-          <h3>{ndviOverlayBlock?.title ?? 'NDVI Overlay'}</h3>
-          <span className={`panel-status-badge panel-status-badge--${snapshotStatus}`}>{snapshotStatus}</span>
+          <h3>{p.ndviOverlay}</h3>
+          <span className={`panel-status-badge panel-status-badge--${snapshotStatus}`}>{snapshotStatus === 'idle' ? p.idle : snapshotStatus}</span>
         </div>
-        <p>{ndviOverlayBlock?.description ?? 'Visual preview zone for vegetation layers.'}</p>
+        <p>{p.ndviOverlayDesc}</p>
 
         <div className="panel-myfarm-grid">
           <div className="panel-myfarm-stat">
-            <span>Snapshot source</span>
-            <strong>{snapshot?.source ?? 'N/A'}</strong>
+            <span>{p.source}</span>
+            <strong>{snapshot?.source ?? p.notApplicable}</strong>
           </div>
           <div className="panel-myfarm-stat">
-            <span>Latest image date</span>
-            <strong>{snapshot?.latest_image_date ?? 'N/A'}</strong>
+            <span>{p.latestImageDate}</span>
+            <strong>{snapshot?.latest_image_date ?? p.notApplicable}</strong>
           </div>
           <div className="panel-myfarm-stat">
-            <span>NDVI mean</span>
-            <strong>{snapshot?.ndvi_stats?.mean?.toFixed(3) ?? 'N/A'}</strong>
+            <span>{p.ndviMean}</span>
+            <strong>{snapshot?.ndvi_stats?.mean?.toFixed(3) ?? p.notApplicable}</strong>
           </div>
           <div className="panel-myfarm-stat">
-            <span>NDVI max</span>
-            <strong>{snapshot?.ndvi_stats?.max?.toFixed(3) ?? 'N/A'}</strong>
+            <span>{p.ndviMax}</span>
+            <strong>{snapshot?.ndvi_stats?.max?.toFixed(3) ?? p.notApplicable}</strong>
           </div>
           <div className="panel-myfarm-stat">
-            <span>Soil moisture</span>
-            <strong>{snapshot?.soil?.soil_moisture ?? 'N/A'}</strong>
+            <span>{p.soilMoisture}</span>
+            <strong>{snapshot?.soil?.soil_moisture ?? p.notApplicable}</strong>
           </div>
           <div className="panel-myfarm-stat">
-            <span>Air temp (°C)</span>
-            <strong>{snapshot?.weather?.air_temp ?? 'N/A'}</strong>
+            <span>{p.airTemp}</span>
+            <strong>{snapshot?.weather?.air_temp ?? p.notApplicable}</strong>
           </div>
         </div>
 
