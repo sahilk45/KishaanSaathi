@@ -1582,7 +1582,45 @@ async def chat_stream(req: ChatRequest):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# ENDPOINT 10: APMC Market Insights
+# ENDPOINT: GET /chat/history  — Retrieve persisted messages for a thread
+# ─────────────────────────────────────────────────────────────────────────────
+
+@app.get("/chat/history", tags=["Chatbot"])
+async def get_chat_history(
+    thread_id: str = Query(..., description="Thread ID e.g. thread-{farmer_id}-{field_id}"),
+    pool: asyncpg.Pool = Depends(get_pool),
+):
+    """
+    Returns all stored chat messages for a given thread_id, ordered chronologically.
+    Used by the frontend to restore conversation history when the panel is reopened.
+
+    Response:
+        { thread_id, messages: [{role, content, timestamp}] }
+    """
+    async with pool.acquire() as conn:
+        rows = await conn.fetch(
+            """
+            SELECT role, content, created_at
+            FROM   chat_messages
+            WHERE  thread_id = $1
+              AND  role IN ('human', 'ai')
+            ORDER  BY created_at ASC
+            """,
+            thread_id,
+        )
+
+    messages = [
+        {
+            "role":      row["role"],          # 'human' | 'ai'
+            "content":   row["content"],
+            "timestamp": row["created_at"].isoformat() if row["created_at"] else None,
+        }
+        for row in rows
+    ]
+
+    return {"thread_id": thread_id, "messages": messages}
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 
 _MANDI_CACHE: dict | None = None
