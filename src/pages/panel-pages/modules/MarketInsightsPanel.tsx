@@ -126,7 +126,7 @@ const MarketInsightsPanel = () => {
   }
 
   return (
-    <div className="panel-cards">
+    <div className="panel-cards panel-cards--stacked">
       {/* ── Selection ────────────────────────────────── */}
       <article className="panel-card">
         <div className="panel-card__head">

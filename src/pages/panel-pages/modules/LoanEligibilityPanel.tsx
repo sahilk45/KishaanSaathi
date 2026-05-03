@@ -1,82 +1,75 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { apiClient } from '../../../services/apiClient'
 import { getLocalizedApiError } from '../../../services/apiErrors'
 import { useLanguage } from '../../../context/LanguageContext'
 import { useSession } from '../../../context/SessionContext'
-import { useFields } from '../../../context/FieldContext'
 import { useToast } from '../../../context/ToastContext'
-import { useCrops } from '../../../context/CropContext'
 import type { PredictResponse } from '../../../types/api'
-import { formatScore, getCurrentYear, getDefaultCrop, getRiskLabel } from './panelUtils'
+import { formatScore, getCurrentYear, getRiskLabel } from './panelUtils'
 
 const HEALTH_BENCHMARK = 60
-const GOOGLE_USER_KEY = 'ks_google_user'
-const FARMER_PROFILE_KEY = 'ks_farmer_profile'
-
-const getStoredName = (): string => {
-  if (typeof window === 'undefined') return ''
-  try {
-    const profile = window.localStorage.getItem(FARMER_PROFILE_KEY)
-    if (profile) {
-      const parsed = JSON.parse(profile)
-      if (parsed.name) return parsed.name
-    }
-    const google = window.localStorage.getItem(GOOGLE_USER_KEY)
-    if (google) {
-      const parsed = JSON.parse(google)
-      if (parsed.name) return parsed.name
-    }
-  } catch { /* ignore */ }
-  return ''
-}
-
-const getStoredPhone = (): string => {
-  if (typeof window === 'undefined') return ''
-  try {
-    const profile = window.localStorage.getItem(FARMER_PROFILE_KEY)
-    if (profile) {
-      const parsed = JSON.parse(profile)
-      if (parsed.phone) return parsed.phone
-    }
-  } catch { /* ignore */ }
-  return ''
-}
 
 const LoanEligibilityPanel = () => {
   const { content, panel } = useLanguage()
   const p = panel.panel.loanEligibility
   const { pushToast } = useToast()
-  const { fieldId: sessionFieldId } = useSession()
-  const { fields, loading: fieldsLoading } = useFields()
-  const { crops, loading: cropsLoading } = useCrops()
+  const { fieldId, farmerId, farmerProfile, fields } = useSession()
 
+  // ── Latest prediction (fetched from DB — read-only inputs) ──
+  const [latestPrediction, setLatestPrediction] = useState<PredictResponse | null>(null)
+  const [historyLoading, setHistoryLoading] = useState(false)
+
+  // ── Submission result ──
   const [prediction, setPrediction] = useState<PredictResponse | null>(null)
   const [loading, setLoading] = useState(false)
-
-  const defaultCrop = useMemo(() => getDefaultCrop(crops), [crops])
-  const year = getCurrentYear()
-
-  // Form state
-  const [farmerName, setFarmerName] = useState(() => getStoredName())
-  const [phone, setPhone] = useState(() => getStoredPhone())
-  const [loanAmount, setLoanAmount] = useState('')
-  const [selectedFieldId, setSelectedFieldId] = useState(sessionFieldId || '')
-  
-  // Agricultural inputs for analysis
-  const [cropType, setCropType] = useState<string>(defaultCrop?.crop_type || '')
-  const [npkInput, setNpkInput] = useState<string>('120')
-  const [irrigationRatio, setIrrigationRatio] = useState<string>('0.8')
-
   const [submitted, setSubmitted] = useState(false)
   const [loanResult, setLoanResult] = useState<'eligible' | 'rejected' | null>(null)
 
+  // ── Editable form fields ──
+  const [farmerName, setFarmerName] = useState(farmerProfile?.name ?? '')
+  const [phone, setPhone] = useState(farmerProfile?.phone ?? '')
+  const [loanAmount, setLoanAmount] = useState('')
+
+  // Sync name/phone when farmerProfile loads from DB
+  useEffect(() => {
+    if (farmerProfile?.name) setFarmerName(farmerProfile.name)
+    if (farmerProfile?.phone) setPhone(farmerProfile.phone)
+  }, [farmerProfile])
+
+  const year = getCurrentYear()
+  const selectedField = useMemo(() => fields.find(f => f.field_id === fieldId), [fields, fieldId])
+
+  // ── Fetch latest prediction from DB on mount ──
+  useEffect(() => {
+    if (!fieldId) return
+    let cancelled = false
+    const fetchLatest = async () => {
+      setHistoryLoading(true)
+      try {
+        const resp = await apiClient.getFieldHistory(fieldId)
+        if (!cancelled && resp.history.length > 0) {
+          setLatestPrediction(resp.history[0]) // newest first
+        }
+      } catch { /* no history yet */ } finally {
+        if (!cancelled) setHistoryLoading(false)
+      }
+    }
+    fetchLatest()
+    return () => { cancelled = true }
+  }, [fieldId])
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!selectedFieldId) {
-      pushToast('Please select a field for the loan application.', 'error')
+
+    if (!fieldId) {
+      pushToast('No field selected. Please register a field first.', 'error')
       return
     }
-    if (!farmerName.trim() || !phone.trim() || !loanAmount.trim() || !cropType) {
+    if (!latestPrediction) {
+      pushToast('Run a Crop Health prediction first before applying for a loan.', 'error')
+      return
+    }
+    if (!farmerName.trim() || !phone.trim() || !loanAmount.trim()) {
       pushToast('Please fill all required fields.', 'error')
       return
     }
@@ -88,46 +81,163 @@ const LoanEligibilityPanel = () => {
 
     setLoading(true)
     try {
+      // Re-run prediction with the same inputs from the latest crop health run (dry_run)
       const predicted = await apiClient.predict({
-        field_id: selectedFieldId,
-        crop_type: cropType,
-        npk_input: Number(npkInput),
-        irrigation_ratio: Number(irrigationRatio),
+        field_id: fieldId,
+        crop_type: latestPrediction.crop_type,
+        npk_input: latestPrediction.irrigation_used * 150, // approximate NPK from stored data
+        irrigation_ratio: latestPrediction.irrigation_used,
         year,
-      }, true) // dry_run to not pollute DB
-      
+      }, true)
+
       setPrediction(predicted)
-      
-      const healthScore = predicted.health.final_health_score
       setSubmitted(true)
-      
+
+      const healthScore = predicted.health.final_health_score
       if (healthScore >= HEALTH_BENCHMARK) {
         setLoanResult('eligible')
-        pushToast(
-          `✅ Loan application submitted! Your health score (${Math.round(healthScore)}) meets the benchmark.`,
-          'success',
-        )
+        pushToast(`✅ Loan approved! Health score: ${Math.round(healthScore)}`, 'success')
       } else {
         setLoanResult('rejected')
-        pushToast(
-          `❌ Your health score (${Math.round(healthScore)}) is below the minimum benchmark (${HEALTH_BENCHMARK}).`,
-          'error',
-        )
+        pushToast(`❌ Health score ${Math.round(healthScore)} is below minimum ${HEALTH_BENCHMARK}.`, 'error')
       }
     } catch (error) {
-      const message = getLocalizedApiError(error, content)
-      pushToast(message, 'error')
+      pushToast(getLocalizedApiError(error, content), 'error')
     } finally {
       setLoading(false)
     }
   }
 
-  if (!fieldsLoading && fields.length === 0) {
-    return <p className="panel-empty">{p.noFieldsAvailable}</p>
+  // ── No field registered yet ──
+  if (!fieldId && fields.length === 0) {
+    return (
+      <div className="panel-card" style={{ padding: '40px', textAlign: 'center' }}>
+        <p style={{ fontSize: '2rem', marginBottom: '16px' }}>🌾</p>
+        <h3 style={{ marginBottom: '8px' }}>{p.noFieldsAvailable}</h3>
+        <p style={{ color: 'var(--text-muted)' }}>Register a field in the <strong>My Farm</strong> section first.</p>
+      </div>
+    )
   }
 
   const healthScore = prediction?.health.final_health_score ?? 0
   const risk = getRiskLabel(prediction?.health.risk_level)
+
+  const printReport = () => {
+    const date = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' })
+    const ref = `KS-LOAN-${(farmerId ?? '').slice(0, 8).toUpperCase()}`
+    const district = farmerProfile?.dist_name && farmerProfile?.state_name
+      ? `${farmerProfile.dist_name}, ${farmerProfile.state_name}`
+      : '—'
+
+    const row = (label: string, value: string) =>
+      `<tr><td>${label}</td><td><strong>${value}</strong></td></tr>`
+
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Loan Approval Certificate — Krishi-Sarthii</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Georgia, 'Times New Roman', serif; font-size: 12pt; color: #111; background: #fff; padding: 0; }
+    .brand { display: flex; justify-content: space-between; align-items: center; background: #1a5c2a; color: #fff; padding: 16px 32px; }
+    .brand-left { display: flex; align-items: center; gap: 14px; }
+    .brand-icon { font-size: 32pt; line-height: 1; }
+    .brand-name { display: block; font-size: 18pt; font-weight: bold; letter-spacing: 0.5px; }
+    .brand-tagline { display: block; font-size: 8pt; opacity: 0.82; font-style: italic; margin-top: 2px; }
+    .brand-meta { text-align: right; font-size: 8pt; opacity: 0.85; line-height: 1.7; }
+    .title-bar { display: flex; justify-content: space-between; align-items: center; background: #f0fdf4; border: 1px solid #d1fae5; border-top: none; border-radius: 0 0 6px 6px; padding: 14px 32px; margin-bottom: 28px; }
+    .title-bar h1 { font-size: 18pt; color: #1a5c2a; }
+    .title-bar p { font-size: 9pt; color: #555; margin-top: 3px; }
+    .badge { background: #dcfce7; color: #14532d; border: 2px solid #16a34a; padding: 8px 18px; border-radius: 8px; font-size: 13pt; font-weight: bold; white-space: nowrap; }
+    .content { padding: 0 32px 32px; }
+    .section { margin-bottom: 24px; page-break-inside: avoid; }
+    .section h2 { font-size: 12pt; color: #1a5c2a; border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-bottom: 10px; }
+    table { width: 100%; border-collapse: collapse; }
+    td { padding: 7px 10px; border: 1px solid #ddd; font-size: 10.5pt; vertical-align: middle; }
+    tr:nth-child(even) td { background: #f9fafb; }
+    td:first-child { width: 40%; color: #444; font-weight: 500; }
+    .footer { border-top: 1px solid #ccc; margin-top: 32px; padding-top: 12px; font-size: 8pt; color: #888; font-style: italic; line-height: 1.8; }
+  </style>
+</head>
+<body>
+  <div class="brand">
+    <div class="brand-left">
+      <span class="brand-icon">🌾</span>
+      <div>
+        <span class="brand-name">Krishi-Sarthii</span>
+        <span class="brand-tagline">AI-Powered Farm Intelligence Platform</span>
+      </div>
+    </div>
+    <div class="brand-meta">
+      <span>Generated on ${date}</span><br/>
+      <span>Ref: ${ref}</span>
+    </div>
+  </div>
+
+  <div class="title-bar">
+    <div>
+      <h1>Loan Approval Certificate</h1>
+      <p>Farm Credit Eligibility Report — AI Assessment</p>
+    </div>
+    <div class="badge">✅ APPROVED</div>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <h2>Applicant Details</h2>
+      <table><tbody>
+        ${row('Farmer Name', farmerName || '—')}
+        ${row('Phone Number', phone || '—')}
+        ${row('Email', farmerProfile?.email || '—')}
+        ${row('State / District', district)}
+        ${row('Farmer ID', farmerId || '—')}
+      </tbody></table>
+    </div>
+
+    <div class="section">
+      <h2>Field &amp; Loan Details</h2>
+      <table><tbody>
+        ${row('Field Name', selectedField?.field_name || '—')}
+        ${row('Field ID', fieldId || '—')}
+        ${row('Area', selectedField?.area_hectares ? selectedField.area_hectares + ' ha' : '—')}
+        ${row('Crop Type', latestPrediction?.crop_type || '—')}
+        ${row('Irrigation Used', latestPrediction?.irrigation_used ? latestPrediction.irrigation_used.toFixed(2) : '—')}
+        ${row('Loan Amount Requested', '\u20b9' + Number(loanAmount).toLocaleString('en-IN'))}
+        ${row('Assessment Year', String(year))}
+      </tbody></table>
+    </div>
+
+    <div class="section">
+      <h2>AI Credit Assessment</h2>
+      <table><tbody>
+        ${row('Overall Health Score', formatScore(prediction?.health.final_health_score))}
+        ${row('Risk Level', risk.label)}
+        ${row('Predicted Yield', Math.round(prediction?.predicted_yield || 0) + ' kg/ha')}
+        ${row('Yield Score', formatScore(prediction?.health.yield_score))}
+        ${row('Soil Score', formatScore(prediction?.health.soil_score))}
+        ${row('Water Score', formatScore(prediction?.health.water_score))}
+        ${row('Climate Score', formatScore(prediction?.health.climate_score))}
+        ${row('NDVI Score', formatScore(prediction?.health.ndvi_score))}
+      </tbody></table>
+    </div>
+
+    <div class="footer">
+      <p>This report is auto-generated by Krishi-Sarthii AI and is for informational purposes only.</p>
+      <p>For official bank loan processing, please present this document to your nearest branch along with your Farmer ID.</p>
+    </div>
+  </div>
+
+  <script>window.onload = function() { window.print(); }<\/script>
+</body>
+</html>`
+
+    const win = window.open('', '_blank', 'width=900,height=700')
+    if (win) {
+      win.document.write(html)
+      win.document.close()
+    }
+  }
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', width: '100%' }}>
@@ -137,10 +247,63 @@ const LoanEligibilityPanel = () => {
             <h2 style={{ fontSize: '1.5rem', fontWeight: 600 }}>{p.formTitle}</h2>
           </div>
           <p style={{ textAlign: 'center', marginBottom: '32px', color: 'var(--text-muted)' }}>
-            Fill out your farm details for an instant, AI-driven loan eligibility analysis.
+            Your loan eligibility is assessed using your latest Crop Health prediction.
           </p>
 
+          {/* ── Latest crop health snapshot (read-only) ── */}
+          {historyLoading ? (
+            <div style={{ background: 'var(--bg-body)', borderRadius: '10px', padding: '16px', marginBottom: '24px', textAlign: 'center', color: 'var(--text-muted)' }}>
+              Loading your latest crop health data…
+            </div>
+          ) : latestPrediction ? (
+            <div style={{
+              background: 'var(--bg-body)',
+              border: '1px solid var(--border-light)',
+              borderRadius: '10px',
+              padding: '16px 20px',
+              marginBottom: '24px',
+            }}>
+              <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                📋 Inputs from your last Crop Health analysis
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+                {[
+                  ['Crop', latestPrediction.crop_type],
+                  ['Year', String(latestPrediction.year)],
+                  ['Irrigation', latestPrediction.irrigation_used.toFixed(2)],
+                  ['Predicted Yield', `${Math.round(latestPrediction.predicted_yield)} kg/ha`],
+                  ['Health Score', formatScore(latestPrediction.health.final_health_score)],
+                  ['Prediction Date', new Date(latestPrediction.calculated_at).toLocaleDateString('en-IN')],
+                ].map(([label, val]) => (
+                  <div key={label} style={{ background: 'var(--bg-card)', borderRadius: '8px', padding: '10px 12px' }}>
+                    <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block' }}>{label}</span>
+                    <strong style={{ fontSize: '0.9rem' }}>{val}</strong>
+                  </div>
+                ))}
+              </div>
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '10px' }}>
+                These values are locked. To use different inputs, run a new Crop Health prediction first.
+              </p>
+            </div>
+          ) : (
+            <div style={{
+              background: '#fff7ed',
+              border: '1px solid #fed7aa',
+              borderRadius: '10px',
+              padding: '16px 20px',
+              marginBottom: '24px',
+              textAlign: 'center',
+              color: '#92400e',
+            }}>
+              <p style={{ fontWeight: 600, marginBottom: '6px' }}>⚠️ No Crop Health data found</p>
+              <p style={{ fontSize: '0.85rem' }}>
+                Please go to <strong>Crop Health</strong> and run a prediction first. Loan eligibility is based on your actual farm analysis.
+              </p>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            {/* Farmer name + phone — pre-filled from DB, editable */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
               <label className="panel-myfarm-field">
                 {p.farmerName}
@@ -151,21 +314,17 @@ const LoanEligibilityPanel = () => {
                 <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
               </label>
             </div>
-            
+
+            {/* Field info (read-only — auto-selected from DB) */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
               <label className="panel-myfarm-field">
                 {p.selectField}
-                <select 
-                  value={selectedFieldId} 
-                  onChange={(e) => setSelectedFieldId(e.target.value)}
-                  disabled={fieldsLoading}
-                  required
-                >
-                  <option value="">-- {p.selectFieldPlaceholder} --</option>
-                  {fields.map(f => (
-                    <option key={f.field_id} value={f.field_id}>{f.field_name} {f.area_hectares ? `(${f.area_hectares} ha)` : ''}</option>
-                  ))}
-                </select>
+                <input
+                  type="text"
+                  value={selectedField ? `${selectedField.field_name}${selectedField.area_hectares ? ` (${selectedField.area_hectares} ha)` : ''}` : fieldId || '—'}
+                  readOnly
+                  style={{ background: 'var(--bg-body)', cursor: 'default' }}
+                />
               </label>
               <label className="panel-myfarm-field">
                 {p.loanAmount}
@@ -173,69 +332,12 @@ const LoanEligibilityPanel = () => {
               </label>
             </div>
 
-            <div style={{ borderTop: '1px solid var(--border-light)', margin: '12px 0 0 0', paddingTop: '24px' }}>
-              <h4 style={{ marginBottom: '20px', fontSize: '1rem', color: 'var(--text-main)' }}>Farm Analysis Inputs</h4>
-              
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                <label className="panel-myfarm-field">
-                  {p.cropType}
-                  <select
-                    value={cropType}
-                    onChange={(e) => setCropType(e.target.value)}
-                    disabled={cropsLoading}
-                    required
-                  >
-                    {cropsLoading && <option value="">Loading crops...</option>}
-                    {crops.map((c) => (
-                      <option key={c.crop_type} value={c.crop_type}>
-                        {c.display_name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                  <label className="panel-myfarm-field">
-                    {p.npkInput}
-                    <input 
-                      type="number" 
-                      value={npkInput} 
-                      onChange={(e) => setNpkInput(e.target.value)} 
-                      min="0" 
-                      max="500"
-                      required 
-                    />
-                  </label>
-                  <label className="panel-myfarm-field">
-                    {p.irrigationRatio}
-                    <input 
-                      type="number" 
-                      value={irrigationRatio} 
-                      onChange={(e) => setIrrigationRatio(e.target.value)} 
-                      min="0" 
-                      max="1" 
-                      step="0.1"
-                      required 
-                    />
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div style={{ marginTop: '24px' }}>
-              <button 
-                type="submit" 
-                className="panel-mapbox__button" 
-                disabled={loading} 
-                style={{ 
-                  width: '100%',
-                  padding: '14px', 
-                  fontSize: '1.05rem',
-                  borderRadius: '12px',
-                  fontWeight: 600,
-                  display: 'flex',
-                  justifyContent: 'center'
-                }}
+            <div style={{ marginTop: '8px' }}>
+              <button
+                type="submit"
+                className="panel-mapbox__button"
+                disabled={loading || !latestPrediction}
+                style={{ width: '100%', padding: '14px', fontSize: '1.05rem', borderRadius: '12px', fontWeight: 600, display: 'flex', justifyContent: 'center' }}
               >
                 {loading ? p.analyzing : p.submitApplication}
               </button>
@@ -245,72 +347,71 @@ const LoanEligibilityPanel = () => {
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <article className="panel-card" style={{ padding: '32px' }}>
-            <div className="panel-card__head" style={{ justifyContent: 'center', marginBottom: '24px' }}>
-              <h2 style={{ fontSize: '1.5rem', fontWeight: 600 }}>{p.eligibilityResult}</h2>
-            </div>
-            
-            <div className={`panel-loan-result panel-loan-result--${loanResult}`} style={{ marginTop: '16px', padding: '24px', textAlign: 'center' }}>
-              <h4 style={{ fontSize: '1.3rem', marginBottom: '12px' }}>
-                {loanResult === 'eligible' ? p.loanApproved : p.loanRejected}
-              </h4>
-              <p style={{ fontSize: '1.05rem', color: 'var(--text-main)', opacity: 0.9 }}>
-                {loanResult === 'eligible'
-                  ? p.loanApprovedDesc?.replace('{amount}', Number(loanAmount).toLocaleString())
-                  : p.loanRejectedDesc?.replace('{amount}', Number(loanAmount).toLocaleString())}
+            <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+              <p style={{ fontSize: '1.1rem', color: loanResult === 'eligible' ? '#16a34a' : '#dc2626', fontWeight: 700, marginBottom: '8px' }}>
+                {loanResult === 'eligible' ? p.loanApproved : loanResult === 'rejected' ? p.loanRejected : p.loanReview}
               </p>
-              
-              <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', marginTop: '32px', padding: '24px', background: 'var(--bg-card)', borderRadius: '12px' }}>
-                <div style={{ textAlign: 'center' }}>
-                  <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>{p.healthScore}</span>
-                  <strong style={{ fontSize: '2rem', color: 'var(--text-main)' }}>{formatScore(healthScore)}</strong>
-                  <div style={{ fontSize: '0.8rem', color: `var(--risk-${risk.tone})`, marginTop: '4px' }}>{risk.label}</div>
-
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                  <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>{p.predictedYield}</span>
-                  <strong style={{ fontSize: '1.5rem', color: 'var(--text-main)' }}>{Math.round(prediction?.predicted_yield || 0)} kg/ha</strong>
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                  <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>Loan Amount</span>
-                  <strong style={{ fontSize: '1.5rem', color: 'var(--text-main)' }}>₹{Number(loanAmount).toLocaleString()}</strong>
-                </div>
-              </div>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                {loanResult === 'eligible'
+                  ? p.loanApprovedDesc?.replace('{amount}', Number(loanAmount).toLocaleString('en-IN'))
+                  : loanResult === 'rejected'
+                    ? p.loanRejectedDesc?.replace('{amount}', Number(loanAmount).toLocaleString('en-IN'))
+                    : p.loanReviewDesc?.replace('{amount}', Number(loanAmount).toLocaleString('en-IN'))
+                }
+              </p>
             </div>
-          </article>
 
-          <article className="panel-card" style={{ padding: '32px' }}>
-            <div className="panel-card__head">
-              <h3>{p.scoreFactors}</h3>
-              <span className="panel-card__metric">{p.assessment}</span>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '28px' }}>
+              {[
+                [p.healthScore, `${Math.round(healthScore)}%`, risk.label],
+                [p.predictedYield, `${Math.round(prediction?.predicted_yield || 0)} kg/ha`, ''],
+                ['Loan Amount', `₹${Number(loanAmount).toLocaleString('en-IN')}`, ''],
+              ].map(([label, val, sub]) => (
+                <div key={label} style={{ background: 'var(--bg-body)', borderRadius: '10px', padding: '16px', textAlign: 'center' }}>
+                  <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '6px' }}>{label}</p>
+                  <p style={{ fontSize: '1.5rem', fontWeight: 700 }}>{val}</p>
+                  {sub && <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{sub}</p>}
+                </div>
+              ))}
             </div>
-            <p>{p.assessmentDesc}</p>
-            <ul className="panel-list" style={{ marginTop: '20px', gap: '12px', display: 'flex', flexDirection: 'column' }}>
-              <li style={{ padding: '12px', background: 'var(--bg-body)', borderRadius: '8px' }}>
-                <strong>{p.yieldScoreDesc?.replace('{score}', formatScore(prediction?.health.yield_score))}</strong>
-              </li>
-              <li style={{ padding: '12px', background: 'var(--bg-body)', borderRadius: '8px' }}>
-                <strong>{p.soilScoreDesc?.replace('{score}', formatScore(prediction?.health.soil_score))}</strong>
-              </li>
-              <li style={{ padding: '12px', background: 'var(--bg-body)', borderRadius: '8px' }}>
-                <strong>{p.waterScoreDesc?.replace('{score}', formatScore(prediction?.health.water_score))}</strong>
-              </li>
-              <li style={{ padding: '12px', background: 'var(--bg-body)', borderRadius: '8px' }}>
-                <strong>{p.climateScoreDesc?.replace('{score}', formatScore(prediction?.health.climate_score))}</strong>
-              </li>
-              <li style={{ padding: '12px', background: 'var(--bg-body)', borderRadius: '8px' }}>
-                <strong>{p.ndviScoreDesc?.replace('{score}', formatScore(prediction?.health.ndvi_score))}</strong>
-              </li>
-            </ul>
 
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>
-              <button 
-                type="button" 
-                className="panel-mapbox__button panel-mapbox__button--secondary" 
+            <div style={{ marginBottom: '24px' }}>
+              <h4 style={{ marginBottom: '16px' }}>{p.scoreFactors} — {p.assessment}</h4>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '16px' }}>{p.assessmentDesc}</p>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {[
+                  ['yieldScoreDesc', prediction?.health.yield_score],
+                  ['soilScoreDesc', prediction?.health.soil_score],
+                  ['waterScoreDesc', prediction?.health.water_score],
+                  ['climateScoreDesc', prediction?.health.climate_score],
+                  ['ndviScoreDesc', prediction?.health.ndvi_score],
+                ].map(([key, score]) => (
+                  <li key={key as string} style={{ padding: '12px', background: 'var(--bg-body)', borderRadius: '8px' }}>
+                    <strong>{(p[key as keyof typeof p] as string)?.replace('{score}', formatScore(score as number | undefined))}</strong>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px', gap: '16px' }}>
+              <button
+                type="button"
+                className="panel-mapbox__button panel-mapbox__button--secondary"
                 onClick={() => { setSubmitted(false); setPrediction(null); setLoanResult(null) }}
                 style={{ padding: '10px 32px', borderRadius: '24px' }}
               >
-                Start New Application
+                {p.startNew}
               </button>
+              {loanResult === 'eligible' && (
+                <button
+                  type="button"
+                  className="panel-mapbox__button"
+                  onClick={printReport}
+                  style={{ padding: '10px 32px', borderRadius: '24px' }}
+                >
+                  {p.downloadReport}
+                </button>
+              )}
             </div>
           </article>
         </div>

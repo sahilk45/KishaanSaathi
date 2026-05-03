@@ -8,6 +8,22 @@ import { useCrops } from '../../../context/CropContext'
 import type { CropItem, PredictResponse } from '../../../types/api'
 import { formatNumber, formatScore, getCurrentYear, getRiskLabel } from './panelUtils'
 
+const LAST_CROP_INPUTS_KEY = 'ks_last_crop_inputs'
+
+export const saveLastCropInputs = (cropType: string, npk: string, irrigation: string) => {
+  try {
+    localStorage.setItem(LAST_CROP_INPUTS_KEY, JSON.stringify({ cropType, npk, irrigation }))
+  } catch { /* ignore */ }
+}
+
+export const loadLastCropInputs = (): { cropType: string; npk: string; irrigation: string } | null => {
+  try {
+    const raw = localStorage.getItem(LAST_CROP_INPUTS_KEY)
+    if (raw) return JSON.parse(raw)
+  } catch { /* ignore */ }
+  return null
+}
+
 const KHARIF_KEYWORDS = ['RICE', 'PEARL MILLET', 'GROUNDNUT', 'SUGARCANE', 'MAIZE', 'COTTON', 'SOYABEAN', 'SESAMUM', 'KHARIF SORGHUM', 'FINGER MILLET']
 const RABI_KEYWORDS = ['CHICKPEA', 'WHEAT', 'MUSTARD', 'LENTIL', 'BARLEY', 'LINSEED', 'SAFFLOWER', 'RABI SORGHUM', 'RAPESEED']
 
@@ -90,6 +106,8 @@ const CropHealthPanel = () => {
         irrigation_ratio: irr,
       }, false)
       setPrediction(payload)
+      // Save inputs for Loan Eligibility auto-fill
+      saveLastCropInputs(cropType, npkInput, irrigationRatio)
       // Refresh history
       try {
         const histPayload = await apiClient.getFieldHistory(fieldId)
@@ -111,7 +129,7 @@ const CropHealthPanel = () => {
   const risk = getRiskLabel(prediction?.health.risk_level)
 
   return (
-    <div className="panel-cards">
+    <div className="panel-cards panel-cards--stacked">
       {/* ── Input form ──────────────────────────────────── */}
       <article className="panel-card">
         <div className="panel-card__head">
@@ -122,12 +140,15 @@ const CropHealthPanel = () => {
         {cropsLoading ? (
           <div className="panel-skeleton" />
         ) : (
-          <div className="panel-simulator">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '12px' }}>
+            {/* Season filter */}
             <div className="panel-toggle">
               <button type="button" className={season === 'kharif' ? 'active' : ''} onClick={() => setSeason('kharif')}>{p.kharif}</button>
               <button type="button" className={season === 'rabi' ? 'active' : ''} onClick={() => setSeason('rabi')}>{p.rabi}</button>
               <button type="button" className={season === 'all' ? 'active' : ''} onClick={() => setSeason('all')}>{p.all}</button>
             </div>
+
+            {/* Crop selector — full width */}
             <label className="panel-myfarm-field">
               {p.cropType}
               <select value={selectedCrop} onChange={(e) => setSelectedCrop(e.target.value)}>
@@ -137,21 +158,37 @@ const CropHealthPanel = () => {
                 ))}
               </select>
             </label>
-            <label className="panel-myfarm-field">
-              {p.npkInput}
-              <input type="number" value={npkInput} onChange={(e) => setNpkInput(e.target.value)} />
-            </label>
-            <label className="panel-myfarm-field">
-              {p.irrigationRatio}
-              <input type="number" step="0.01" value={irrigationRatio} onChange={(e) => setIrrigationRatio(e.target.value)} />
-            </label>
-            <label className="panel-myfarm-field">
-              {p.year}
-              <input type="number" value={year} onChange={(e) => setYear(e.target.value)} />
-            </label>
-            <button type="button" className="panel-mapbox__button" onClick={handlePredict} disabled={loading}>
-              {loading ? p.predicting : p.predictAndSave}
-            </button>
+
+            {/* NPK + Irrigation in a row */}
+            <div className="panel-stack-row">
+              <label className="panel-myfarm-field">
+                {p.npkInput}
+                <input type="number" value={npkInput} onChange={(e) => setNpkInput(e.target.value)} />
+              </label>
+              <label className="panel-myfarm-field">
+                {p.irrigationRatio}
+                <input type="number" step="0.01" value={irrigationRatio} onChange={(e) => setIrrigationRatio(e.target.value)} />
+              </label>
+            </div>
+
+            {/* Year + Submit */}
+            <div className="panel-stack-row">
+              <label className="panel-myfarm-field">
+                {p.year}
+                <input type="number" value={year} onChange={(e) => setYear(e.target.value)} />
+              </label>
+              <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+                <button
+                  type="button"
+                  className="panel-mapbox__button"
+                  onClick={handlePredict}
+                  disabled={loading}
+                  style={{ width: '100%', height: '42px' }}
+                >
+                  {loading ? p.predicting : p.predictAndSave}
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </article>

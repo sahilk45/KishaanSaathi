@@ -21,6 +21,16 @@ export type FarmerRegisterResponse = {
   dist_name: string
 }
 
+export type FarmerProfileResponse = {
+  farmer_id: string
+  name: string
+  phone: string
+  email: string
+  picture: string
+  state_name: string
+  dist_name: string
+}
+
 export type FarmRegisterResponse = {
   field_id: string
   polygon_id: string

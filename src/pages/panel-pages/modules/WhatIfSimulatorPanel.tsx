@@ -85,7 +85,7 @@ const WhatIfSimulatorPanel = () => {
   }
 
   return (
-    <div className="panel-cards">
+    <div className="panel-cards panel-cards--stacked">
       <article className="panel-card">
         <div className="panel-card__head">
           <h3>{p.formTitle}</h3>

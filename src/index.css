@@ -1335,6 +1335,30 @@ html.language-large-text .footer__copy {
 	gap: 0.85rem;
 }
 
+/* ── Stacked single-column layout ───────────────────────────────── */
+.panel-cards--stacked {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.panel-cards--stacked .panel-card {
+	width: 100%;
+}
+
+/* Inside a stacked card, a 2-col inner grid for form rows */
+.panel-stack-row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1rem;
+}
+
+.panel-stack-row--3 {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 1rem;
+}
+
 .panel-card {
 	border: 1px solid #deeee5;
 	border-radius: 0.95rem;
@@ -2078,6 +2102,11 @@ html.language-large-text .footer__copy {
 	}
 
 	.panel-cards--my-farm {
+		grid-template-columns: 1fr;
+	}
+
+	.panel-stack-row,
+	.panel-stack-row--3 {
 		grid-template-columns: 1fr;
 	}
 
@@ -2827,17 +2856,168 @@ html.language-large-text .footer__copy {
 .panel-alert--info {
 	color: #166534;
 }
+/* ── Print Report Styles ───────────────────────────────────────── */
+/* Hidden on screen; only shown when window.print() is called */
+.loan-print-report {
+  display: none;
+}
+
 @media print {
-  body * {
-    visibility: hidden;
+  /* Hide everything except the report */
+  body > * {
+    display: none !important;
   }
-  #printable-report, #printable-report * {
-    visibility: visible;
+
+  /* Show the React root so the report inside it is accessible */
+  body > #root {
+    display: block !important;
   }
-  #printable-report {
-    position: absolute;
-    left: 0;
-    top: 0;
+
+  /* Hide every panel element */
+  #root > * {
+    display: none !important;
+  }
+
+  /* Show the report itself */
+  .loan-print-report {
+    display: block !important;
+    position: fixed;
+    inset: 0;
+    background: #fff;
+    color: #000;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 12pt;
+    line-height: 1.6;
+    padding: 32px;
+    z-index: 99999;
+    overflow: auto;
+  }
+
+  /* ── Brand strip at very top ── */
+  .loan-print-report__brand {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1a5c2a;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px 8px 0 0;
+    margin-bottom: 0;
+  }
+
+  .loan-print-report__brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .loan-print-report__brand-icon {
+    font-size: 28pt;
+    line-height: 1;
+  }
+
+  .loan-print-report__brand-name {
+    display: block;
+    font-size: 16pt;
+    font-weight: bold;
+    font-family: Georgia, serif;
+    letter-spacing: 0.5px;
+  }
+
+  .loan-print-report__brand-tagline {
+    display: block;
+    font-size: 8pt;
+    opacity: 0.8;
+    font-style: italic;
+  }
+
+  .loan-print-report__brand-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 8pt;
+    opacity: 0.85;
+    gap: 2px;
+  }
+
+  .loan-print-report__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border: 1px solid #d1fae5;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    background: #f0fdf4;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+
+  .loan-print-report__header h1 {
+    font-size: 22pt;
+    color: #1a5c2a;
+    margin-bottom: 4px;
+  }
+
+  .loan-print-report__header p {
+    font-size: 9pt;
+    color: #555;
+  }
+
+  .loan-print-report__badge {
+    background: #dcfce7;
+    color: #14532d;
+    border: 2px solid #16a34a;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 13pt;
+    font-weight: bold;
+  }
+
+  .loan-print-report__section {
+    margin-bottom: 24px;
+  }
+
+  .loan-print-report__section h2 {
+    font-size: 13pt;
+    color: #1a5c2a;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 4px;
+    margin-bottom: 10px;
+  }
+
+  .loan-print-report__table {
     width: 100%;
+    border-collapse: collapse;
+  }
+
+  .loan-print-report__table td {
+    padding: 7px 10px;
+    border: 1px solid #ddd;
+    font-size: 10.5pt;
+    vertical-align: middle;
+  }
+
+  .loan-print-report__table tr:nth-child(even) td {
+    background: #f9fafb;
+  }
+
+  .loan-print-report__table td:first-child {
+    width: 40%;
+    color: #444;
+    font-weight: 500;
+  }
+
+  .loan-print-report__footer {
+    border-top: 1px solid #ccc;
+    margin-top: 32px;
+    padding-top: 12px;
+    font-size: 8.5pt;
+    color: #888;
+    font-style: italic;
+  }
+
+  /* Prevent page breaks inside sections */
+  .loan-print-report__section {
+    page-break-inside: avoid;
   }
 }

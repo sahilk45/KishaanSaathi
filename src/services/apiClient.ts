@@ -1,4 +1,4 @@
-import type { AgroSnapshotResponse, ApmcMasterResponse, ApmcPricesResponse, CropsResponse, DistrictItem, FarmerFieldsResponse, FieldHistoryResponse, FarmerRegisterResponse, FarmRegisterResponse, PredictResponse } from '../types/api'
+import type { AgroSnapshotResponse, ApmcMasterResponse, ApmcPricesResponse, CropsResponse, DistrictItem, FarmerFieldsResponse, FarmerProfileResponse, FieldHistoryResponse, FarmerRegisterResponse, FarmRegisterResponse, PredictResponse } from '../types/api'
 
 export type ApiErrorDetail = {
   status: number
@@ -94,6 +94,8 @@ export const apiClient = {
       method: 'POST',
       body: JSON.stringify(payload),
     }),
+  getFarmerProfile: (farmerId: string) =>
+    request<FarmerProfileResponse>(`/farmer/${farmerId}`),
   getFarmerFields: (farmerId: string) =>
     request<FarmerFieldsResponse>(`/farmer/${farmerId}/fields`),
   getAgroSnapshot: (fieldId: string, start?: number, end?: number) => {

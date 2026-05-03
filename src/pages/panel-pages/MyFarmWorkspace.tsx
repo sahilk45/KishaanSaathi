@@ -743,7 +743,7 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
 
         <div className="panel-myfarm-grid">
           <div className="panel-myfarm-stat">
-            <span>{p.fieldId || 'Field ID'}</span>
+            <span>Field ID</span>
             <strong>{fieldId ?? p.notSavedYet}</strong>
           </div>
           <div className="panel-myfarm-stat">
@@ -751,11 +751,11 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
             <strong>{polygonId ?? p.notSavedYet}</strong>
           </div>
           <div className="panel-myfarm-stat">
-            <span>{p.city}</span>
+            <span>{panel.panel.city}</span>
             <strong>{polygonCity ?? p.unknown}</strong>
           </div>
           <div className="panel-myfarm-stat">
-            <span>{p.stateText || 'State'}</span>
+            <span>{panel.panel.state}</span>
             <strong>{polygonState ?? p.unknown}</strong>
           </div>
           <div className="panel-myfarm-stat">
