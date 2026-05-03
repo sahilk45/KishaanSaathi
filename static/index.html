@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>KisanSaathi — Agri Dashboard</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#0f1a10;color:#d4e8c2;min-height:100vh;display:flex}
+/* Sidebar */
+#sidebar{width:220px;background:#152017;padding:16px;display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+#sidebar h2{color:#6fcf5a;font-size:18px;margin-bottom:12px;border-bottom:1px solid #2a4a2a;padding-bottom:8px}
+.nav-btn{background:none;border:none;color:#a0c890;text-align:left;padding:10px 12px;border-radius:6px;cursor:pointer;font-size:14px;transition:.2s}
+.nav-btn:hover,.nav-btn.active{background:#1e3320;color:#6fcf5a}
+/* Main */
+#main{flex:1;padding:24px;overflow-y:auto}
+.section{display:none}
+.section.active{display:block}
+h1{color:#6fcf5a;margin-bottom:20px;font-size:22px}
+h3{color:#8fc870;margin-bottom:12px;font-size:16px}
+/* Card */
+.card{background:#152017;border:1px solid #2a4a2a;border-radius:10px;padding:20px;margin-bottom:16px}
+/* Forms */
+label{display:block;font-size:13px;color:#8fc870;margin-bottom:4px;margin-top:12px}
+input,select,textarea{width:100%;background:#0f1a10;border:1px solid #2a4a2a;color:#d4e8c2;padding:10px;border-radius:6px;font-size:14px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:#6fcf5a}
+button.btn{background:#2d6a2d;border:none;color:#d4e8c2;padding:10px 20px;border-radius:6px;cursor:pointer;font-size:14px;margin-top:14px;transition:.2s;width:100%}
+button.btn:hover{background:#3a8a3a}
+.result{background:#0a120b;border:1px solid #1a3a1a;border-radius:6px;padding:14px;margin-top:14px;font-size:13px;white-space:pre-wrap;color:#b0d8a0;max-height:300px;overflow-y:auto}
+/* Chat */
+#chat-area{display:flex;flex-direction:column;height:calc(100vh - 140px)}
+#chat-box{flex:1;overflow-y:auto;background:#0a120b;border:1px solid #1a3a1a;border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:78%;padding:10px 14px;border-radius:8px;font-size:14px;line-height:1.5;white-space:pre-wrap}
+.msg.user{align-self:flex-end;background:#1e4d1e;color:#d4e8c2;border-bottom-right-radius:2px}
+.msg.bot{align-self:flex-start;background:#152017;color:#c8e0b0;border-bottom-left-radius:2px;border:1px solid #2a4a2a}
+.msg.tool{align-self:flex-start;background:#0d2010;color:#90c870;border:1px solid #1a5a1a;font-family:monospace;font-size:12px;width:100%;max-width:100%}
+.typing{color:#6fcf5a;font-size:22px;letter-spacing:2px;align-self:flex-start;padding:4px 10px}
+#chat-input-row{display:flex;gap:10px;margin-top:12px}
+#chat-input-row input{flex:1}
+#chat-input-row button{width:auto;padding:10px 20px;margin-top:0}
+#chat-top{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;align-items:flex-end}
+#chat-top>div{flex:1;min-width:160px}
+#chat-top label{margin-top:0}
+.badge{display:inline-block;background:#1a4a1a;color:#6fcf5a;border-radius:4px;padding:2px 7px;font-size:11px;margin-right:4px}
+</style>
+</head>
+<body>
+<div id="sidebar">
+  <h2>🌾 KisanSaathi</h2>
+  <button class="nav-btn active" onclick="show('chat')">💬 Chat</button>
+  <button class="nav-btn" onclick="show('register-farmer')">👤 Register Farmer</button>
+  <button class="nav-btn" onclick="show('register-farm')">🏡 Register Farm</button>
+  <button class="nav-btn" onclick="show('predict')">📊 Predict Yield</button>
+  <button class="nav-btn" onclick="show('history')">📜 Prediction History</button>
+  <button class="nav-btn" onclick="show('districts')">📍 Districts</button>
+  <button class="nav-btn" onclick="show('crops')">🌽 Crops</button>
+</div>
+
+<div id="main">
+<!-- ── CHAT ── -->
+<div id="chat" class="section active">
+  <h1>💬 KisanSaathi Chatbot</h1>
+  <div id="chat-top">
+    <div>
+      <label>Farmer ID</label>
+      <input id="c-farmer" placeholder="UUID from registration"/>
+    </div>
+    <div>
+      <label>Thread ID (optional)</label>
+      <input id="c-thread" placeholder="auto-generated"/>
+    </div>
+    <div style="flex:0">
+      <button class="btn" style="margin-top:0;width:auto;padding:10px 16px" onclick="clearChat()">🗑 Clear</button>
+    </div>
+  </div>
+  <div id="chat-area">
+    <div id="chat-box"></div>
+    <div id="chat-input-row">
+      <input id="chat-msg" placeholder="Gehu ka bhav kya hai?" onkeydown="if(event.key==='Enter')sendChat()"/>
+      <button class="btn" onclick="sendChat()">Send ▶</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── REGISTER FARMER ── -->
+<div id="register-farmer" class="section">
+  <h1>👤 Register Farmer</h1>
+  <div class="card">
+    <label>Name</label><input id="rf-name" placeholder="Ramesh Kumar"/>
+    <label>Phone</label><input id="rf-phone" placeholder="9876543210"/>
+    <label>State</label><input id="rf-state" placeholder="Uttar Pradesh"/>
+    <label>District</label><input id="rf-dist" placeholder="lucknow"/>
+    <button class="btn" onclick="registerFarmer()">Register Farmer</button>
+    <div id="rf-result" class="result" style="display:none"></div>
+  </div>
+</div>
+
+<!-- ── REGISTER FARM ── -->
+<div id="register-farm" class="section">
+  <h1>🏡 Register Farm Field</h1>
+  <div class="card">
+    <label>Farmer ID</label><input id="rfa-fid" placeholder="UUID"/>
+    <label>Field Name</label><input id="rfa-name" placeholder="North Field"/>
+    <label>Area (hectares, optional)</label><input id="rfa-area" type="number" placeholder="1.5"/>
+    <label>Coordinates (JSON array [[lon,lat],...])</label>
+    <textarea id="rfa-coords" rows="3" placeholder='[[76.78,30.73],[76.79,30.73],[76.79,30.74],[76.78,30.74]]'></textarea>
+    <button class="btn" onclick="registerFarm()">Register Farm</button>
+    <div id="rfa-result" class="result" style="display:none"></div>
+  </div>
+</div>
+
+<!-- ── PREDICT ── -->
+<div id="predict" class="section">
+  <h1>📊 Predict Crop Yield</h1>
+  <div class="card">
+    <label>Field ID</label><input id="p-fid" placeholder="UUID"/>
+    <label>Crop Type</label>
+    <select id="p-crop"><option value="">Loading...</option></select>
+    <label>NPK Input (kg/ha)</label><input id="p-npk" type="number" placeholder="120"/>
+    <label>Year</label><input id="p-year" type="number" placeholder="2025"/>
+    <label>Irrigation Ratio (0–1, optional)</label><input id="p-irr" type="number" step="0.01" placeholder="0.6"/>
+    <button class="btn" onclick="predict()">Run Prediction</button>
+    <div id="p-result" class="result" style="display:none"></div>
+  </div>
+</div>
+
+<!-- ── HISTORY ── -->
+<div id="history" class="section">
+  <h1>📜 Field Prediction History</h1>
+  <div class="card">
+    <label>Field ID</label><input id="h-fid" placeholder="UUID"/>
+    <button class="btn" onclick="getHistory()">Fetch History</button>
+    <div id="h-result" class="result" style="display:none"></div>
+  </div>
+</div>
+
+<!-- ── DISTRICTS ── -->
+<div id="districts" class="section">
+  <h1>📍 Available Districts</h1>
+  <div class="card">
+    <button class="btn" onclick="getDistricts()">Load Districts</button>
+    <div id="d-result" class="result" style="display:none"></div>
+  </div>
+</div>
+
+<!-- ── CROPS ── -->
+<div id="crops" class="section">
+  <h1>🌽 Supported Crops</h1>
+  <div class="card">
+    <button class="btn" onclick="getCrops()">Load Crops</button>
+    <div id="cr-result" class="result" style="display:none"></div>
+  </div>
+</div>
+</div>
+
+<script>
+const API = 'http://127.0.0.1:8000';
+let streaming = false;
+
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  if (id === 'predict') loadCropSelect();
+}
+
+function showResult(id, data, isError) {
+  const el = document.getElementById(id);
+  el.style.display = 'block';
+  el.style.color = isError ? '#f28b82' : '#b0d8a0';
+  el.textContent = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+}
+
+// ── Chat ──────────────────────────────────────────────────────────────────────
+const chatBox = document.getElementById('chat-box');
+
+function clearChat() { chatBox.innerHTML = ''; }
+
+function appendMsg(text, role) {
+  const d = document.createElement('div');
+  d.className = `msg ${role}`;
+  d.textContent = text;
+  chatBox.appendChild(d);
+  chatBox.scrollTop = chatBox.scrollHeight;
+  return d;
+}
+
+function appendToolBlock(toolName, content) {
+  const d = document.createElement('div');
+  d.className = 'msg tool';
+  // Format mandi list specially
+  if (toolName === 'list_mandis' || content.includes('APMCs')) {
+    d.innerHTML = `<strong>🏪 Mandi List (${toolName})</strong>\n${escapeHtml(content)}`;
+  } else {
+    d.innerHTML = `<strong>🔧 Tool: ${toolName}</strong>\n${escapeHtml(content)}`;
+  }
+  chatBox.appendChild(d);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function escapeHtml(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+async function sendChat() {
+  if (streaming) return;
+  const farmerId = document.getElementById('c-farmer').value.trim();
+  const threadId = document.getElementById('c-thread').value.trim();
+  const message  = document.getElementById('chat-msg').value.trim();
+  if (!farmerId || !message) { alert('Farmer ID and message required'); return; }
+
+  appendMsg(message, 'user');
+  document.getElementById('chat-msg').value = '';
+
+  const typingEl = document.createElement('div');
+  typingEl.className = 'typing';
+  typingEl.textContent = '●●●';
+  chatBox.appendChild(typingEl);
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  streaming = true;
+  let botEl = null;
+  let botText = '';
+  let buffer = '';
+
+  try {
+    const resp = await fetch(`${API}/chat/stream`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        farmer_id: farmerId,
+        message,
+        thread_id: threadId || undefined
+      })
+    });
+
+    typingEl.remove();
+
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+
+    while (true) {
+      const {done, value} = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, {stream: true});
+
+      // Process buffer: extract TOOL blocks and plain text chunks
+      while (buffer.length > 0) {
+        const toolStart = buffer.indexOf('\x00TOOL:');
+
+        if (toolStart === -1) {
+          // No tool marker — flush entire buffer as plain text
+          if (buffer) {
+            if (!botEl) { botEl = appendMsg('', 'bot'); }
+            botText += buffer;
+            botEl.textContent = botText;
+            chatBox.scrollTop = chatBox.scrollHeight;
+          }
+          buffer = '';
+          break;
+        }
+
+        if (toolStart > 0) {
+          // Flush plain text that appears before the tool marker
+          const textBefore = buffer.slice(0, toolStart);
+          if (textBefore) {
+            if (!botEl) { botEl = appendMsg('', 'bot'); }
+            botText += textBefore;
+            botEl.textContent = botText;
+            chatBox.scrollTop = chatBox.scrollHeight;
+          }
+          buffer = buffer.slice(toolStart);
+        }
+
+        // Try to parse the full TOOL block (need both delimiters present)
+        const nameEnd = buffer.indexOf('\x00', 6); // after '\x00TOOL:'
+        if (nameEnd === -1) break; // incomplete — wait for more data
+
+        const toolEnd = buffer.indexOf('\x00/TOOL\x00', nameEnd + 1);
+        if (toolEnd === -1) break; // incomplete — wait for more data
+
+        const toolName    = buffer.slice(6, nameEnd);
+        const toolContent = buffer.slice(nameEnd + 1, toolEnd);
+
+        // Emit the tool block and reset bot bubble for next AI text
+        appendToolBlock(toolName, toolContent);
+        botEl = null;
+        botText = '';
+
+        buffer = buffer.slice(toolEnd + 7); // skip past '\x00/TOOL\x00'
+      }
+    }
+
+    // Flush any remaining plain text after stream ends
+    if (buffer && !buffer.startsWith('\x00')) {
+      if (!botEl) botEl = appendMsg('', 'bot');
+      botEl.textContent = botText + buffer;
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+  } catch(e) {
+    typingEl.remove();
+    appendMsg(`Error: ${e.message}`, 'bot');
+  }
+  streaming = false;
+}
+
+// ── Farmer Registration ───────────────────────────────────────────────────────
+async function registerFarmer() {
+  const body = {
+    name: document.getElementById('rf-name').value,
+    phone: document.getElementById('rf-phone').value,
+    state_name: document.getElementById('rf-state').value,
+    dist_name: document.getElementById('rf-dist').value
+  };
+  try {
+    const r = await fetch(`${API}/farmers/register`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const d = await r.json();
+    showResult('rf-result', d, !r.ok);
+  } catch(e) { showResult('rf-result', e.message, true); }
+}
+
+// ── Farm Registration ─────────────────────────────────────────────────────────
+async function registerFarm() {
+  try {
+    const coords = JSON.parse(document.getElementById('rfa-coords').value);
+    const body = {
+      farmer_id: document.getElementById('rfa-fid').value,
+      field_name: document.getElementById('rfa-name').value,
+      coordinates: coords,
+      area_hectares: parseFloat(document.getElementById('rfa-area').value) || null
+    };
+    const r = await fetch(`${API}/farm/register`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const d = await r.json();
+    showResult('rfa-result', d, !r.ok);
+  } catch(e) { showResult('rfa-result', e.message, true); }
+}
+
+// ── Predict ───────────────────────────────────────────────────────────────────
+async function loadCropSelect() {
+  const sel = document.getElementById('p-crop');
+  if (sel.options.length > 1) return;
+  try {
+    const r = await fetch(`${API}/crops`);
+    const d = await r.json();
+    sel.innerHTML = d.crops.map(c => `<option value="${c.crop_type}">${c.display_name}</option>`).join('');
+  } catch(e) {}
+}
+
+async function predict() {
+  const irr = document.getElementById('p-irr').value;
+  const body = {
+    field_id: document.getElementById('p-fid').value,
+    crop_type: document.getElementById('p-crop').value,
+    npk_input: parseFloat(document.getElementById('p-npk').value),
+    year: parseInt(document.getElementById('p-year').value),
+    irrigation_ratio: irr ? parseFloat(irr) : null
+  };
+  try {
+    const r = await fetch(`${API}/predict`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const d = await r.json();
+    showResult('p-result', d, !r.ok);
+  } catch(e) { showResult('p-result', e.message, true); }
+}
+
+// ── History ───────────────────────────────────────────────────────────────────
+async function getHistory() {
+  const fid = document.getElementById('h-fid').value;
+  try {
+    const r = await fetch(`${API}/field/${fid}/history`);
+    const d = await r.json();
+    showResult('h-result', d, !r.ok);
+  } catch(e) { showResult('h-result', e.message, true); }
+}
+
+// ── Districts ─────────────────────────────────────────────────────────────────
+async function getDistricts() {
+  try {
+    const r = await fetch(`${API}/districts`);
+    const d = await r.json();
+    showResult('d-result', d.map(x=>`${x.state_name} — ${x.dist_name}`).join('\n'), !r.ok);
+  } catch(e) { showResult('d-result', e.message, true); }
+}
+
+// ── Crops ─────────────────────────────────────────────────────────────────────
+async function getCrops() {
+  try {
+    const r = await fetch(`${API}/crops`);
+    const d = await r.json();
+    showResult('cr-result', d.crops.map(c=>`${c.display_name} — benchmark: ${c.benchmark_yield_kg_ha} kg/ha\n  id: ${c.crop_type}`).join('\n\n'), !r.ok);
+  } catch(e) { showResult('cr-result', e.message, true); }
+}
+
+// Enter key on chat
+document.getElementById('chat-msg').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
+});
+</script>
+</body>
+</html>

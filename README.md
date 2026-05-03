@@ -1,73 +1,43 @@
-# React + TypeScript + Vite
+# Krishi-Sarthii 🌾
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Full-Stack Agri-Intelligence Platform** — A complete solution for Indian farmers featuring yield prediction, crop health scoring, loan eligibility assessment, and an AI-powered chatbot, built with a React (Vite/TypeScript) frontend and a FastAPI Python backend.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Repository Structure
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+Krishi-Sarthii/
+├── Frontend/         # React + TypeScript + Vite frontend (KrishiMitra)
+└── krishisarthi-api/ # FastAPI Python backend
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Frontend — KrishiMitra
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+See [`Frontend/README.md`](Frontend/README.md) for frontend-specific documentation.
+
+### Quick Start (Frontend)
+```bash
+cd Frontend
+npm install
+npm run dev
 ```
+
+---
+
+## Backend — KrishiSarthi API
+
+See [`krishisarthi-api/README.md`](krishisarthi-api/README.md) for full backend documentation.
+
+### Quick Start (Backend)
+```bash
+cd krishisarthi-api
+pip install -r requirements.txt
+cp env.example .env
+# Fill in: DATABASE_URL, GROQ_API_KEY, AGRO_API_KEY
+uvicorn main:app --reload --port 8000
+```
+
+Interactive API docs: **http://localhost:8000/docs**

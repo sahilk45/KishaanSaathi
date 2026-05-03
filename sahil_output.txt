@@ -1,0 +1,47 @@
+D:\CA_content\Python\KissanSathi\krishisarthi-api\.venv\Lib\site-packages\sklearn\base.py:463: InconsistentVersionWarning: Trying to unpickle estimator LabelEncoder from version 1.6.1 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+--- 1. Database Connection ---
+Generated Farmer ID: 740e8268-730f-4bf6-bc2d-540e7d3325e5
+--- 2. Fetching Historical Data for Lags (Agra, UP) ---
+--- 3. Loading ML Models ---
+
+--- 4. Prediction Results ---
+Yield: 2962.53 kg/ha
+
+--- 5. Feature Values Used ---
+year: 2016
+State_Encoded: 17
+Crop_Encoded: 22
+NPK_Intensity_KgHa: 130.0
+Irrigation_Intensity_Ratio: 0.85
+WDI: 0.0226055072669597
+Kharif_Avg_MaxTemp: 34.42399978637695
+Kharif_Total_Rain: 587.4300022125244
+Rabi_Avg_MaxTemp: 25.462499618530277
+District_Soil_Health_Score: 15.36417427070984
+NPK_Intensity_KgHa_Lag1: 158.77902149554492
+NPK_Intensity_KgHa_Lag2: 161.93956291794402
+NPK_Intensity_KgHa_Lag3: 150.42751919394686
+Irrigation_Intensity_Ratio_Lag1: 0.6695648183007942
+Irrigation_Intensity_Ratio_Lag2: 0.6695648183007942
+Irrigation_Intensity_Ratio_Lag3: 0.6693548446878521
+WDI_Lag1: 0.0226055072669597
+WDI_Lag2: 0.0242269008189686
+WDI_Lag3: 0.0217401858969987
+Kharif_Avg_MaxTemp_Lag1: 34.42399978637695
+Kharif_Avg_MaxTemp_Lag2: 35.14199981689453
+Kharif_Avg_MaxTemp_Lag3: 33.74000015258789
+Kharif_Total_Rain_Lag1: 587.4300022125244
+Kharif_Total_Rain_Lag2: 551.4700088500977
+Kharif_Total_Rain_Lag3: 977.7600021362304
+Rabi_Avg_MaxTemp_Lag1: 25.462499618530277
+Rabi_Avg_MaxTemp_Lag2: 24.417499542236328
+Rabi_Avg_MaxTemp_Lag3: 25.40750026702881
+Kharif_Avg_MaxTemp_Delta1: 0.0
+Kharif_Total_Rain_Delta1: 0.0
+NPK_Intensity_KgHa_Delta1: -28.779021495544924
+Kharif_Avg_MaxTemp_Roll3: 34.435333251953125
+Kharif_Total_Rain_Roll3: 705.5533377329508
+
+Done.
