@@ -1368,6 +1368,44 @@ async def get_field_history(
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# ENDPOINT 8a: GET /farmer/{farmer_id}   ← NEW: full profile from DB
+# ─────────────────────────────────────────────────────────────────────────────
+
+@app.get("/farmer/{farmer_id}", tags=["Farmers"])
+async def get_farmer_profile(
+    farmer_id: str,
+    pool: asyncpg.Pool = Depends(get_pool),
+):
+    """
+    Returns the full farmer profile (name, phone, email, picture, state, district)
+    directly from the database. Used by the frontend to hydrate SessionContext
+    after login without relying on localStorage.
+    """
+    async with pool.acquire() as conn:
+        row = await conn.fetchrow(
+            """
+            SELECT id, name, phone, email, picture, state_name, dist_name
+            FROM   farmers
+            WHERE  id = $1::uuid
+            """,
+            farmer_id,
+        )
+
+    if not row:
+        raise HTTPException(status_code=404, detail=f"Farmer '{farmer_id}' not found.")
+
+    return {
+        "farmer_id":  str(row["id"]),
+        "name":       row["name"] or "",
+        "phone":      row["phone"] or "",
+        "email":      row["email"] or "",
+        "picture":    row["picture"] or "",
+        "state_name": row["state_name"] or "",
+        "dist_name":  row["dist_name"] or "",
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # ENDPOINT 8: GET /farmer/{farmer_id}/fields
 # ─────────────────────────────────────────────────────────────────────────────
 
