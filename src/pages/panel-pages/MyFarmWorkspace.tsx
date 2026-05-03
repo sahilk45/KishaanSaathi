@@ -99,7 +99,7 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
   const { content, panel } = useLanguage()
   const p = panel.panel.myFarm
   const { pushToast } = useToast()
-  const { farmerId, fieldId: storedFieldId, setFarmerId, setFieldId: storeFieldId } = useSession()
+  const { farmerId, fieldId: storedFieldId, farmerProfile, setFarmerId, setFieldId: storeFieldId } = useSession()
   const mapContainerRef = useRef<HTMLDivElement | null>(null)
   const mapRef = useRef<mapboxgl.Map | null>(null)
   const drawRef = useRef<MapboxDraw | null>(null)
@@ -590,14 +590,41 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
         <p>{p.farmerProfileDesc}</p>
 
         {farmerId ? (
-          <div className="panel-myfarm-grid">
-            <div className="panel-myfarm-stat">
+          <div className="panel-farmer-info-grid">
+            {/* Farmer ID — full width, monospace */}
+            <div className="panel-farmer-info-cell panel-farmer-info-cell--wide panel-farmer-info-cell--mono">
               <span>Farmer ID</span>
               <strong>{farmerId}</strong>
             </div>
-            <div className="panel-myfarm-stat">
+
+            {/* Status + Name */}
+            <div className="panel-farmer-info-cell">
               <span>Status</span>
-              <strong>Active</strong>
+              <strong style={{ color: '#16a34a' }}>✓ Active</strong>
+            </div>
+            <div className="panel-farmer-info-cell">
+              <span>Name</span>
+              <strong>{farmerProfile?.name ?? '—'}</strong>
+            </div>
+
+            {/* Phone + Email */}
+            <div className="panel-farmer-info-cell">
+              <span>Phone</span>
+              <strong>{farmerProfile?.phone ?? '—'}</strong>
+            </div>
+            <div className="panel-farmer-info-cell">
+              <span>Email</span>
+              <strong>{farmerProfile?.email ?? '—'}</strong>
+            </div>
+
+            {/* State + District */}
+            <div className="panel-farmer-info-cell">
+              <span>State</span>
+              <strong>{farmerProfile?.state_name ?? '—'}</strong>
+            </div>
+            <div className="panel-farmer-info-cell">
+              <span>District</span>
+              <strong>{farmerProfile?.dist_name ?? '—'}</strong>
             </div>
           </div>
         ) : (
@@ -741,41 +768,27 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
         </div>
         <p>{p.drawingToolsDesc}</p>
 
-        <div className="panel-myfarm-grid">
-          <div className="panel-myfarm-stat">
-            <span>Field ID</span>
-            <strong>{fieldId ?? p.notSavedYet}</strong>
-          </div>
-          <div className="panel-myfarm-stat">
-            <span>{p.polygonId}</span>
-            <strong>{polygonId ?? p.notSavedYet}</strong>
-          </div>
-          <div className="panel-myfarm-stat">
-            <span>{panel.panel.city}</span>
-            <strong>{polygonCity ?? p.unknown}</strong>
-          </div>
-          <div className="panel-myfarm-stat">
-            <span>{panel.panel.state}</span>
-            <strong>{polygonState ?? p.unknown}</strong>
-          </div>
-          <div className="panel-myfarm-stat">
-            <span>{p.currentLocation}</span>
-            <strong>
-              {location ? `${location.latitude.toFixed(5)}, ${location.longitude.toFixed(5)}` : p.notDetected}
-            </strong>
-          </div>
-          <div className="panel-myfarm-stat">
-            <span>{p.currentLocationId}</span>
-            <strong>{currentLocationId ?? p.notApplicable}</strong>
-          </div>
-          <div className="panel-myfarm-stat">
-            <span>{p.boundaryPoints}</span>
-            <strong>{Math.max(0, coordinateRing.length - 1)}</strong>
-          </div>
-          <div className="panel-myfarm-stat">
-            <span>{p.locationStatus}</span>
-            <strong>{locationStatus === 'idle' ? p.idle : locationStatus}</strong>
-          </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 8 }}>
+          {[
+            ['Field ID', fieldId ?? p.notSavedYet, true],
+            [p.polygonId, polygonId ?? p.notSavedYet, true],
+            [panel.panel.city, polygonCity ?? p.unknown, false],
+            [panel.panel.state, polygonState ?? p.unknown, false],
+            [p.currentLocation, location ? `${location.latitude.toFixed(5)}, ${location.longitude.toFixed(5)}` : p.notDetected, false],
+            [p.currentLocationId, currentLocationId ?? p.notApplicable, false],
+            [p.boundaryPoints, String(Math.max(0, coordinateRing.length - 1)), false],
+            [p.locationStatus, locationStatus === 'idle' ? p.idle : locationStatus, false],
+          ].map(([label, val]) => (
+            <div key={label as string} style={{
+              background: 'var(--bg-body)', border: '1px solid var(--border-light)',
+              borderRadius: 8, padding: '10px 12px',
+            }}>
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                {label as string}
+              </span>
+              <strong style={{ fontSize: '0.8rem', wordBreak: 'break-all', display: 'block' }}>{val as string}</strong>
+            </div>
+          ))}
         </div>
 
         <p className="panel-myfarm-feedback">{saveMessage}</p>
@@ -789,31 +802,25 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
         </div>
         <p>{p.ndviOverlayDesc}</p>
 
-        <div className="panel-myfarm-grid">
-          <div className="panel-myfarm-stat">
-            <span>{p.source}</span>
-            <strong>{snapshot?.source ?? p.notApplicable}</strong>
-          </div>
-          <div className="panel-myfarm-stat">
-            <span>{p.latestImageDate}</span>
-            <strong>{snapshot?.latest_image_date ?? p.notApplicable}</strong>
-          </div>
-          <div className="panel-myfarm-stat">
-            <span>{p.ndviMean}</span>
-            <strong>{snapshot?.ndvi_stats?.mean?.toFixed(3) ?? p.notApplicable}</strong>
-          </div>
-          <div className="panel-myfarm-stat">
-            <span>{p.ndviMax}</span>
-            <strong>{snapshot?.ndvi_stats?.max?.toFixed(3) ?? p.notApplicable}</strong>
-          </div>
-          <div className="panel-myfarm-stat">
-            <span>{p.soilMoisture}</span>
-            <strong>{snapshot?.soil?.soil_moisture ?? p.notApplicable}</strong>
-          </div>
-          <div className="panel-myfarm-stat">
-            <span>{p.airTemp}</span>
-            <strong>{snapshot?.weather?.air_temp ?? p.notApplicable}</strong>
-          </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 8 }}>
+          {[
+            [p.source, snapshot?.source ?? p.notApplicable],
+            [p.latestImageDate, snapshot?.latest_image_date ?? p.notApplicable],
+            [p.ndviMean, snapshot?.ndvi_stats?.mean?.toFixed(3) ?? p.notApplicable],
+            [p.ndviMax, snapshot?.ndvi_stats?.max?.toFixed(3) ?? p.notApplicable],
+            [p.soilMoisture, String(snapshot?.soil?.soil_moisture ?? p.notApplicable)],
+            [p.airTemp, String(snapshot?.weather?.air_temp ?? p.notApplicable)],
+          ].map(([label, val]) => (
+            <div key={label as string} style={{
+              background: 'var(--bg-body)', border: '1px solid var(--border-light)',
+              borderRadius: 8, padding: '10px 12px',
+            }}>
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                {label as string}
+              </span>
+              <strong style={{ fontSize: '0.85rem', display: 'block' }}>{val as string}</strong>
+            </div>
+          ))}
         </div>
 
         <p className="panel-myfarm-feedback">{snapshotMessage}</p>

@@ -14,6 +14,11 @@ html.language-large-text {
 	--language-text-scale: 1.03;
 }
 
+html, body {
+	height: 100%;
+	overflow: hidden;
+}
+
 body {
 	font-family: 'Inter', system-ui, -apple-system, sans-serif;
 	background-color: #ffffff;
@@ -1038,13 +1043,16 @@ html.language-large-text .footer__copy {
 	--panel-border: #d9ebe0;
 	--panel-divider: #e3f0e8;
 	--panel-muted: #5f6f65;
-	min-height: 100dvh;
+	height: 100dvh;
+	max-height: 100dvh;
+	overflow: hidden;
 	background: #f4faf6;
 	padding: 0.75rem;
 }
 
 .panel-layout {
-	min-height: calc(100dvh - 1.5rem);
+	height: calc(100dvh - 1.5rem);
+	max-height: calc(100dvh - 1.5rem);
 	background: #ffffff;
 	border: 1px solid var(--panel-border);
 	border-radius: 1rem;
@@ -1061,6 +1069,9 @@ html.language-large-text .footer__copy {
 	flex-direction: column;
 	padding: 0.8rem;
 	gap: 0.9rem;
+	height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .panel-brand {
@@ -1152,6 +1163,8 @@ html.language-large-text .footer__copy {
 	flex-direction: column;
 	min-width: 0;
 	background: #ffffff;
+	height: 100%;
+	overflow: hidden;
 }
 
 .panel-main__topbar {
@@ -1253,11 +1266,35 @@ html.language-large-text .footer__copy {
 	grid-template-columns: minmax(0, 1fr) 250px;
 	min-height: 0;
 	flex: 1;
+	overflow: hidden;
 }
 
 .panel-content {
 	padding: 1.15rem 1.1rem 1.35rem;
 	overflow-y: auto;
+	height: 100%;
+	scrollbar-width: thin;
+	scrollbar-color: #86c9a0 #f0f8f3;
+}
+
+/* Webkit themed scrollbar — central content only */
+.panel-content::-webkit-scrollbar {
+	width: 6px;
+}
+
+.panel-content::-webkit-scrollbar-track {
+	background: #f0f8f3;
+	border-radius: 99px;
+}
+
+.panel-content::-webkit-scrollbar-thumb {
+	background: #86c9a0;
+	border-radius: 99px;
+	border: 1px solid #f0f8f3;
+}
+
+.panel-content::-webkit-scrollbar-thumb:hover {
+	background: #4aad72;
 }
 
 .panel-content__kicker {
@@ -1333,6 +1370,52 @@ html.language-large-text .footer__copy {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 0.85rem;
+}
+
+/* Farmer profile card spans the full width */
+.panel-card--farmer {
+	grid-column: 1 / -1;
+}
+
+/* 2-col data grid inside the farmer profile card */
+.panel-farmer-info-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+	margin-top: 12px;
+}
+
+.panel-farmer-info-cell {
+	background: var(--bg-body, #f4faf6);
+	border: 1px solid var(--border-light, #deeee5);
+	border-radius: 8px;
+	padding: 10px 14px;
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+
+.panel-farmer-info-cell--wide {
+	grid-column: 1 / -1;
+}
+
+.panel-farmer-info-cell span {
+	font-size: 0.72rem;
+	color: var(--text-muted, #6b7280);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.panel-farmer-info-cell strong {
+	font-size: 0.85rem;
+	font-weight: 600;
+	color: var(--text-main, #111827);
+	word-break: break-all;
+}
+
+.panel-farmer-info-cell--mono strong {
+	font-family: 'Courier New', monospace;
+	font-size: 0.78rem;
 }
 
 /* ── Stacked single-column layout ───────────────────────────────── */
@@ -1781,6 +1864,24 @@ html.language-large-text .footer__copy {
 	display: flex;
 	flex-direction: column;
 	gap: 0.9rem;
+	height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+	scrollbar-width: thin;
+	scrollbar-color: #c5e3cf #f0f8f3;
+}
+
+.panel-right::-webkit-scrollbar {
+	width: 4px;
+}
+
+.panel-right::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.panel-right::-webkit-scrollbar-thumb {
+	background: #c5e3cf;
+	border-radius: 99px;
 }
 
 .panel-right__ask-card {
