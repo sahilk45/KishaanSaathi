@@ -273,18 +273,51 @@ const CropHealthPanel = () => {
           <span className="panel-card__metric">{history.length} {p.records}</span>
         </div>
         <p>{p.allSavedPredictions}</p>
+
         {historyLoading ? (
-          <div className="panel-skeleton" />
+          <div className="panel-skeleton" style={{ marginTop: 12 }} />
         ) : history.length === 0 ? (
           <p className="panel-empty">{p.noPredictionsYet}</p>
         ) : (
-          <ul className="panel-list">
-            {history.slice(0, 8).map((item, i) => (
-              <li key={`${item.crop_type}-${item.year}-${i}`}>
-                {item.year} · {item.crop_type.replace(/\.?YIELD.*$/i, '').replace(/\./g, ' ').trim()} · Health {formatScore(item.health.final_health_score)} · {formatNumber(item.predicted_yield, 0)} kg/ha
-              </li>
-            ))}
-          </ul>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 14 }}>
+            {history.slice(0, 8).map((item, i) => {
+              const pct = Math.round(item.health.final_health_score)
+              const barColor = pct >= 70 ? '#16a34a' : pct >= 45 ? '#d97706' : '#dc2626'
+              const cropName = item.crop_type.replace(/\.?YIELD.*$/i, '').replace(/\./g, ' ').trim()
+              const loanDecision = item.health.loan_decision
+              const loanColor = loanDecision === 'ELIGIBLE' ? '#16a34a' : loanDecision === 'REVIEW' ? '#d97706' : '#dc2626'
+              const loanBg = loanDecision === 'ELIGIBLE' ? '#dcfce7' : loanDecision === 'REVIEW' ? '#fef9c3' : '#fee2e2'
+
+              return (
+                <div key={`${item.crop_type}-${item.year}-${i}`} className="panel-farmer-info-cell" style={{ gap: 10 }}>
+                  {/* Top row: crop name + year + loan badge */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <strong style={{ fontSize: '0.88rem', display: 'block' }}>{cropName}</strong>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{item.year}</span>
+                    </div>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: loanColor, background: loanBg, padding: '3px 10px', borderRadius: 99 }}>
+                      {loanDecision}
+                    </span>
+                  </div>
+
+                  {/* Score bar row */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div style={{ flex: 1, height: 5, background: '#e5e7eb', borderRadius: 99, overflow: 'hidden' }}>
+                      <div style={{ width: `${pct}%`, height: '100%', background: barColor, borderRadius: 99 }} />
+                    </div>
+                    <span style={{ fontSize: '0.8rem', fontWeight: 700, color: barColor, minWidth: 36, textAlign: 'right' }}>{pct}%</span>
+                  </div>
+
+                  {/* Yield row */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Yield</span>
+                    <span style={{ fontSize: '0.8rem', fontWeight: 600 }}>{formatNumber(item.predicted_yield, 0)} kg/ha</span>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
         )}
       </article>
     </div>
