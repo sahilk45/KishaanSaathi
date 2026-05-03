@@ -600,7 +600,7 @@ async def register_farmer(
     Returns the generated farmer_id (UUID) needed for farm registration.
     """
     dist_clean  = body.dist_name.lower().strip()
-    state_clean = body.state_name.strip()
+    state_clean = body.state_name.lower().strip()
 
     async with pool.acquire() as conn:
         # Check for existing farmer by google_sub
@@ -968,7 +968,7 @@ async def predict(
     _xgb_kharif, _xgb_rabi, _kharif_features, _rabi_features, _le_crop, _le_state, _ = get_models()
 
     try:
-        state_encoded = int(_le_state.transform([state_name])[0])
+        state_encoded = int(_le_state.transform([state_name.lower()])[0])
     except ValueError:
         raise HTTPException(
             status_code=422,
@@ -1116,9 +1116,9 @@ async def predict(
     # STEP 6 — XGBoost predict
     # Model was trained on log1p(yield), so inverse is np.expm1()
     # ══════════════════════════════════════════════════════════════════════════
-    log_pred        = float(mdl.predict(input_df)[0])
-    
-    # ML safeguard: prevent Infinity / NaN
+    log_pred = float(mdl.predict(input_df)[0])
+
+    # ML safeguard: prevent Infinity / NaN and unrealistically low yields
     import math
     if math.isnan(log_pred) or math.isinf(log_pred):
         predicted_yield = CROP_BENCHMARKS.get(crop_type, 1000.0)
@@ -1128,9 +1128,52 @@ async def predict(
             reason=f"XGBoost gave non-finite log_pred: {log_pred}"
         )
     else:
-        # Cap log_pred roughly at 11 (~60k kg/ha) so expm1 doesn't overflow to INF
-        log_pred_safe   = min(max(log_pred, 0.0), 11.0)
+        # Do NOT clamp log_pred to 0 — negative log values are valid model outputs
+        # Cap at 11 only to prevent expm1 overflow (~60k kg/ha upper bound)
+        log_pred_safe   = min(log_pred, 11.0)
         predicted_yield = float(np.expm1(log_pred_safe))
+
+        # ── Agronomic fallback when model is out-of-distribution ─────────────
+        # If yield < 50 kg/ha, XGBoost received out-of-range features.
+        # Instead of returning the bare benchmark (which makes every year
+        # look identical), compute a realistic estimate from the farmer's
+        # actual inputs so different NPK / irrigation / year inputs produce
+        # meaningfully different results.
+        MIN_PLAUSIBLE_YIELD = 50.0
+        if predicted_yield < MIN_PLAUSIBLE_YIELD:
+            base_benchmark = CROP_BENCHMARKS.get(crop_type, 1000.0)
+
+            # NPK factor: optimal is 120 kg/ha → 1.0; deviations reduce yield
+            npk_factor = max(0.6, 1.0 - abs(body.npk_input - 120.0) / 400.0)
+
+            # Irrigation factor: 0.6–0.8 is optimal for most crops
+            irr_factor = max(0.7, 1.0 - abs(irr - 0.70) * 0.5)
+
+            # Soil factor: soil_score is district mean (typ. 80–150)
+            soil_factor = max(0.75, min(soil_score / 120.0, 1.15))
+
+            # WDI factor: lower WDI = less water stress = better yield
+            wdi_factor = max(0.75, 1.0 - wdi * 0.3)
+
+            estimated_yield = round(
+                base_benchmark * npk_factor * irr_factor * soil_factor * wdi_factor, 1
+            )
+
+            logger.log_hardcoded(
+                "yield_agronomic_estimate",
+                {
+                    "raw_log_pred": log_pred, "raw_yield": round(predicted_yield, 3),
+                    "base_benchmark": base_benchmark, "estimated_yield": estimated_yield,
+                    "npk_factor": round(npk_factor, 3), "irr_factor": round(irr_factor, 3),
+                    "soil_factor": round(soil_factor, 3), "wdi_factor": round(wdi_factor, 3),
+                },
+                reason=(
+                    f"Predicted yield {predicted_yield:.2f} kg/ha is below plausible minimum "
+                    f"{MIN_PLAUSIBLE_YIELD} kg/ha. Using agronomic estimate {estimated_yield} kg/ha "
+                    f"(benchmark × NPK/IRR/soil/WDI factors) instead of bare benchmark."
+                )
+            )
+            predicted_yield = estimated_yield
 
     benchmark_yield = CROP_BENCHMARKS.get(crop_type, 1000.0)
 
@@ -1615,31 +1658,39 @@ async def get_apmc_prices(
     prices: list[dict] = []
     async with httpx.AsyncClient(timeout=15.0) as client:
         for mandi in mandis:
-            clean_name = mandi.replace("APMC", "").strip()
-            params = {
-                "api-key": api_key,
-                "format": "json",
-                "limit": 10,
-                "filters[state]": state_name,
-                "filters[market]": clean_name,
-                "filters[commodity]": commodity,
-            }
-            try:
-                resp = await client.get(agmarknet_url, params=params)
-                records = resp.json().get("records", [])
-                for rec in records:
-                    prices.append({
-                        "market":       rec.get("market", clean_name),
-                        "commodity":    rec.get("commodity", commodity),
-                        "min_price":    float(rec.get("min_price", 0)),
-                        "max_price":    float(rec.get("max_price", 0)),
-                        "modal_price":  float(rec.get("modal_price", 0)),
-                        "arrival_date": rec.get("arrival_date", ""),
-                        "state":        rec.get("state", state_name),
-                        "district":     rec.get("district", dist_name),
-                    })
-            except Exception:
-                continue
+            # Try with full mandi name first, then stripped version
+            mandi_variants = [mandi]
+            stripped = mandi.replace("APMC", "").strip()
+            if stripped and stripped != mandi:
+                mandi_variants.append(stripped)
+
+            for mandi_name in mandi_variants:
+                params = {
+                    "api-key": api_key,
+                    "format": "json",
+                    "limit": 10,
+                    "filters[state.keyword]": state_name,  # API requires .keyword suffix for state
+                    "filters[market]": mandi_name,
+                    "filters[commodity]": commodity,
+                }
+                try:
+                    resp = await client.get(agmarknet_url, params=params)
+                    records = resp.json().get("records", [])
+                    if records:
+                        for rec in records:
+                            prices.append({
+                                "market":       rec.get("market", mandi_name),
+                                "commodity":    rec.get("commodity", commodity),
+                                "min_price":    float(rec.get("min_price", 0)),
+                                "max_price":    float(rec.get("max_price", 0)),
+                                "modal_price":  float(rec.get("modal_price", 0)),
+                                "arrival_date": rec.get("arrival_date", ""),
+                                "state":        rec.get("state", state_name),
+                                "district":     rec.get("district", dist_name),
+                            })
+                        break  # found results with this variant, skip the next
+                except Exception:
+                    continue
 
     return {
         "farmer_id":       farmer_id,
