@@ -2,6 +2,8 @@
 
 **Full-Stack Agri-Intelligence Platform** — A complete solution for Indian farmers featuring yield prediction, crop health scoring, loan eligibility assessment, and an AI-powered chatbot, built with a React (Vite/TypeScript) frontend and a FastAPI Python backend.
 
+![Krishi-Sarthii Preview](Frontend/public/readme.png)
+
 ---
 
 ## Repository Structure
