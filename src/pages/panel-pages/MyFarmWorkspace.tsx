@@ -699,7 +699,7 @@ const MyFarmWorkspace = ({ item }: { item: PanelItem }) => {
               step="0.01"
               value={areaHectares}
               onChange={(event) => setAreaHectares(event.target.value)}
-              placeholder="1.4"
+              placeholder="--"
             />
           </label>
         </div>

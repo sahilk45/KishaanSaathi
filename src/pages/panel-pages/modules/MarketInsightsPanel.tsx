@@ -133,7 +133,7 @@ const MarketInsightsPanel = () => {
           <span className="panel-card__metric">{state || 'Auto-detect'}</span>
         </div>
         <p>Your state & district are auto-detected from registration. Select a crop to fetch APMC prices.</p>
-        <div className="panel-simulator">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '16px' }}>
           <label className="panel-myfarm-field">
             Commodity / Crop
             <select value={commodity} onChange={(e) => setCommodity(e.target.value)}>
@@ -143,13 +143,21 @@ const MarketInsightsPanel = () => {
             </select>
           </label>
           {fetched ? (
-            <p className="panel-myfarm-feedback">
+            <p className="panel-myfarm-feedback" style={{ fontSize: '0.9rem', color: 'var(--text-main)' }}>
               Showing APMCs in <strong>{district}, {state}</strong> — {mandis.length} mandis found, {prices.length} price records.
             </p>
           ) : null}
-          <button type="button" className="panel-mapbox__button" onClick={handleFetch} disabled={loading}>
-            {loading ? 'Fetching prices...' : 'Fetch APMC Prices'}
-          </button>
+          <div style={{ marginTop: '8px' }}>
+            <button 
+              type="button" 
+              className="panel-mapbox__button" 
+              onClick={handleFetch} 
+              disabled={loading}
+              style={{ width: '100%', padding: '12px', borderRadius: '12px', fontSize: '1.05rem', fontWeight: 600, display: 'flex', justifyContent: 'center' }}
+            >
+              {loading ? 'Fetching prices...' : 'Fetch APMC Prices'}
+            </button>
+          </div>
         </div>
       </article>
 

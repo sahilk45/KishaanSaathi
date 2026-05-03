@@ -93,8 +93,8 @@ const WhatIfSimulatorPanel = () => {
         {cropsLoading ? (
           <div className="panel-skeleton" />
         ) : (
-          <div className="panel-simulator">
-            <div className="panel-toggle">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '16px' }}>
+            <div className="panel-toggle" style={{ justifyContent: 'flex-start', marginBottom: '8px' }}>
               <button type="button" className={season === 'kharif' ? 'active' : ''} onClick={() => setSeason('kharif')}>
                 Kharif
               </button>
@@ -105,32 +105,58 @@ const WhatIfSimulatorPanel = () => {
                 All
               </button>
             </div>
-            <label className="panel-myfarm-field">
-              Crop type
-              <select value={selectedCrop} onChange={(event) => setSelectedCrop(event.target.value)}>
-                <option value="">Select crop</option>
-                {cropOptions.map((crop: CropItem) => (
-                  <option key={crop.crop_type} value={crop.crop_type}>
-                    {crop.display_name}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="panel-myfarm-field">
-              NPK input (kg/ha)
-              <input type="number" value={npkInput} onChange={(event) => setNpkInput(event.target.value)} />
-            </label>
-            <label className="panel-myfarm-field">
-              Irrigation ratio (0-1)
-              <input type="number" step="0.01" value={irrigationRatio} onChange={(event) => setIrrigationRatio(event.target.value)} />
-            </label>
-            <label className="panel-myfarm-field">
-              Year
-              <input type="number" value={year} onChange={(event) => setYear(event.target.value)} />
-            </label>
-            <button type="button" className="panel-mapbox__button" onClick={handleSimulate} disabled={loading}>
-              {loading ? 'Simulating…' : 'Run simulation'}
-            </button>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }}>
+              <label className="panel-myfarm-field">
+                Crop type
+                <select value={selectedCrop} onChange={(event) => setSelectedCrop(event.target.value)}>
+                  <option value="">Select crop</option>
+                  {cropOptions.map((crop: CropItem) => (
+                    <option key={crop.crop_type} value={crop.crop_type}>
+                      {crop.display_name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+              <label className="panel-myfarm-field">
+                NPK input (kg/ha)
+                <input type="number" value={npkInput} onChange={(event) => setNpkInput(event.target.value)} />
+              </label>
+              <label className="panel-myfarm-field">
+                Irrigation ratio (0-1)
+                <input type="number" step="0.01" value={irrigationRatio} onChange={(event) => setIrrigationRatio(event.target.value)} />
+              </label>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+              <label className="panel-myfarm-field">
+                Year
+                <input type="number" value={year} onChange={(event) => setYear(event.target.value)} />
+              </label>
+            </div>
+
+            <div style={{ marginTop: '16px' }}>
+              <button 
+                type="button" 
+                className="panel-mapbox__button" 
+                onClick={handleSimulate} 
+                disabled={loading}
+                style={{ 
+                  width: '100%',
+                  padding: '12px', 
+                  fontSize: '1.05rem',
+                  borderRadius: '12px',
+                  fontWeight: 600,
+                  display: 'flex',
+                  justifyContent: 'center'
+                }}
+              >
+                {loading ? 'Simulating…' : 'Run simulation'}
+              </button>
+            </div>
           </div>
         )}
       </article>

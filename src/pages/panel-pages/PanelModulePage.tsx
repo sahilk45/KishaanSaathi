@@ -5,9 +5,7 @@ import MyFarmWorkspace from './MyFarmWorkspace'
 import OverviewPanel from './modules/OverviewPanel'
 import CropHealthPanel from './modules/CropHealthPanel'
 import WeatherAlertsPanel from './modules/WeatherAlertsPanel'
-import RiskAnalysisPanel from './modules/RiskAnalysisPanel'
 import MarketInsightsPanel from './modules/MarketInsightsPanel'
-import CropTimelinePanel from './modules/CropTimelinePanel'
 import LoanEligibilityPanel from './modules/LoanEligibilityPanel'
 import WhatIfSimulatorPanel from './modules/WhatIfSimulatorPanel'
 import AiAssistantPanel from './modules/AiAssistantPanel'
@@ -36,12 +34,8 @@ const PanelModulePage = () => {
         return <CropHealthPanel />
       case 'weather-alerts':
         return <WeatherAlertsPanel />
-      case 'risk-analysis':
-        return <RiskAnalysisPanel />
       case 'market-insights':
         return <MarketInsightsPanel />
-      case 'crop-timeline':
-        return <CropTimelinePanel />
       case 'loan-eligibility':
         return <LoanEligibilityPanel />
       case 'what-if-simulator':
@@ -61,15 +55,7 @@ const PanelModulePage = () => {
     <section className="panel-main">
       <header className="panel-main__topbar">
         <div className="panel-main__tabs">
-          <button type="button" className="panel-tab panel-tab--active">
-            Guides
-          </button>
-          <button type="button" className="panel-tab">
-            API Reference
-          </button>
-          <button type="button" className="panel-tab">
-            Changelog
-          </button>
+          <span style={{ fontWeight: 600, color: 'var(--text-main)', fontSize: '1.1rem' }}>Farm Intelligence Panel</span>
         </div>
 
         <div className="panel-main__actions">
@@ -94,13 +80,6 @@ const PanelModulePage = () => {
         </section>
 
         <aside className="panel-right" aria-label="Secondary tools">
-          {/* ── Ask AI card ─────────────────────────────── */}
-          <button type="button" className="panel-right__ask-card" onClick={handleAskAi}>
-            <Bot size={16} aria-hidden="true" />
-            Ask AI
-            <span>Get contextual help for this module</span>
-          </button>
-
           {/* ── Field selector ──────────────────────────── */}
           <div className="panel-right__field-selector">
             <div className="panel-right__field-header">

@@ -21,9 +21,7 @@ export type PanelItemId =
   | 'quickGuide'
   | 'cropHealth'
   | 'weatherAlerts'
-  | 'riskAnalysis'
   | 'marketInsights'
-  | 'cropTimeline'
   | 'loanEligibility'
   | 'whatIfSimulator'
   | 'aiAssistant'
@@ -36,9 +34,7 @@ export type PanelRouteSlug =
   | 'quick-guide'
   | 'crop-health'
   | 'weather-alerts'
-  | 'risk-analysis'
   | 'market-insights'
-  | 'crop-timeline'
   | 'loan-eligibility'
   | 'what-if-simulator'
   | 'ai-assistant'
@@ -79,7 +75,7 @@ export const defaultPanelRoute: PanelRouteSlug = 'overview'
 
 export const panelGroups: PanelItemId[][] = [
   ['overview', 'myFarm', 'quickGuide'],
-  ['cropHealth', 'weatherAlerts', 'riskAnalysis', 'marketInsights', 'cropTimeline'],
+  ['cropHealth', 'weatherAlerts', 'marketInsights'],
   ['loanEligibility', 'whatIfSimulator', 'aiAssistant', 'language', 'settings'],
 ]
 
@@ -215,27 +211,7 @@ export const panelItems: Record<PanelItemId, PanelItem> = {
       },
     ],
   },
-  riskAnalysis: {
-    id: 'riskAnalysis',
-    route: 'risk-analysis',
-    label: 'Risk Analysis',
-    icon: ShieldAlert,
-    subtitle: 'Risk scoring engine with severity heat patterns and actionable mitigation direction.',
-    blocks: [
-      {
-        id: 'risk-scores',
-        title: 'Risk Scores',
-        description: 'Drought, flood, pest, and disease probability with weighted confidence.',
-        visual: 'bar',
-      },
-      {
-        id: 'risk-heatmaps',
-        title: 'Heatmaps',
-        description: 'Spatial risk intensity map to prioritize high-exposure farm zones.',
-        visual: 'heatmap',
-      },
-    ],
-  },
+
   marketInsights: {
     id: 'marketInsights',
     route: 'market-insights',
@@ -263,27 +239,7 @@ export const panelItems: Record<PanelItemId, PanelItem> = {
       },
     ],
   },
-  cropTimeline: {
-    id: 'cropTimeline',
-    route: 'crop-timeline',
-    label: 'Crop Timeline',
-    icon: Clock3,
-    subtitle: 'Growth-stage timeline with upcoming milestones and operation reminders.',
-    blocks: [
-      {
-        id: 'growth-stages',
-        title: 'Growth Stage Timeline',
-        description: 'From sowing to harvest with stage completion and due tasks.',
-        visual: 'timeline',
-      },
-      {
-        id: 'stage-logs',
-        title: 'Milestone Log',
-        description: 'Executed operations, pending tasks, and agronomy notes by stage.',
-        visual: 'log',
-      },
-    ],
-  },
+
   loanEligibility: {
     id: 'loanEligibility',
     route: 'loan-eligibility',
