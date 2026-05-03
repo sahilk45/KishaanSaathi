@@ -1,29 +1,3 @@
-Metadata-Version: 2.4
-Name: krishisarthi-api
-Version: 0.1.0
-Summary: Add your description here
-Requires-Python: <3.11,>=3.10
-Description-Content-Type: text/markdown
-Requires-Dist: asyncpg==0.29.0
-Requires-Dist: fastapi==0.111.0
-Requires-Dist: httpx==0.27.0
-Requires-Dist: joblib==1.4.2
-Requires-Dist: numpy>=1.26.4
-Requires-Dist: pandas>=2.2.3
-Requires-Dist: pydantic>=2.7.4
-Requires-Dist: python-dotenv==1.0.1
-Requires-Dist: google-auth==2.35.0
-Requires-Dist: scikit-learn>=1.5.2
-Requires-Dist: uvicorn[standard]==0.30.1
-Requires-Dist: xgboost==2.0.3
-Requires-Dist: requests>=2.31.0
-Requires-Dist: langgraph>=0.2.0
-Requires-Dist: langchain>=0.3.0
-Requires-Dist: langchain-core>=0.3.0
-Requires-Dist: langchain-groq>=0.2.0
-Requires-Dist: langsmith>=0.1.0
-Requires-Dist: nest-asyncio>=1.6.0
-
 # KrishiSarthi API 🌾
 
 **Agri-Intelligence Platform** — Yield prediction, crop health scoring, and loan eligibility for Indian farmers using satellite data + machine learning.
@@ -138,6 +112,27 @@ uvicorn main:app --reload --port 8000
 ```
 
 Interactive docs: **http://localhost:8000/docs**
+
+---
+
+## Seed a new Neon database (district_climate_history)
+
+If you created a brand‑new Neon database, load the CSV into
+`district_climate_history` using the one‑time migration script.
+
+```bash
+# Ensure DATABASE_URL in .env points to your new Neon DB
+python scripts/migrate_csv_to_postgres.py
+```
+
+Optional overrides:
+
+```bash
+# Custom CSV path or DB URL
+CSV_PATH=/absolute/path/to/KrishiTwin_Final_Engineered.csv \
+DATABASE_URL=postgresql://user:pass@host:5432/dbname \
+python scripts/migrate_csv_to_postgres.py
+```
 
 ---
 

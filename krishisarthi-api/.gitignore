@@ -1,0 +1,15 @@
+venv
+/venv
+__pycache__
+/__pycache__
+**/__pycache__
+*.pyc
+
+.env
+*.egg-info
+.venv
+uv.lock
+
+# Debug artifacts
+tests/debug_output.txt
+scratch/
