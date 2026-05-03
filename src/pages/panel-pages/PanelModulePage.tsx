@@ -1,4 +1,4 @@
-import { Bot, MapPinned, Search } from 'lucide-react'
+import { Bot, MapPinned } from 'lucide-react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { defaultPanelRoute, isPanelRoute, panelItemsByRoute } from './panelConfig'
 import MyFarmWorkspace from './MyFarmWorkspace'
@@ -70,10 +70,6 @@ const PanelModulePage = () => {
         </div>
 
         <div className="panel-main__actions">
-          <label className="panel-search" htmlFor="panel-search-input">
-            <Search size={16} aria-hidden="true" />
-            <input id="panel-search-input" type="search" placeholder={p.searchOrAsk} />
-          </label>
           <button type="button" className="panel-ask-btn" onClick={handleAskAi}>
             <Bot size={16} aria-hidden="true" />
             {p.askAI}
