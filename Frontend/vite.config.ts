@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
 
 const uppercaseJsonPlugin = () => ({
   name: 'uppercase-json-loader',
@@ -18,5 +17,5 @@ const uppercaseJsonPlugin = () => ({
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss(), uppercaseJsonPlugin()],
+  plugins: [react(), uppercaseJsonPlugin()],
 })
