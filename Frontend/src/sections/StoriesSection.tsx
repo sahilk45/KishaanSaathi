@@ -1,6 +1,6 @@
 import { useLanguage } from '../context/LanguageContext'
 
-const storyCardImages = ['/perplexity full.png', '/x.png', '/kalsi.png']
+const storyCardImages = ['/story-1.png', '/story-2.png', '/story-3.png']
 
 const StoriesSection = () => {
   const { content } = useLanguage()
